@@ -6,5 +6,5 @@ export default defineConfig({
   plugins: [react()],
   publicDir: 'public',
   assetsInclude: ['**/*.json'],
-  base: '/ToolTracker/',
+  base: '/',
 })
