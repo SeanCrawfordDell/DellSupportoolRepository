@@ -11,6 +11,12 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('tools');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showToolForm, setShowToolForm] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+
+  // Simple password for demo (in production, use proper authentication)
+  const ADMIN_PASSWORD = 'isgadmin2024';
   const [toolFormData, setToolFormData] = useState({
     name: '',
     description: '',
@@ -45,7 +51,7 @@ const Admin = () => {
 
   const handleToolSubmit = (e) => {
     e.preventDefault();
-    
+
     // Create new tool object
     const newTool = {
       id: `tool-${String(tools.length + 1).padStart(3, '0')}`,
@@ -59,7 +65,7 @@ const Admin = () => {
 
     // Add to tools list (this would normally update the data source)
     alert(`Tool "${newTool.name}" has been submitted!\n\nNote: In this demo version, the tool is added to memory only. To persist changes, update the data files directly.`);
-    
+
     // Reset form
     setToolFormData({
       name: '',
@@ -77,15 +83,92 @@ const Admin = () => {
     setShowToolForm(false);
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      setAuthError('');
+    } else {
+      setAuthError('Incorrect password. Please try again.');
+      setPassword('');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setPassword('');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-grow bg-gray-50 dark:bg-gray-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-            Admin Dashboard
-          </h1>
+          {!isAuthenticated ? (
+            // Login Form
+            <div className="max-w-md mx-auto mt-16">
+              <div className="card">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+                  Admin Access
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">
+                  Enter the admin password to access the dashboard
+                </p>
+
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
+                      placeholder="Enter admin password"
+                    />
+                  </div>
+
+                  {authError && (
+                    <div className="text-red-600 text-sm">
+                      {authError}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="w-full px-4 py-2 bg-dell-blue text-white rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Access Dashboard
+                  </button>
+                </form>
+
+                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-md">
+                  <p className="text-sm text-blue-800 dark:text-blue-300">
+                    <strong>Demo Password:</strong> isgadmin2024
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                    In production, use proper authentication with a backend server.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            // Admin Dashboard
+            <>
+              <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Admin Dashboard
+                </h1>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
 
           {/* Tabs */}
           <div className="flex space-x-4 mb-6">
@@ -213,7 +296,7 @@ const Admin = () => {
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Submit a new tool to be added to the ISG Tool Tracker. All fields are required unless marked optional.
               </p>
-              
+
               <form onSubmit={handleToolSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -406,9 +489,11 @@ const Admin = () => {
               </form>
             </div>
           )}
+            </>
+          )}
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
