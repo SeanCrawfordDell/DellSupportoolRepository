@@ -2,16 +2,60 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/ToolTracker/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>tool-tracker</title>
-    <script type="module" crossorigin src="/ToolTracker/assets/main-CY0dhKXn.js"></script>
-    <link rel="stylesheet" crossorigin href="/ToolTracker/assets/main-DgyzXFVK.css">
+    <title>ISG Tool Tracker - Static Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .container {
+        background: white;
+        color: #333;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      }
+      h1 {
+        color: #0076CE;
+        margin-bottom: 20px;
+      }
+      .status {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background: #e8f5e9;
+        border-left: 4px solid #4caf50;
+      }
+      .error {
+        background: #ffebee;
+        border-left: 4px solid #f44336;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div class="container">
+      <h1>ISG Tool Tracker</h1>
+      <div class="status">
+        <strong>✅ Static HTML Test</strong><br>
+        If you can see this page, GitLab Pages is serving static HTML correctly.
+      </div>
+      <div class="status">
+        <strong>🔍 Current Status</strong><br>
+        This is a static HTML page with no JavaScript. If this loads but the React app doesn't, the issue is with the JavaScript build or execution.
+      </div>
+      <div class="status">
+        <strong>📝 Next Steps</strong><br>
+        If this works, we'll gradually add back the JavaScript to identify what's causing the issue.
+      </div>
+      <p><strong>Current time:</strong> <span id="time"></span></p>
+    </div>
+    <script>
+      document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
   </body>
 </html>
