@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISG Tool Tracker</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useMemo } = React;
+
+      // ==================== DATA ====================
+      const toolsData = [
+        {
+          "id": "tool-001",
+          "name": "Cloud Resource Optimizer",
+          "description": "Automated tool for optimizing cloud resource allocation and cost management across multiple cloud providers.",
+          "whatItDoes": "Analyzes cloud infrastructure usage patterns, identifies over-provisioned resources, and provides automated recommendations for cost optimization. Supports AWS, Azure, and GCP with real-time monitoring and alerting.",
+          "valueProposition": "Reduces cloud spending by up to 30% through intelligent resource optimization, provides visibility into cloud costs across teams, and automates remediation of inefficient resource allocation.",
+          "status": "released",
+          "progress": 100,
+          "owner": "Sarah Chen",
+          "team": "Cloud",
+          "repository": "https://github.com/dell/cloud-resource-optimizer",
+          "documentation": "https://docs.dell.com/cloud-optimizer",
+          "createdAt": "2024-01-15",
+          "updatedAt": "2024-08-20",
+          "roadmap": [
+            {
+              "feature": "Multi-cloud cost forecasting",
+              "status": "completed",
+              "targetDate": "2024-06-01",
+              "priority": "high"
+            },
+            {
+              "feature": "Automated resource scaling",
+              "status": "in-progress",
+              "targetDate": "2024-12-01",
+              "priority": "high"
+            },
+            {
+              "feature": "Integration with ServiceNow",
+              "status": "planned",
+              "targetDate": "2025-03-01",
+              "priority": "medium"
+            }
+          ],
+          "tags": ["automation", "cost-optimization", "monitoring", "multi-cloud"]
+        },
+        {
+          "id": "tool-002",
+          "name": "Compute Capacity Planner",
+          "description": "Tool for planning and forecasting compute capacity needs based on historical usage and growth patterns.",
+          "whatItDoes": "Collects historical compute usage data, applies machine learning models to forecast future capacity needs, and provides recommendations for hardware procurement and cloud resource allocation.",
+          "valueProposition": "Helps prevent capacity shortages, reduces over-provisioning costs, and provides data-driven insights for capacity planning decisions.",
+          "status": "development",
+          "progress": 65,
+          "owner": "Michael Rodriguez",
+          "team": "Compute",
+          "repository": "https://github.com/dell/compute-capacity-planner",
+          "documentation": "https://docs.dell.com/compute-planner",
+          "createdAt": "2024-03-10",
+          "updatedAt": "2024-09-10",
+          "roadmap": [
+            {
+              "feature": "ML model training pipeline",
+              "status": "completed",
+              "targetDate": "2024-07-01",
+              "priority": "high"
+            },
+            {
+              "feature": "Dashboard visualization",
+              "status": "in-progress",
+              "targetDate": "2024-10-15",
+              "priority": "high"
+            },
+            {
+              "feature": "API integration",
+              "status": "planned",
+              "targetDate": "2024-11-30",
+              "priority": "medium"
+            }
+          ],
+          "tags": ["forecasting", "capacity-planning", "machine-learning", "analytics"]
+        },
+        {
+          "id": "tool-003",
+          "name": "Platform Health Monitor",
+          "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
+          "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
+          "valueProposition": "Improves platform reliability through proactive monitoring, reduces mean time to resolution (MTTR) with automated alerting, and ensures compliance with security and operational standards.",
+          "status": "testing",
+          "progress": 85,
+          "owner": "Emily Watson",
+          "team": "Platform",
+          "repository": "https://github.com/dell/platform-health-monitor",
+          "documentation": "https://docs.dell.com/platform-monitor",
+          "createdAt": "2024-02-20",
+          "updatedAt": "2024-09-12",
+          "roadmap": [
+            {
+              "feature": "Core monitoring infrastructure",
+              "status": "completed",
+              "targetDate": "2024-05-15",
+              "priority": "high"
+            },
+            {
+              "feature": "Alerting system",
+              "status": "completed",
+              "targetDate": "2024-07-01",
+              "priority": "high"
+            },
+            {
+              "feature": "Custom dashboard builder",
+              "status": "in-progress",
+              "targetDate": "2024-10-01",
+              "priority": "medium"
+            },
+            {
+              "feature": "Mobile app",
+              "status": "planned",
+              "targetDate": "2025-01-15",
+              "priority": "low"
+            }
+          ],
+          "tags": ["monitoring", "alerting", "health-checks", "dashboard"]
+        },
+        {
+          "id": "tool-004",
+          "name": "Deployment Automation Suite",
+          "description": "End-to-end automation tool for application deployment across cloud and on-premises environments.",
+          "whatItDoes": "Automates the deployment pipeline from code commit to production, including build, test, and deployment phases. Supports multiple deployment strategies including blue-green, canary, and rolling updates.",
+          "valueProposition": "Reduces deployment time by 70%, minimizes deployment errors through automation, and provides audit trails for compliance requirements.",
+          "status": "released",
+          "progress": 100,
+          "owner": "David Kim",
+          "team": "Platform",
+          "repository": "https://github.com/dell/deployment-automation",
+          "documentation": "https://docs.dell.com/deployment-automation",
+          "createdAt": "2023-11-01",
+          "updatedAt": "2024-08-15",
+          "roadmap": [
+            {
+              "feature": "Kubernetes support",
+              "status": "completed",
+              "targetDate": "2024-03-01",
+              "priority": "high"
+            },
+            {
+              "feature": "Terraform integration",
+              "status": "completed",
+              "targetDate": "2024-06-01",
+              "priority": "high"
+            },
+            {
+              "feature": "GitOps workflow",
+              "status": "in-progress",
+              "targetDate": "2024-11-01",
+              "priority": "high"
+            }
+          ],
+          "tags": ["automation", "deployment", "devops", "cicd"]
+        },
+        {
+          "id": "tool-005",
+          "name": "Security Compliance Scanner",
+          "description": "Automated security and compliance scanning tool for cloud infrastructure and applications.",
+          "whatItDoes": "Scans cloud infrastructure and applications for security vulnerabilities and compliance issues against industry standards (CIS, NIST, SOC2). Provides automated remediation suggestions and compliance reporting.",
+          "valueProposition": "Reduces security risk through continuous scanning, ensures compliance with regulatory requirements, and provides actionable remediation guidance.",
+          "status": "planning",
+          "progress": 25,
+          "owner": "Jennifer Lee",
+          "team": "Cloud",
+          "repository": "https://github.com/dell/security-scanner",
+          "documentation": null,
+          "createdAt": "2024-08-01",
+          "updatedAt": "2024-09-05",
+          "roadmap": [
+            {
+              "feature": "Core scanning engine",
+              "status": "in-progress",
+              "targetDate": "2024-10-15",
+              "priority": "high"
+            },
+            {
+              "feature": "Compliance rule library",
+              "status": "planned",
+              "targetDate": "2024-12-01",
+              "priority": "high"
+            },
+            {
+              "feature": "Reporting dashboard",
+              "status": "planned",
+              "targetDate": "2025-02-01",
+              "priority": "medium"
+            }
+          ],
+          "tags": ["security", "compliance", "scanning", "automation"]
+        }
+      ];
+
+      const requestsData = [
+        {
+          "id": "req-001",
+          "title": "Add support for Oracle Cloud",
+          "description": "We need to add Oracle Cloud Infrastructure (OCI) support to the Cloud Resource Optimizer to provide comprehensive multi-cloud coverage for our enterprise clients.",
+          "type": "feature",
+          "toolId": "tool-001",
+          "requester": "John Smith",
+          "email": "john.smith@dell.com",
+          "status": "approved",
+          "priority": "high",
+          "createdAt": "2024-08-15",
+          "updatedAt": "2024-09-01"
+        },
+        {
+          "id": "req-002",
+          "title": "Mobile app for capacity planning",
+          "description": "Create a mobile application that allows executives to view capacity planning forecasts and receive alerts about potential capacity issues.",
+          "type": "feature",
+          "toolId": "tool-002",
+          "requester": "Lisa Johnson",
+          "email": "lisa.johnson@dell.com",
+          "status": "pending",
+          "priority": "medium",
+          "createdAt": "2024-09-05",
+          "updatedAt": "2024-09-05"
+        },
+        {
+          "id": "req-003",
+          "title": "Integration with Slack for alerts",
+          "description": "Add Slack integration to the Platform Health Monitor to send alerts directly to engineering channels for faster incident response.",
+          "type": "feature",
+          "toolId": "tool-003",
+          "requester": "Mike Brown",
+          "email": "mike.brown@dell.com",
+          "status": "in-progress",
+          "priority": "high",
+          "createdAt": "2024-08-20",
+          "updatedAt": "2024-09-10"
+        },
+        {
+          "id": "req-004",
+          "title": "New tool: Backup Automation Manager",
+          "description": "We need a centralized tool to manage backup policies across all our cloud and on-premises environments with automated scheduling and monitoring.",
+          "type": "new-tool",
+          "toolId": null,
+          "requester": "Sarah Davis",
+          "email": "sarah.davis@dell.com",
+          "status": "pending",
+          "priority": "high",
+          "createdAt": "2024-09-10",
+          "updatedAt": "2024-09-10"
+        },
+        {
+          "id": "req-005",
+          "title": "Performance benchmarking dashboard",
+          "description": "Add a performance benchmarking feature to compare deployment times and resource utilization across different environments and regions.",
+          "type": "feature",
+          "toolId": "tool-004",
+          "requester": "Tom Wilson",
+          "email": "tom.wilson@dell.com",
+          "status": "approved",
+          "priority": "medium",
+          "createdAt": "2024-08-25",
+          "updatedAt": "2024-09-08"
+        },
+        {
+          "id": "req-006",
+          "title": "Fix: False positive security alerts",
+          "description": "The Security Compliance Scanner is generating false positives for certain CIS benchmarks that are not applicable to our environment configuration.",
+          "type": "bug",
+          "toolId": "tool-005",
+          "requester": "Alex Martinez",
+          "email": "alex.martinez@dell.com",
+          "status": "pending",
+          "priority": "high",
+          "createdAt": "2024-09-12",
+          "updatedAt": "2024-09-12"
+        }
+      ];
+
+      const configData = {
+        "site": {
+          "title": "ISG Tool Tracker",
+          "description": "Tracking tools designed, managed, and created by ISG Cloud, Compute, Platform support engineers",
+          "version": "1.0.0"
+        },
+        "teams": ["Cloud", "Compute", "Platform"],
+        "statuses": [
+          {"value": "idea", "label": "Idea", "color": "gray"},
+          {"value": "planning", "label": "Planning", "color": "blue"},
+          {"value": "development", "label": "Development", "color": "yellow"},
+          {"value": "testing", "label": "Testing", "color": "purple"},
+          {"value": "released", "label": "Released", "color": "green"},
+          {"value": "maintenance", "label": "Maintenance", "color": "indigo"}
+        ],
+        "requestTypes": [
+          {"value": "feature", "label": "Feature Request"},
+          {"value": "new-tool", "label": "New Tool"},
+          {"value": "enhancement", "label": "Enhancement"},
+          {"value": "bug", "label": "Bug Report"}
+        ],
+        "priorities": [
+          {"value": "low", "label": "Low"},
+          {"value": "medium", "label": "Medium"},
+          {"value": "high", "label": "High"}
+        ]
+      };
+
+      // ==================== UTILITY FUNCTIONS ====================
+      const getStatusColor = (status) => {
+        const colors = {
+          idea: 'bg-gray-100 text-gray-800',
+          planning: 'bg-blue-100 text-blue-800',
+          development: 'bg-yellow-100 text-yellow-800',
+          testing: 'bg-purple-100 text-purple-800',
+          released: 'bg-green-100 text-green-800',
+          maintenance: 'bg-indigo-100 text-indigo-800'
+        };
+        return colors[status] || 'bg-gray-100 text-gray-800';
+      };
+
+      const getPriorityColor = (priority) => {
+        const colors = {
+          low: 'bg-gray-100 text-gray-800',
+          medium: 'bg-yellow-100 text-yellow-800',
+          high: 'bg-red-100 text-red-800'
+        };
+        return colors[priority] || 'bg-gray-100 text-gray-800';
+      };
+
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      };
+
+      const calculateStats = (tools) => {
+        const stats = {
+          total: tools.length,
+          byStatus: {},
+          byTeam: {},
+          inDevelopment: 0,
+          released: 0
+        };
+
+        tools.forEach(tool => {
+          stats.byStatus[tool.status] = (stats.byStatus[tool.status] || 0) + 1;
+          stats.byTeam[tool.team] = (stats.byTeam[tool.team] || 0) + 1;
+          if (tool.status === 'development' || tool.status === 'testing') {
+            stats.inDevelopment++;
+          }
+          if (tool.status === 'released') {
+            stats.released++;
+          }
+        });
+
+        return stats;
+      };
+
+      // ==================== COMPONENTS ====================
+      const Header = ({ currentPage, setCurrentPage }) => {
+        const navItems = [
+          { id: 'home', label: 'Home' },
+          { id: 'tools', label: 'Tools' },
+          { id: 'requests', label: 'Requests' },
+          { id: 'admin', label: 'Admin' }
+        ];
+
+        return (
+          <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold cursor-pointer" onClick={() => setCurrentPage('home')}>
+                  ISG Tool Tracker
+                </h1>
+                <nav className="flex space-x-4">
+                  {navItems.map(item => (
+                    <button
+                      key={item.id}
+                      onClick={() => setCurrentPage(item.id)}
+                      className={`px-4 py-2 rounded-lg transition-colors ${
+                        currentPage === item.id
+                          ? 'bg-white text-blue-600'
+                          : 'hover:bg-blue-700'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            </div>
+          </header>
+        );
+      };
+
+      const Footer = () => (
+        <footer className="bg-gray-800 text-white py-6 mt-12">
+          <div className="container mx-auto px-4 text-center">
+            <p className="text-gray-400">
+              © 2024 ISG Tool Tracker | Version {configData.site.version}
+            </p>
+            <p className="text-gray-500 text-sm mt-2">
+              {configData.site.description}
+            </p>
+          </div>
+        </footer>
+      );
+
+      const StatusBadge = ({ status }) => {
+        const statusConfig = configData.statuses.find(s => s.value === status);
+        return (
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(status)}`}>
+            {statusConfig ? statusConfig.label : status}
+          </span>
+        );
+      };
+
+      const ProgressBar = ({ progress }) => (
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      );
+
+      // ==================== PAGES ====================
+      const Home = ({ setCurrentPage }) => {
+        const stats = calculateStats(toolsData);
+        const featuredTools = toolsData.slice(0, 3);
+
+        return (
+          <div className="container mx-auto px-4 py-8">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">
+                Welcome to ISG Tool Tracker
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                {configData.site.description}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+                <div className="text-4xl font-bold text-blue-600 mb-2">{stats.total}</div>
+                <div className="text-gray-600">Total Tools</div>
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+                <div className="text-4xl font-bold text-green-600 mb-2">{stats.released}</div>
+                <div className="text-gray-600">Released</div>
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+                <div className="text-4xl font-bold text-yellow-600 mb-2">{stats.inDevelopment}</div>
+                <div className="text-gray-600">In Development</div>
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+                <div className="text-4xl font-bold text-purple-600 mb-2">{requestsData.length}</div>
+                <div className="text-gray-600">Feature Requests</div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">Featured Tools</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {featuredTools.map(tool => (
+                  <div
+                    key={tool.id}
+                    className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                    onClick={() => setCurrentPage(`tool-${tool.id}`)}
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <h4 className="text-xl font-semibold text-gray-800">{tool.name}</h4>
+                      <StatusBadge status={tool.status} />
+                    </div>
+                    <p className="text-gray-600 mb-4 line-clamp-2">{tool.description}</p>
+                    <div className="flex items-center justify-between text-sm text-gray-500">
+                      <span>{tool.owner}</span>
+                      <span>{tool.team}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-center">
+              <button
+                onClick={() => setCurrentPage('tools')}
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+              >
+                View All Tools
+              </button>
+            </div>
+          </div>
+        );
+      };
+
+      const Tools = ({ setCurrentPage }) => {
+        const [search, setSearch] = useState('');
+        const [statusFilter, setStatusFilter] = useState('');
+        const [teamFilter, setTeamFilter] = useState('');
+        const [sortBy, setSortBy] = useState('name');
+
+        const filteredTools = useMemo(() => {
+          let filtered = toolsData.filter(tool => {
+            if (search && !tool.name.toLowerCase().includes(search.toLowerCase()) &&
+                !tool.description.toLowerCase().includes(search.toLowerCase())) {
+              return false;
+            }
+            if (statusFilter && tool.status !== statusFilter) return false;
+            if (teamFilter && tool.team !== teamFilter) return false;
+            return true;
+          });
+
+          switch (sortBy) {
+            case 'name':
+              filtered.sort((a, b) => a.name.localeCompare(b.name));
+              break;
+            case 'date':
+              filtered.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+              break;
+            case 'progress':
+              filtered.sort((a, b) => b.progress - a.progress);
+              break;
+            default:
+              break;
+          }
+
+          return filtered;
+        }, [search, statusFilter, teamFilter, sortBy]);
+
+        return (
+          <div className="container mx-auto px-4 py-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6">Tools Catalog</h2>
+
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input
+                  type="text"
+                  placeholder="Search tools..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">All Statuses</option>
+                  {configData.statuses.map(status => (
+                    <option key={status.value} value={status.value}>{status.label}</option>
+                  ))}
+                </select>
+                <select
+                  value={teamFilter}
+                  onChange={(e) => setTeamFilter(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">All Teams</option>
+                  {configData.teams.map(team => (
+                    <option key={team} value={team}>{team}</option>
+                  ))}
+                </select>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="name">Sort by Name</option>
+                  <option value="date">Sort by Date</option>
+                  <option value="progress">Sort by Progress</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTools.map(tool => (
+                <div
+                  key={tool.id}
+                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => setCurrentPage(`tool-${tool.id}`)}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-semibold text-gray-800">{tool.name}</h3>
+                    <StatusBadge status={tool.status} />
+                  </div>
+                  <p className="text-gray-600 mb-4 line-clamp-2">{tool.description}</p>
+                  <ProgressBar progress={tool.progress} />
+                  <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
+                    <span>{tool.owner}</span>
+                    <span>{tool.team}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {filteredTools.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                No tools found matching your criteria.
+              </div>
+            )}
+          </div>
+        );
+      };
+
+      const ToolDetail = ({ toolId, setCurrentPage }) => {
+        const tool = toolsData.find(t => t.id === toolId);
+
+        if (!tool) {
+          return (
+            <div className="container mx-auto px-4 py-8">
+              <div className="text-center py-12">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Tool Not Found</h2>
+                <button
+                  onClick={() => setCurrentPage('tools')}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  Back to Tools
+                </button>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div className="container mx-auto px-4 py-8">
+            <button
+              onClick={() => setCurrentPage('tools')}
+              className="mb-6 text-blue-600 hover:text-blue-800 font-medium"
+            >
+              ← Back to Tools
+            </button>
+
+            <div className="bg-white rounded-lg shadow-md p-8">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-3xl font-bold text-gray-800">{tool.name}</h2>
+                <StatusBadge status={tool.status} />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Description</h3>
+                  <p className="text-gray-600">{tool.description}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Progress</h3>
+                  <ProgressBar progress={tool.progress} />
+                  <p className="text-sm text-gray-500 mt-2">{tool.progress}% Complete</p>
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">What It Does</h3>
+                <p className="text-gray-600">{tool.whatItDoes}</p>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Value Proposition</h3>
+                <p className="text-gray-600">{tool.valueProposition}</p>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-500">Owner</div>
+                  <div className="font-semibold text-gray-800">{tool.owner}</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-500">Team</div>
+                  <div className="font-semibold text-gray-800">{tool.team}</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-500">Created</div>
+                  <div className="font-semibold text-gray-800">{formatDate(tool.createdAt)}</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-500">Updated</div>
+                  <div className="font-semibold text-gray-800">{formatDate(tool.updatedAt)}</div>
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Roadmap</h3>
+                <div className="space-y-4">
+                  {tool.roadmap.map((item, index) => (
+                    <div key={index} className="border-l-4 border-blue-500 pl-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-semibold text-gray-800">{item.feature}</h4>
+                        <StatusBadge status={item.status} />
+                      </div>
+                      <div className="text-sm text-gray-500 mt-1">
+                        Target: {formatDate(item.targetDate)} | Priority: {item.priority}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Tags</h3>
+                <div className="flex flex-wrap gap-2">
+                  {tool.tags.map(tag => (
+                    <span key={tag} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                {tool.repository && (
+                  <a
+                    href={tool.repository}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    View Repository
+                  </a>
+                )}
+                {tool.documentation && (
+                  <a
+                    href={tool.documentation}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+                  >
+                    View Documentation
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const Requests = () => {
+        const [requests, setRequests] = useState(requestsData);
+        const [showForm, setShowForm] = useState(false);
+        const [formData, setFormData] = useState({
+          title: '',
+          description: '',
+          type: 'feature',
+          toolId: '',
+          requester: '',
+          email: '',
+          priority: 'medium'
+        });
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          const newRequest = {
+            id: `req-${Date.now()}`,
+            ...formData,
+            status: 'pending',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+          setRequests([...requests, newRequest]);
+          setShowForm(false);
+          setFormData({
+            title: '',
+            description: '',
+            type: 'feature',
+            toolId: '',
+            requester: '',
+            email: '',
+            priority: 'medium'
+          });
+        };
+
+        return (
+          <div className="container mx-auto px-4 py-8">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-800">Feature Requests</h2>
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                {showForm ? 'Cancel' : 'New Request'}
+              </button>
+            </div>
+
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <span className="text-yellow-400 text-xl">⚠️</span>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-yellow-700">
+                    <strong>Warning:</strong> Feature requests are stored in browser memory only and will be lost when you refresh the page. This is a demo environment.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {showForm && (
+              <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">Submit New Request</h3>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.title}
+                      onChange={(e) => setFormData({...formData, title: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={formData.description}
+                      onChange={(e) => setFormData({...formData, description: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                      <select
+                        value={formData.type}
+                        onChange={(e) => setFormData({...formData, type: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {configData.requestTypes.map(type => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                      <select
+                        value={formData.priority}
+                        onChange={(e) => setFormData({...formData, priority: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {configData.priorities.map(priority => (
+                          <option key={priority.value} value={priority.value}>{priority.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.requester}
+                        onChange={(e) => setFormData({...formData, requester: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Related Tool (Optional)</label>
+                    <select
+                      value={formData.toolId}
+                      onChange={(e) => setFormData({...formData, toolId: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select a tool...</option>
+                      {toolsData.map(tool => (
+                        <option key={tool.id} value={tool.id}>{tool.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  >
+                    Submit Request
+                  </button>
+                </form>
+              </div>
+            )}
+
+            <div className="space-y-4">
+              {requests.map(request => (
+                <div key={request.id} className="bg-white rounded-lg shadow-md p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-semibold text-gray-800">{request.title}</h3>
+                    <div className="flex gap-2">
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPriorityColor(request.priority)}`}>
+                        {request.priority}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                        {request.status}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mb-4">{request.description}</p>
+                  <div className="flex items-center justify-between text-sm text-gray-500">
+                    <div>
+                      <span>{request.requester}</span>
+                      {request.toolId && (
+                        <span className="ml-2">• {toolsData.find(t => t.id === request.toolId)?.name}</span>
+                      )}
+                    </div>
+                    <span>{formatDate(request.createdAt)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      };
+
+      const Admin = () => {
+        const [requests, setRequests] = useState(requestsData);
+
+        const updateStatus = (requestId, newStatus) => {
+          setRequests(requests.map(req =>
+            req.id === requestId ? {...req, status: newStatus, updatedAt: new Date().toISOString()} : req
+          ));
+        };
+
+        return (
+          <div className="container mx-auto px-4 py-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h2>
+
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">Request Management</h3>
+              <div className="space-y-4">
+                {requests.map(request => (
+                  <div key={request.id} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-semibold text-gray-800">{request.title}</h4>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPriorityColor(request.priority)}`}>
+                        {request.priority}
+                      </span>
+                    </div>
+                    <p className="text-gray-600 text-sm mb-3">{request.description}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-500">Status:</span>
+                        <select
+                          value={request.status}
+                          onChange={(e) => updateStatus(request.id, e.target.value)}
+                          className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="approved">Approved</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="completed">Completed</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+                      </div>
+                      <span className="text-sm text-gray-500">{formatDate(request.updatedAt)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <span className="text-yellow-400 text-xl">⚠️</span>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-yellow-700">
+                    <strong>Admin Demo:</strong> Status changes are stored in browser memory only and will be lost when you refresh the page. This is a demo environment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // ==================== MAIN APP ====================
+      const App = () => {
+        const [currentPage, setCurrentPage] = useState('home');
+
+        const renderPage = () => {
+          if (currentPage.startsWith('tool-')) {
+            const toolId = currentPage.replace('tool-', '');
+            return <ToolDetail toolId={toolId} setCurrentPage={setCurrentPage} />;
+          }
+
+          switch (currentPage) {
+            case 'home':
+              return <Home setCurrentPage={setCurrentPage} />;
+            case 'tools':
+              return <Tools setCurrentPage={setCurrentPage} />;
+            case 'requests':
+              return <Requests />;
+            case 'admin':
+              return <Admin />;
+            default:
+              return <Home setCurrentPage={setCurrentPage} />;
+          }
+        };
+
+        return (
+          <div className="min-h-screen bg-gray-50">
+            <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <main>{renderPage()}</main>
+            <Footer />
+          </div>
+        );
+      };
+
+      // Render the app
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
