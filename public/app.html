@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISG Tool Tracker - New Version</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .container {
+        background: white;
+        color: #333;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      }
+      h1 {
+        color: #0076CE;
+        margin-bottom: 20px;
+      }
+      .status {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background: #e8f5e9;
+        border-left: 4px solid #4caf50;
+      }
+      .error {
+        background: #ffebee;
+        border-left: 4px solid #f44336;
+      }
+      .timestamp {
+        color: #666;
+        font-size: 14px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ISG Tool Tracker - New Version</h1>
+      <div class="status">
+        <strong>✅ New HTML File Test</strong><br>
+        This is a completely new HTML file (app.html) to test if GitLab Pages is serving updated content.
+      </div>
+      <div class="status">
+        <strong>📅 Deployment Timestamp</strong><br>
+        This file was deployed on: September 15, 2026 at 3:55 PM
+      </div>
+      <div class="status">
+        <strong>🔍 Purpose</strong><br>
+        If you can see this page at /app.html, then GitLab Pages is working correctly and the issue is specific to the index.html file or its caching.
+      </div>
+      <div class="status error">
+        <strong>⚠️ If you still see /src/main.jsx error</strong><br>
+        Then there's a deeper GitLab Pages configuration or caching issue that needs to be addressed at the GitLab level.
+      </div>
+      <p class="timestamp">Current server time: <span id="time"></span></p>
+    </div>
+    <script>
+      document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
+  </body>
+</html>
