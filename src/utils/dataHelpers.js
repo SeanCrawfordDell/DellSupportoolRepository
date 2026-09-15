@@ -2,192 +2,6 @@
 const toolsData = [
   {
     "id": "tool-001",
-    "name": "Cloud Resource Optimizer",
-    "description": "Automated tool for optimizing cloud resource allocation and cost management across multiple cloud providers.",
-    "whatItDoes": "Analyzes cloud infrastructure usage patterns, identifies over-provisioned resources, and provides automated recommendations for cost optimization. Supports AWS, Azure, and GCP with real-time monitoring and alerting.",
-    "valueProposition": "Reduces cloud spending by up to 30% through intelligent resource optimization, provides visibility into cloud costs across teams, and automates remediation of inefficient resource allocation.",
-    "status": "released",
-    "progress": 100,
-    "owner": "Sarah Chen",
-    "team": "Cloud",
-    "repository": "https://github.com/dell/cloud-resource-optimizer",
-    "documentation": "https://docs.dell.com/cloud-optimizer",
-    "createdAt": "2024-01-15",
-    "updatedAt": "2024-08-20",
-    "roadmap": [
-      {
-        "feature": "Multi-cloud cost forecasting",
-        "status": "completed",
-        "targetDate": "2024-06-01",
-        "priority": "high"
-      },
-      {
-        "feature": "Automated resource scaling",
-        "status": "in-progress",
-        "targetDate": "2024-12-01",
-        "priority": "high"
-      },
-      {
-        "feature": "Integration with ServiceNow",
-        "status": "planned",
-        "targetDate": "2025-03-01",
-        "priority": "medium"
-      }
-    ],
-    "tags": ["automation", "cost-optimization", "monitoring", "multi-cloud"]
-  },
-  {
-    "id": "tool-002",
-    "name": "Compute Capacity Planner",
-    "description": "Tool for planning and forecasting compute capacity needs based on historical usage and growth patterns.",
-    "whatItDoes": "Collects historical compute usage data, applies machine learning models to forecast future capacity needs, and provides recommendations for hardware procurement and cloud resource allocation.",
-    "valueProposition": "Helps prevent capacity shortages, reduces over-provisioning costs, and provides data-driven insights for capacity planning decisions.",
-    "status": "development",
-    "progress": 65,
-    "owner": "Michael Rodriguez",
-    "team": "Compute",
-    "repository": "https://github.com/dell/compute-capacity-planner",
-    "documentation": "https://docs.dell.com/compute-planner",
-    "createdAt": "2024-03-10",
-    "updatedAt": "2024-09-10",
-    "roadmap": [
-      {
-        "feature": "ML model training pipeline",
-        "status": "completed",
-        "targetDate": "2024-07-01",
-        "priority": "high"
-      },
-      {
-        "feature": "Dashboard visualization",
-        "status": "in-progress",
-        "targetDate": "2024-10-15",
-        "priority": "high"
-      },
-      {
-        "feature": "API integration",
-        "status": "planned",
-        "targetDate": "2024-11-30",
-        "priority": "medium"
-      }
-    ],
-    "tags": ["forecasting", "capacity-planning", "machine-learning", "analytics"]
-  },
-  {
-    "id": "tool-003",
-    "name": "Platform Health Monitor",
-    "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
-    "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
-    "valueProposition": "Improves platform reliability through proactive monitoring, reduces mean time to resolution (MTTR) with automated alerting, and ensures compliance with security and operational standards.",
-    "status": "testing",
-    "progress": 85,
-    "owner": "Emily Watson",
-    "team": "Platform",
-    "repository": "https://github.com/dell/platform-health-monitor",
-    "documentation": "https://docs.dell.com/platform-monitor",
-    "createdAt": "2024-02-20",
-    "updatedAt": "2024-09-12",
-    "roadmap": [
-      {
-        "feature": "Core monitoring infrastructure",
-        "status": "completed",
-        "targetDate": "2024-05-15",
-        "priority": "high"
-      },
-      {
-        "feature": "Alerting system",
-        "status": "completed",
-        "targetDate": "2024-07-01",
-        "priority": "high"
-      },
-      {
-        "feature": "Custom dashboard builder",
-        "status": "in-progress",
-        "targetDate": "2024-10-01",
-        "priority": "medium"
-      },
-      {
-        "feature": "Mobile app",
-        "status": "planned",
-        "targetDate": "2025-01-15",
-        "priority": "low"
-      }
-    ],
-    "tags": ["monitoring", "alerting", "health-checks", "dashboard"]
-  },
-  {
-    "id": "tool-004",
-    "name": "Deployment Automation Suite",
-    "description": "End-to-end automation tool for application deployment across cloud and on-premises environments.",
-    "whatItDoes": "Automates the deployment pipeline from code commit to production, including build, test, and deployment phases. Supports multiple deployment strategies including blue-green, canary, and rolling updates.",
-    "valueProposition": "Reduces deployment time by 70%, minimizes deployment errors through automation, and provides audit trails for compliance requirements.",
-    "status": "released",
-    "progress": 100,
-    "owner": "David Kim",
-    "team": "Platform",
-    "repository": "https://github.com/dell/deployment-automation",
-    "documentation": "https://docs.dell.com/deployment-automation",
-    "createdAt": "2023-11-01",
-    "updatedAt": "2024-08-15",
-    "roadmap": [
-      {
-        "feature": "Kubernetes support",
-        "status": "completed",
-        "targetDate": "2024-03-01",
-        "priority": "high"
-      },
-      {
-        "feature": "Terraform integration",
-        "status": "completed",
-        "targetDate": "2024-06-01",
-        "priority": "high"
-      },
-      {
-        "feature": "GitOps workflow",
-        "status": "in-progress",
-        "targetDate": "2024-11-01",
-        "priority": "high"
-      }
-    ],
-    "tags": ["automation", "deployment", "devops", "cicd"]
-  },
-  {
-    "id": "tool-005",
-    "name": "Security Compliance Scanner",
-    "description": "Automated security and compliance scanning tool for cloud infrastructure and applications.",
-    "whatItDoes": "Scans cloud infrastructure and applications for security vulnerabilities and compliance issues against industry standards (CIS, NIST, SOC2). Provides automated remediation suggestions and compliance reporting.",
-    "valueProposition": "Reduces security risk through continuous scanning, ensures compliance with regulatory requirements, and provides actionable remediation guidance.",
-    "status": "planning",
-    "progress": 25,
-    "owner": "Jennifer Lee",
-    "team": "Cloud",
-    "repository": "https://github.com/dell/security-scanner",
-    "documentation": null,
-    "createdAt": "2024-08-01",
-    "updatedAt": "2024-09-05",
-    "roadmap": [
-      {
-        "feature": "Core scanning engine",
-        "status": "in-progress",
-        "targetDate": "2024-10-15",
-        "priority": "high"
-      },
-      {
-        "feature": "Compliance rule library",
-        "status": "planned",
-        "targetDate": "2024-12-01",
-        "priority": "high"
-      },
-      {
-        "feature": "Reporting dashboard",
-        "status": "planned",
-        "targetDate": "2025-02-01",
-        "priority": "medium"
-      }
-    ],
-    "tags": ["security", "compliance", "scanning", "automation"]
-  },
-  {
-    "id": "tool-006",
     "name": "Dell ProSupport ToolBox",
     "description": "Central launcher interface for Dell ProSupport utilities and troubleshooting tools.",
     "whatItDoes": "Provides one interface for launching all available Dell ProSupport utilities including log collectors, diagnostic tools, and maintenance scripts for Dell PowerEdge, Windows Server, Hyper-V, and Azure Local environments.",
@@ -217,7 +31,7 @@ const toolsData = [
     "tags": ["launcher", "utilities", "powershell", "dell"]
   },
   {
-    "id": "tool-007",
+    "id": "tool-002",
     "name": "AzHCIUrlChecker",
     "description": "Connectivity checker for Azure Local endpoints and firewall requirements.",
     "whatItDoes": "Checks connectivity to endpoints required by Azure Local as noted in Microsoft Azure Local documentation firewall requirements. Validates outbound connectivity for Azure Local deployments.",
@@ -241,7 +55,7 @@ const toolsData = [
     "tags": ["connectivity", "azure-local", "firewall", "networking"]
   },
   {
-    "id": "tool-008",
+    "id": "tool-003",
     "name": "BOILER",
     "description": "CBS and DISM log analyzer for Windows servicing failures and corruption.",
     "whatItDoes": "Analyzes CBS and DISM logs for errors, failures, warnings, failed KBs, language-pack issues, and corruption. Provides suggested remediation when recognized scenarios are detected.",
@@ -277,7 +91,7 @@ const toolsData = [
     "tags": ["windows-update", "servicing", "dism", "troubleshooting"]
   },
   {
-    "id": "tool-009",
+    "id": "tool-004",
     "name": "DART",
     "description": "Dell Automated Server Updater for Windows Failover Cluster and HCI/S2D environments.",
     "whatItDoes": "Windows Failover Cluster and HCI/S2D-aware utility that can install Windows Updates and Dell driver/firmware updates. Includes cluster node maintenance workflows and automated reboot management.",
@@ -313,7 +127,7 @@ const toolsData = [
     "tags": ["updates", "firmware", "drivers", "cluster", "automation"]
   },
   {
-    "id": "tool-010",
+    "id": "tool-005",
     "name": "FLEP",
     "description": "Windows event log filter for common server, failover-clustering, and storage events.",
     "whatItDoes": "Filters Windows event logs for common server, failover-clustering, storage, and Storport events. Quickly narrows large event logs to commonly relevant events for troubleshooting.",
@@ -343,7 +157,7 @@ const toolsData = [
     "tags": ["event-logs", "filtering", "troubleshooting", "storage"]
   },
   {
-    "id": "tool-011",
+    "id": "tool-006",
     "name": "GetHyperVBottlenecks",
     "description": "Hyper-V performance bottleneck detection tool.",
     "whatItDoes": "Detects potential performance bottlenecks in Hyper-V environments by analyzing system metrics and configuration. Provides interactive prompts to guide performance analysis.",
@@ -367,7 +181,7 @@ const toolsData = [
     "tags": ["hyper-v", "performance", "bottlenecks", "virtualization"]
   },
   {
-    "id": "tool-012",
+    "id": "tool-007",
     "name": "iDRAC Connection Manager",
     "description": "PowerShell Windows Forms interface for managing Dell server iDRAC access.",
     "whatItDoes": "GUI utility for organizing Dell servers and simplifying iDRAC GUI and console access. Provides centralized management of multiple iDRAC connections.",
@@ -391,7 +205,7 @@ const toolsData = [
     "tags": ["idrac", "management", "gui", "dell-servers"]
   },
   {
-    "id": "tool-013",
+    "id": "tool-008",
     "name": "KeyRelay",
     "description": "GUI utility for sending text to applications that block clipboard paste operations.",
     "whatItDoes": "Sends text to applications that do not allow normal clipboard paste operations. Useful for RDP sessions, secure terminals, and applications with paste restrictions.",
@@ -415,7 +229,7 @@ const toolsData = [
     "tags": ["clipboard", "paste", "productivity", "gui"]
   },
   {
-    "id": "tool-014",
+    "id": "tool-009",
     "name": "LogCollector",
     "description": "Comprehensive log collection tool for Windows, Dell servers, and supported switches.",
     "whatItDoes": "Collects troubleshooting logs from Windows, Dell servers, and supported switches. Prepares diagnostic data for investigation or support cases.",
@@ -451,7 +265,7 @@ const toolsData = [
     "tags": ["logs", "collection", "diagnostics", "troubleshooting"]
   },
   {
-    "id": "tool-015",
+    "id": "tool-010",
     "name": "GetShowTech",
     "description": "Dell switch show-tech diagnostic output collection tool.",
     "whatItDoes": "Collects Dell switch show-tech diagnostic output for troubleshooting and support case preparation.",
@@ -475,7 +289,7 @@ const toolsData = [
     "tags": ["switches", "diagnostics", "networking", "dell"]
   },
   {
-    "id": "tool-016",
+    "id": "tool-011",
     "name": "SDDC Dell Enhanced",
     "description": "SDDC diagnostic data collection workflow for Azure Stack HCI environments.",
     "whatItDoes": "Runs the SDDC diagnostic data-collection workflow for Azure Stack HCI environments. Collects comprehensive diagnostic information for troubleshooting.",
@@ -499,7 +313,7 @@ const toolsData = [
     "tags": ["sddc", "azure-stack-hci", "diagnostics", "collection"]
   },
   {
-    "id": "tool-017",
+    "id": "tool-012",
     "name": "SDDC Offline Dell Enhanced",
     "description": "Offline SDDC diagnostic data collection for environments without internet access.",
     "whatItDoes": "Collects SDDC diagnostic information when the target environment does not have direct internet access. Uses offline workflow for air-gapped environments.",
@@ -523,7 +337,7 @@ const toolsData = [
     "tags": ["sddc", "offline", "air-gapped", "diagnostics"]
   },
   {
-    "id": "tool-018",
+    "id": "tool-013",
     "name": "TSR Collector",
     "description": "Dell Technical Support Report collector for cluster nodes via iDRAC.",
     "whatItDoes": "Collects a Dell Technical Support Report (TSRs) from all nodes in a cluster via the iDRAC. Automates TSR collection across multiple cluster nodes.",
@@ -547,7 +361,7 @@ const toolsData = [
     "tags": ["tsr", "cluster", "idrac", "diagnostics"]
   },
   {
-    "id": "tool-019",
+    "id": "tool-014",
     "name": "TALI",
     "description": "Test-DellAzureLocalIssues - Azure Local cluster health and configuration checker.",
     "whatItDoes": "Checks Dell Azure Local clusters for a broad set of common configuration, health, storage, networking, service, control-plane, and AKS Arc issues. Comprehensive health validation.",
@@ -583,7 +397,7 @@ const toolsData = [
     "tags": ["azure-local", "health-checks", "validation", "cluster"]
   },
   {
-    "id": "tool-020",
+    "id": "tool-015",
     "name": "FLCkr",
     "description": "File-system filter driver altitude checker for Windows troubleshooting.",
     "whatItDoes": "Checks file-system filter driver altitudes to identify potential conflicts or issues with filter driver stack configuration.",
@@ -607,7 +421,7 @@ const toolsData = [
     "tags": ["filter-drivers", "file-system", "troubleshooting", "windows"]
   },
   {
-    "id": "tool-021",
+    "id": "tool-016",
     "name": "Convert-Etl2Pcap",
     "description": "Windows ETL network trace to PCAP format converter.",
     "whatItDoes": "Converts Windows ETL network traces to PCAP format for analysis with standard network analysis tools like Wireshark.",
@@ -635,68 +449,42 @@ const toolsData = [
 const requestsData = [
   {
     "id": "req-001",
-    "title": "Add support for Oracle Cloud",
-    "description": "We need to add Oracle Cloud Infrastructure (OCI) support to the Cloud Resource Optimizer to provide comprehensive multi-cloud coverage for our enterprise clients.",
+    "title": "Add GUI to ToolBox",
+    "description": "ToolBox should have a graphical user interface instead of just command-line launcher to make it more user-friendly for less technical users.",
     "type": "feature",
     "toolId": "tool-001",
     "requester": "John Smith",
     "email": "john.smith@dell.com",
-    "status": "in-review",
-    "priority": "high",
-    "createdAt": "2024-09-01",
-    "updatedAt": "2024-09-10"
+    "status": "planned",
+    "priority": "medium",
+    "createdAt": "2024-09-15",
+    "updatedAt": "2024-09-15"
   },
   {
     "id": "req-002",
-    "title": "Improve ML forecasting accuracy",
-    "description": "The current ML model for capacity forecasting has an accuracy of 85%. We need to improve this to at least 95% by incorporating additional data sources and refining the algorithm.",
-    "type": "improvement",
+    "title": "Add Azure Stack Hub support to AzHCIUrlChecker",
+    "description": "Extend AzHCIUrlChecker to also check connectivity for Azure Stack Hub endpoints, not just Azure Local.",
+    "type": "feature",
     "toolId": "tool-002",
     "requester": "Lisa Johnson",
     "email": "lisa.johnson@dell.com",
-    "status": "approved",
-    "priority": "high",
-    "createdAt": "2024-08-15",
-    "updatedAt": "2024-09-05"
+    "status": "planned",
+    "priority": "low",
+    "createdAt": "2024-09-15",
+    "updatedAt": "2024-09-15"
   },
   {
     "id": "req-003",
-    "title": "Add mobile push notifications",
-    "description": "Users need to receive push notifications on their mobile devices when critical platform health issues are detected. This will improve response times for incidents.",
+    "title": "Add automatic repair to BOILER",
+    "description": "BOILER should not just identify issues but also attempt automatic repairs for common Windows Update and component-store issues.",
     "type": "feature",
     "toolId": "tool-003",
     "requester": "Mark Davis",
     "email": "mark.davis@dell.com",
     "status": "planned",
-    "priority": "medium",
-    "createdAt": "2024-09-08",
-    "updatedAt": "2024-09-08"
-  },
-  {
-    "id": "req-004",
-    "title": "Add support for AWS Lambda",
-    "description": "The Deployment Automation Suite should support deploying serverless functions to AWS Lambda, in addition to the current container and VM support.",
-    "type": "feature",
-    "toolId": "tool-004",
-    "requester": "Sarah Wilson",
-    "email": "sarah.wilson@dell.com",
-    "status": "in-progress",
-    "priority": "medium",
-    "createdAt": "2024-08-20",
-    "updatedAt": "2024-09-12"
-  },
-  {
-    "id": "req-005",
-    "title": "Add HIPAA compliance rules",
-    "description": "We need to add HIPAA compliance scanning rules to the Security Compliance Scanner for healthcare clients who need to ensure regulatory compliance.",
-    "type": "feature",
-    "toolId": "tool-005",
-    "requester": "Robert Brown",
-    "email": "robert.brown@dell.com",
-    "status": "planned",
     "priority": "high",
-    "createdAt": "2024-09-10",
-    "updatedAt": "2024-09-10"
+    "createdAt": "2024-09-15",
+    "updatedAt": "2024-09-15"
   }
 ];
 
