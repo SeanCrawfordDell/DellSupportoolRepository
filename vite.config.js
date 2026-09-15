@@ -9,5 +9,12 @@ export default defineConfig({
   base: '/ToolTracker/',
   build: {
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name]-[hash].js`,
+        chunkFileNames: `assets/[name]-[hash].js`,
+        assetFileNames: `assets/[name]-[hash].[ext]`
+      }
+    }
   },
 })
