@@ -31,7 +31,7 @@ const Home = () => {
                 ISG Tool Tracker
               </h1>
               <p className="text-xl md:text-2xl mb-8 text-blue-100">
-                Discover and track tools designed by ISG Cloud, Compute, Platform support engineers
+                Discover tools designed for and by ISG support team members
               </p>
               <div className="flex justify-center space-x-4">
                 <Link to="/tools" className="btn-primary bg-white text-dell-blue hover:bg-gray-100">
