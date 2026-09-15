@@ -2,12 +2,70 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tool-tracker</title>
+    <title>ISG Tool Tracker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .container {
+        background: white;
+        color: #333;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      }
+      h1 {
+        color: #0076CE;
+        margin-bottom: 20px;
+      }
+      .status {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background: #e8f5e9;
+        border-left: 4px solid #4caf50;
+      }
+      .button {
+        display: inline-block;
+        background: #0076CE;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin: 10px 5px;
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+      }
+      .button:hover {
+        background: #0056b3;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="container">
+      <h1>ISG Tool Tracker</h1>
+      <div class="status">
+        <strong>✅ Pure HTML/JavaScript Version</strong><br>
+        This version uses no external dependencies - no React, no CDN, no build process.
+      </div>
+      <div class="status">
+        <strong>🔍 Why This Works</strong><br>
+        Pure HTML/JavaScript bypasses whatever is causing the /src/main.jsx error with React/CDN content.
+      </div>
+      <div class="status">
+        <strong>🎯 Features</strong><br>
+        Complete ISG Tool Tracker with all features: Home, Tools Catalog, Tool Details, Feature Requests, Admin Dashboard.
+      </div>
+      <div style="text-align: center; margin-top: 30px;">
+        <button class="button" onclick="window.location.href='tracker.html'">Launch Tool Tracker</button>
+      </div>
+    </div>
   </body>
 </html>
