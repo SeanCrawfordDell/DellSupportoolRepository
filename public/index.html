@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ISG Tool Tracker - Static Test</title>
+    <title>ISG Tool Tracker - React CDN Test</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -31,31 +34,44 @@
         background: #e8f5e9;
         border-left: 4px solid #4caf50;
       }
-      .error {
-        background: #ffebee;
-        border-left: 4px solid #f44336;
-      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>ISG Tool Tracker</h1>
-      <div class="status">
-        <strong>✅ Static HTML Test</strong><br>
-        If you can see this page, GitLab Pages is serving static HTML correctly.
-      </div>
-      <div class="status">
-        <strong>🔍 Current Status</strong><br>
-        This is a static HTML page with no JavaScript. If this loads but the React app doesn't, the issue is with the JavaScript build or execution.
-      </div>
-      <div class="status">
-        <strong>📝 Next Steps</strong><br>
-        If this works, we'll gradually add back the JavaScript to identify what's causing the issue.
-      </div>
-      <p><strong>Current time:</strong> <span id="time"></span></p>
-    </div>
-    <script>
-      document.getElementById('time').textContent = new Date().toLocaleString();
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState } = React;
+
+      function App() {
+        const [count, setCount] = useState(0);
+
+        return (
+          <div className="container">
+            <h1>ISG Tool Tracker - React CDN Test</h1>
+            <div className="status">
+              <strong>✅ React via CDN</strong><br>
+              This React application is loaded via CDN instead of Vite build.
+            </div>
+            <div className="status">
+              <strong>🧪 Interactive Test</strong><br>
+              Button clicks: {count}
+            </div>
+            <button onClick={() => setCount(count + 1)} style={{
+              padding: '10px 20px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              background: '#0076CE',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px'
+            }}>
+              Click me
+            </button>
+            <p><strong>Current time:</strong> {new Date().toLocaleString()}</p>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
   </body>
 </html>
