@@ -7,4 +7,7 @@ export default defineConfig({
   publicDir: 'public',
   assetsInclude: ['**/*.json'],
   base: '/',
+  build: {
+    sourcemap: false,
+  },
 })

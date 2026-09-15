@@ -1,29 +1,362 @@
-// Data loading utilities
-export const loadData = async (filename) => {
-  try {
-    const response = await fetch(`/data/${filename}`);
-    if (!response.ok) {
-      throw new Error(`Failed to load ${filename}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(`Error loading ${filename}:`, error);
-    return null;
+// Inline data for production build
+const toolsData = [
+  {
+    "id": "tool-001",
+    "name": "Cloud Resource Optimizer",
+    "description": "Automated tool for optimizing cloud resource allocation and cost management across multiple cloud providers.",
+    "whatItDoes": "Analyzes cloud infrastructure usage patterns, identifies over-provisioned resources, and provides automated recommendations for cost optimization. Supports AWS, Azure, and GCP with real-time monitoring and alerting.",
+    "valueProposition": "Reduces cloud spending by up to 30% through intelligent resource optimization, provides visibility into cloud costs across teams, and automates remediation of inefficient resource allocation.",
+    "status": "released",
+    "progress": 100,
+    "owner": "Sarah Chen",
+    "team": "Cloud",
+    "repository": "https://github.com/dell/cloud-resource-optimizer",
+    "documentation": "https://docs.dell.com/cloud-optimizer",
+    "createdAt": "2024-01-15",
+    "updatedAt": "2024-08-20",
+    "roadmap": [
+      {
+        "feature": "Multi-cloud cost forecasting",
+        "status": "completed",
+        "targetDate": "2024-06-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Automated resource scaling",
+        "status": "in-progress",
+        "targetDate": "2024-12-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Integration with ServiceNow",
+        "status": "planned",
+        "targetDate": "2025-03-01",
+        "priority": "medium"
+      }
+    ],
+    "tags": ["automation", "cost-optimization", "monitoring", "multi-cloud"]
+  },
+  {
+    "id": "tool-002",
+    "name": "Compute Capacity Planner",
+    "description": "Tool for planning and forecasting compute capacity needs based on historical usage and growth patterns.",
+    "whatItDoes": "Collects historical compute usage data, applies machine learning models to forecast future capacity needs, and provides recommendations for hardware procurement and cloud resource allocation.",
+    "valueProposition": "Helps prevent capacity shortages, reduces over-provisioning costs, and provides data-driven insights for capacity planning decisions.",
+    "status": "development",
+    "progress": 65,
+    "owner": "Michael Rodriguez",
+    "team": "Compute",
+    "repository": "https://github.com/dell/compute-capacity-planner",
+    "documentation": "https://docs.dell.com/compute-planner",
+    "createdAt": "2024-03-10",
+    "updatedAt": "2024-09-10",
+    "roadmap": [
+      {
+        "feature": "ML model training pipeline",
+        "status": "completed",
+        "targetDate": "2024-07-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Dashboard visualization",
+        "status": "in-progress",
+        "targetDate": "2024-10-15",
+        "priority": "high"
+      },
+      {
+        "feature": "API integration",
+        "status": "planned",
+        "targetDate": "2024-11-30",
+        "priority": "medium"
+      }
+    ],
+    "tags": ["forecasting", "capacity-planning", "machine-learning", "analytics"]
+  },
+  {
+    "id": "tool-003",
+    "name": "Platform Health Monitor",
+    "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
+    "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
+    "valueProposition": "Improves platform reliability through proactive monitoring, reduces mean time to resolution (MTTR) with automated alerting, and ensures compliance with security and operational standards.",
+    "status": "testing",
+    "progress": 85,
+    "owner": "Emily Watson",
+    "team": "Platform",
+    "repository": "https://github.com/dell/platform-health-monitor",
+    "documentation": "https://docs.dell.com/platform-monitor",
+    "createdAt": "2024-02-20",
+    "updatedAt": "2024-09-12",
+    "roadmap": [
+      {
+        "feature": "Core monitoring infrastructure",
+        "status": "completed",
+        "targetDate": "2024-05-15",
+        "priority": "high"
+      },
+      {
+        "feature": "Alerting system",
+        "status": "completed",
+        "targetDate": "2024-07-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Custom dashboard builder",
+        "status": "in-progress",
+        "targetDate": "2024-10-01",
+        "priority": "medium"
+      },
+      {
+        "feature": "Mobile app",
+        "status": "planned",
+        "targetDate": "2025-01-15",
+        "priority": "low"
+      }
+    ],
+    "tags": ["monitoring", "alerting", "health-checks", "dashboard"]
+  },
+  {
+    "id": "tool-004",
+    "name": "Deployment Automation Suite",
+    "description": "End-to-end automation tool for application deployment across cloud and on-premises environments.",
+    "whatItDoes": "Automates the deployment pipeline from code commit to production, including build, test, and deployment phases. Supports multiple deployment strategies including blue-green, canary, and rolling updates.",
+    "valueProposition": "Reduces deployment time by 70%, minimizes deployment errors through automation, and provides audit trails for compliance requirements.",
+    "status": "released",
+    "progress": 100,
+    "owner": "David Kim",
+    "team": "Platform",
+    "repository": "https://github.com/dell/deployment-automation",
+    "documentation": "https://docs.dell.com/deployment-automation",
+    "createdAt": "2023-11-01",
+    "updatedAt": "2024-08-15",
+    "roadmap": [
+      {
+        "feature": "Kubernetes support",
+        "status": "completed",
+        "targetDate": "2024-03-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Terraform integration",
+        "status": "completed",
+        "targetDate": "2024-06-01",
+        "priority": "high"
+      },
+      {
+        "feature": "GitOps workflow",
+        "status": "in-progress",
+        "targetDate": "2024-11-01",
+        "priority": "high"
+      }
+    ],
+    "tags": ["automation", "deployment", "devops", "cicd"]
+  },
+  {
+    "id": "tool-005",
+    "name": "Security Compliance Scanner",
+    "description": "Automated security and compliance scanning tool for cloud infrastructure and applications.",
+    "whatItDoes": "Scans cloud infrastructure and applications for security vulnerabilities and compliance issues against industry standards (CIS, NIST, SOC2). Provides automated remediation suggestions and compliance reporting.",
+    "valueProposition": "Reduces security risk through continuous scanning, ensures compliance with regulatory requirements, and provides actionable remediation guidance.",
+    "status": "planning",
+    "progress": 25,
+    "owner": "Jennifer Lee",
+    "team": "Cloud",
+    "repository": "https://github.com/dell/security-scanner",
+    "documentation": null,
+    "createdAt": "2024-08-01",
+    "updatedAt": "2024-09-05",
+    "roadmap": [
+      {
+        "feature": "Core scanning engine",
+        "status": "in-progress",
+        "targetDate": "2024-10-15",
+        "priority": "high"
+      },
+      {
+        "feature": "Compliance rule library",
+        "status": "planned",
+        "targetDate": "2024-12-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Reporting dashboard",
+        "status": "planned",
+        "targetDate": "2025-02-01",
+        "priority": "medium"
+      }
+    ],
+    "tags": ["security", "compliance", "scanning", "automation"]
   }
+];
+
+const requestsData = [
+  {
+    "id": "req-001",
+    "title": "Add support for Oracle Cloud",
+    "description": "We need to add Oracle Cloud Infrastructure (OCI) support to the Cloud Resource Optimizer to provide comprehensive multi-cloud coverage for our enterprise clients.",
+    "type": "feature",
+    "toolId": "tool-001",
+    "requester": "John Smith",
+    "email": "john.smith@dell.com",
+    "status": "approved",
+    "priority": "high",
+    "createdAt": "2024-08-15",
+    "updatedAt": "2024-09-01"
+  },
+  {
+    "id": "req-002",
+    "title": "Mobile app for capacity planning",
+    "description": "Create a mobile application that allows executives to view capacity planning forecasts and receive alerts about potential capacity issues.",
+    "type": "feature",
+    "toolId": "tool-002",
+    "requester": "Lisa Johnson",
+    "email": "lisa.johnson@dell.com",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2024-09-05",
+    "updatedAt": "2024-09-05"
+  },
+  {
+    "id": "req-003",
+    "title": "Integration with Slack for alerts",
+    "description": "Add Slack integration to the Platform Health Monitor to send alerts directly to engineering channels for faster incident response.",
+    "type": "feature",
+    "toolId": "tool-003",
+    "requester": "Mike Brown",
+    "email": "mike.brown@dell.com",
+    "status": "in-progress",
+    "priority": "high",
+    "createdAt": "2024-08-20",
+    "updatedAt": "2024-09-10"
+  },
+  {
+    "id": "req-004",
+    "title": "New tool: Backup Automation Manager",
+    "description": "We need a centralized tool to manage backup policies across all our cloud and on-premises environments with automated scheduling and monitoring.",
+    "type": "new-tool",
+    "toolId": null,
+    "requester": "Sarah Davis",
+    "email": "sarah.davis@dell.com",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2024-09-10",
+    "updatedAt": "2024-09-10"
+  },
+  {
+    "id": "req-005",
+    "title": "Performance benchmarking dashboard",
+    "description": "Add a performance benchmarking feature to compare deployment times and resource utilization across different environments and regions.",
+    "type": "feature",
+    "toolId": "tool-004",
+    "requester": "Tom Wilson",
+    "email": "tom.wilson@dell.com",
+    "status": "approved",
+    "priority": "medium",
+    "createdAt": "2024-08-25",
+    "updatedAt": "2024-09-08"
+  },
+  {
+    "id": "req-006",
+    "title": "Fix: False positive security alerts",
+    "description": "The Security Compliance Scanner is generating false positives for certain CIS benchmarks that are not applicable to our environment configuration.",
+    "type": "bug",
+    "toolId": "tool-005",
+    "requester": "Alex Martinez",
+    "email": "alex.martinez@dell.com",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2024-09-12",
+    "updatedAt": "2024-09-12"
+  }
+];
+
+const configData = {
+  "site": {
+    "title": "ISG Tool Tracker",
+    "description": "Tracking tools designed, managed, and created by ISG Cloud, Compute, Platform support engineers",
+    "version": "1.0.0"
+  },
+  "teams": [
+    "Cloud",
+    "Compute",
+    "Platform"
+  ],
+  "statuses": [
+    {
+      "value": "idea",
+      "label": "Idea",
+      "color": "gray"
+    },
+    {
+      "value": "planning",
+      "label": "Planning",
+      "color": "blue"
+    },
+    {
+      "value": "development",
+      "label": "Development",
+      "color": "yellow"
+    },
+    {
+      "value": "testing",
+      "label": "Testing",
+      "color": "purple"
+    },
+    {
+      "value": "released",
+      "label": "Released",
+      "color": "green"
+    },
+    {
+      "value": "maintenance",
+      "label": "Maintenance",
+      "color": "indigo"
+    }
+  ],
+  "requestTypes": [
+    {
+      "value": "feature",
+      "label": "Feature Request"
+    },
+    {
+      "value": "new-tool",
+      "label": "New Tool"
+    },
+    {
+      "value": "enhancement",
+      "label": "Enhancement"
+    },
+    {
+      "value": "bug",
+      "label": "Bug Report"
+    }
+  ],
+  "priorities": [
+    {
+      "value": "low",
+      "label": "Low"
+    },
+    {
+      "value": "medium",
+      "label": "Medium"
+    },
+    {
+      "value": "high",
+      "label": "High"
+    }
+  ]
 };
 
+// Data loading utilities (now using inline data)
 export const loadTools = async () => {
-  const data = await loadData('tools.json');
-  return data?.tools || [];
+  return toolsData;
 };
 
 export const loadFeatureRequests = async () => {
-  const data = await loadData('feature-requests.json');
-  return data?.requests || [];
+  return requestsData;
 };
 
 export const loadConfig = async () => {
-  return await loadData('config.json');
+  return configData;
 };
 
 // Tool filtering and sorting
