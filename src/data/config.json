@@ -51,10 +51,6 @@
       "label": "New Tool"
     },
     {
-      "value": "enhancement",
-      "label": "Enhancement"
-    },
-    {
       "value": "bug",
       "label": "Bug Report"
     }

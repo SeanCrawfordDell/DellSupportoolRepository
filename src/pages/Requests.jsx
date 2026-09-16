@@ -47,7 +47,6 @@ const Requests = () => {
     const labels = {
       feature: 'Feature Request',
       'new-tool': 'New Tool',
-      enhancement: 'Enhancement',
       bug: 'Bug Report'
     };
     return labels[type] || type;
@@ -117,7 +116,6 @@ const Requests = () => {
                   >
                     <option value="feature">Feature Request</option>
                     <option value="new-tool">New Tool</option>
-                    <option value="enhancement">Enhancement</option>
                     <option value="bug">Bug Report</option>
                   </select>
                 </div>
@@ -272,7 +270,6 @@ const Requests = () => {
                   <option value="">All Types</option>
                   <option value="feature">Feature Request</option>
                   <option value="new-tool">New Tool</option>
-                  <option value="enhancement">Enhancement</option>
                   <option value="bug">Bug Report</option>
                 </select>
               </div>
