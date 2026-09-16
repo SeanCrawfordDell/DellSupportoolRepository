@@ -7,7 +7,7 @@ import { getPriorityColor } from '../utils/dataHelpers';
 import { formatDate } from '../utils/dataHelpers';
 
 const Requests = () => {
-  const { filteredRequests, loading, filters, updateFilters, clearFilters, addRequest } = useRequests();
+  const { filteredRequests, loading, filters, updateFilters, clearFilters, addRequest, githubEnabled } = useRequests();
   const { tools } = useTools();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -82,21 +82,39 @@ const Requests = () => {
           </div>
 
           {/* Persistence Notice */}
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-              <div>
-                <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                  Demo Mode - Data Persistence
-                </h3>
-                <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                  Feature requests are currently stored in browser memory only. When you refresh the page, submitted requests will be lost. For production deployment, this would be connected to a backend database or GitHub Issues integration.
-                </p>
+          {githubEnabled ? (
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-6">
+              <div className="flex items-start">
+                <svg className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <h3 className="text-sm font-medium text-green-800 dark:text-green-200">
+                    GitHub Integration Active
+                  </h3>
+                  <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                    Feature requests are synced with GitHub Issues. Submitted requests will be persisted and visible in the GitHub repository.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
+              <div className="flex items-start">
+                <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                  <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                    Demo Mode - Data Persistence
+                  </h3>
+                  <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                    Feature requests are currently stored in browser memory only. When you refresh the page, submitted requests will be lost. To enable GitHub Issues integration, add your GitHub token to the .env file.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Request Form */}
           {showForm && (
