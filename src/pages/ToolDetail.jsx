@@ -6,11 +6,124 @@ import Footer from '../components/layout/Footer';
 import StatusBadge from '../components/tools/StatusBadge';
 import ProgressBar from '../components/ui/ProgressBar';
 import { formatDate } from '../utils/dataHelpers';
+import { getToolTelemetry } from '../services/telemetryApi';
+import { getToolInstructions } from '../services/githubDocumentation';
+import { Chart } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  LineController,
+  BarElement,
+  BarController,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js/auto';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  LineController,
+  BarElement,
+  BarController,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
+
+const currentMonth = () => new Date().toISOString().slice(0, 7);
+
+const monthSpan = (monthly) => {
+  if (!monthly.length) return [];
+
+  const start = new Date(`${monthly[0].Month}-01T00:00:00Z`);
+  const end = new Date(`${monthly[monthly.length - 1].Month}-01T00:00:00Z`);
+  const values = new Map(monthly.map(row => [row.Month, row.Count]));
+  const rows = [];
+
+  for (const date = new Date(start); date <= end; date.setUTCMonth(date.getUTCMonth() + 1)) {
+    const month = date.toISOString().slice(0, 7);
+    rows.push({
+      Month: month,
+      Count: values.has(month) ? values.get(month) : null,
+      complete: month < currentMonth()
+    });
+  }
+
+  return rows;
+};
+
+const linearTrend = (rows) => {
+  const points = rows
+    .map((row, index) => ({ x: index, y: row.Count }))
+    .filter(point => point.y !== null);
+
+  if (points.length < 2) return rows.map(() => null);
+
+  const meanX = points.reduce((sum, point) => sum + point.x, 0) / points.length;
+  const meanY = points.reduce((sum, point) => sum + point.y, 0) / points.length;
+  const denominator = points.reduce((sum, point) => sum + (point.x - meanX) ** 2, 0);
+  if (!denominator) return rows.map(() => null);
+
+  const slope = points.reduce(
+    (sum, point) => sum + (point.x - meanX) * (point.y - meanY),
+    0
+  ) / denominator;
+  const firstComplete = points[0].x;
+  const lastComplete = points.at(-1).x;
+
+  return rows.map((row, index) => (
+    index < firstComplete || index > lastComplete
+      ? null
+      : Math.max(0, meanY + slope * (index - meanX))
+  ));
+};
+
+const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  year: 'numeric'
+}).format(new Date(`${month}-01T00:00:00Z`));
+
+const toolDocumentationAnchors = {
+  'Dell ProSupport ToolBox': '-dell-prosupport-toolbox',
+  AzHCIUrlChecker: '-azhciurlchecker',
+  BOILER: '-boiler',
+  DART: '-dart',
+  FLEP: '-flep',
+  GetHyperVBottlenecks: '-gethypervbottlenecks',
+  'iDRAC Connection Manager': '-idrac-connection-manager',
+  KeyRelay: '-keyrelay',
+  LogCollector: '-logcollector',
+  GetShowTech: '-getshowtech',
+  'SDDC Dell Enhanced': '-sddc-dell-enhanced',
+  'SDDC Offline Dell Enhanced': '-sddc-offline-dell-enhanced',
+  'TSR Collector': '-tsr-collector',
+  TALI: '-tali',
+  FLCkr: '-flckr',
+  'Convert-Etl2Pcap': '-convert-etl2pcap'
+};
+
+const getDocumentationUrl = (tool) => {
+  const anchor = toolDocumentationAnchors[tool.name];
+  return anchor ? `https://github.com/DellProSupportGse/Tools#${anchor}` : tool.documentation;
+};
 
 const ToolDetail = () => {
   const { id } = useParams();
   const [tool, setTool] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [telemetry, setTelemetry] = useState(null);
+  const [telemetryLoading, setTelemetryLoading] = useState(false);
+  const [instructions, setInstructions] = useState(null);
+  const [instructionsLoading, setInstructionsLoading] = useState(false);
+  const [instructionsError, setInstructionsError] = useState(null);
 
   useEffect(() => {
     const fetchTool = async () => {
@@ -18,6 +131,22 @@ const ToolDetail = () => {
         const tools = await loadTools();
         const foundTool = tools.find(t => t.id === id);
         setTool(foundTool);
+        
+        if (foundTool) {
+          setTelemetryLoading(true);
+          getToolTelemetry(foundTool.name)
+            .then(setTelemetry)
+            .finally(() => setTelemetryLoading(false));
+
+          const documentationAnchor = toolDocumentationAnchors[foundTool.name];
+          if (documentationAnchor) {
+            setInstructionsLoading(true);
+            getToolInstructions(documentationAnchor)
+              .then(setInstructions)
+              .catch(error => setInstructionsError(error.message))
+              .finally(() => setInstructionsLoading(false));
+          }
+        }
       } catch (error) {
         console.error('Error loading tool:', error);
       } finally {
@@ -150,9 +279,9 @@ const ToolDetail = () => {
                       View Repository
                     </a>
                   )}
-                  {tool.documentation && (
+                  {getDocumentationUrl(tool) && (
                     <a
-                      href={tool.documentation}
+                      href={getDocumentationUrl(tool)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-secondary"
@@ -207,8 +336,161 @@ const ToolDetail = () => {
                     <p>Last Updated: {formatDate(tool.updatedAt)}</p>
                   </div>
                 </div>
+
+                {/* Monthly Usage Chart */}
+                <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded">
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+                    Monthly Usage
+                  </h3>
+                  {telemetryLoading ? (
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      Loading telemetry data...
+                    </div>
+                  ) : telemetry && telemetry.monthly && telemetry.monthly.length > 0 ? (
+                    (() => {
+                      const rows = monthSpan(telemetry.monthly);
+                      const trend = linearTrend(rows);
+                      const totalRuns = rows.reduce(
+                        (sum, row) => sum + (row.Count ?? 0),
+                        0
+                      );
+
+                      return (
+                        <>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                            All years · {totalRuns.toLocaleString()} reported runs. Gaps indicate missing months, not zero runs. Dashed trend uses complete reported periods only; it is not a forecast.
+                          </p>
+                          <div className="h-72">
+                            <Chart
+                              type="line"
+                              data={{
+                                labels: rows.map(row => formatMonth(row.Month)),
+                                datasets: [
+                                  {
+                                    label: 'Reported runs',
+                                    data: rows.map(row => row.Count),
+                                    borderColor: '#0076ce',
+                                    backgroundColor: '#0076ce',
+                                    borderWidth: 2,
+                                    pointRadius: rows.length > 35 ? 1 : 3,
+                                    pointBackgroundColor: rows.map(row => (
+                                      row.complete ? '#0076ce' : '#91c9ef'
+                                    )),
+                                    tension: 0,
+                                    spanGaps: false
+                                  },
+                                  {
+                                    label: 'Linear trend · complete periods',
+                                    data: trend,
+                                    borderColor: '#d07816',
+                                    borderWidth: 2,
+                                    borderDash: [7, 5],
+                                    pointRadius: 0,
+                                    tension: 0,
+                                    spanGaps: true
+                                  }
+                                ]
+                              }}
+                              options={{
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                animation: false,
+                                interaction: {
+                                  mode: 'index',
+                                  intersect: false
+                                },
+                                plugins: {
+                                  legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                    labels: {
+                                      usePointStyle: false,
+                                      boxWidth: 28,
+                                      padding: 14
+                                    }
+                                  },
+                                  tooltip: {
+                                    callbacks: {
+                                      label: context => (
+                                        `${context.dataset.label}: ${context.parsed.y === null ? 'missing' : context.parsed.y.toLocaleString()} runs`
+                                      )
+                                    }
+                                  }
+                                },
+                                scales: {
+                                  x: {
+                                    title: {
+                                      display: true,
+                                      text: 'Month'
+                                    },
+                                    ticks: {
+                                      autoSkip: true,
+                                      maxTicksLimit: 8,
+                                      maxRotation: 0
+                                    }
+                                  },
+                                  y: {
+                                    beginAtZero: true,
+                                    title: {
+                                      display: true,
+                                      text: 'Runs'
+                                    }
+                                  }
+                                }
+                              }}
+                            />
+                          </div>
+                        </>
+                      );
+                    })()
+                  ) : (
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      No telemetry data available for this tool.
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
+
+            <section className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    Instructions
+                  </h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Loaded live from the tool's GitHub README.
+                  </p>
+                </div>
+                {getDocumentationUrl(tool) && (
+                  <a
+                    href={getDocumentationUrl(tool)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-dell-blue hover:underline"
+                  >
+                    View source on GitHub ↗
+                  </a>
+                )}
+              </div>
+              {instructionsLoading ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Loading the latest instructions...
+                </p>
+              ) : instructionsError ? (
+                <p className="text-sm text-red-600 dark:text-red-400">
+                  Instructions could not be loaded from GitHub right now. Use the source link above to view them.
+                </p>
+              ) : instructions ? (
+                <pre className="max-h-[600px] overflow-auto whitespace-pre-wrap rounded-lg bg-gray-50 dark:bg-gray-700 p-5 text-sm leading-6 text-gray-700 dark:text-gray-300 font-sans">
+                  {instructions}
+                </pre>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No instructions section is available for this tool.
+                </p>
+              )}
+            </section>
           </div>
         </div>
       </main>

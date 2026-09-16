@@ -133,6 +133,7 @@ const Tools = () => {
                       </div>
                       <ProgressBar progress={tool.progress} size="sm" />
                     </div>
+
                     <div className="flex flex-wrap gap-2 mb-4">
                       {tool.tags.slice(0, 3).map(tag => (
                         <span

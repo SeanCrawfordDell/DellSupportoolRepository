@@ -2,7 +2,7 @@
   "tools": [
     {
       "id": "tool-001",
-      "name": "Cloud Resource Optimizer",
+      "name": "KeyRelay",
       "description": "Automated tool for optimizing cloud resource allocation and cost management across multiple cloud providers.",
       "whatItDoes": "Analyzes cloud infrastructure usage patterns, identifies over-provisioned resources, and provides automated recommendations for cost optimization. Supports AWS, Azure, and GCP with real-time monitoring and alerting.",
       "valueProposition": "Reduces cloud spending by up to 30% through intelligent resource optimization, provides visibility into cloud costs across teams, and automates remediation of inefficient resource allocation.",
@@ -38,7 +38,7 @@
     },
     {
       "id": "tool-002",
-      "name": "Compute Capacity Planner",
+      "name": "CluChk",
       "description": "Tool for planning and forecasting compute capacity needs based on historical usage and growth patterns.",
       "whatItDoes": "Collects historical compute usage data, applies machine learning models to forecast future capacity needs, and provides recommendations for hardware procurement and cloud resource allocation.",
       "valueProposition": "Helps prevent capacity shortages, reduces over-provisioning costs, and provides data-driven insights for capacity planning decisions.",
@@ -74,7 +74,7 @@
     },
     {
       "id": "tool-003",
-      "name": "Platform Health Monitor",
+      "name": "DriFT",
       "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
       "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
       "valueProposition": "Improves platform reliability through proactive monitoring, reduces mean time to resolution (MTTR) with automated alerting, and ensures compliance with security and operational standards.",
@@ -116,7 +116,7 @@
     },
     {
       "id": "tool-004",
-      "name": "Deployment Automation Suite",
+      "name": "BOILER",
       "description": "End-to-end automation tool for application deployment across cloud and on-premises environments.",
       "whatItDoes": "Automates the deployment pipeline from code commit to production, including build, test, and deployment phases. Supports multiple deployment strategies including blue-green, canary, and rolling updates.",
       "valueProposition": "Reduces deployment time by 70%, minimizes deployment errors through automation, and provides audit trails for compliance requirements.",
@@ -152,7 +152,7 @@
     },
     {
       "id": "tool-005",
-      "name": "Security Compliance Scanner",
+      "name": "LogCollector",
       "description": "Automated security and compliance scanning tool for cloud infrastructure and applications.",
       "whatItDoes": "Scans cloud infrastructure and applications for security vulnerabilities and compliance issues against industry standards (CIS, NIST, SOC2). Provides automated remediation suggestions and compliance reporting.",
       "valueProposition": "Reduces security risk through continuous scanning, ensures compliance with regulatory requirements, and provides actionable remediation guidance.",
@@ -185,6 +185,114 @@
         }
       ],
       "tags": ["security", "compliance", "scanning", "automation"]
+    },
+    {
+      "id": "tool-006",
+      "name": "DART",
+      "description": "Data analysis and reporting tool for tracking tool usage and performance metrics.",
+      "whatItDoes": "Collects and analyzes tool usage data, generates performance reports, and provides insights for tool optimization and resource allocation.",
+      "valueProposition": "Provides visibility into tool usage patterns, helps identify optimization opportunities, and supports data-driven decision making for tool investments.",
+      "status": "development",
+      "progress": 45,
+      "owner": "Alex Thompson",
+      "team": "Platform",
+      "repository": "https://github.com/dell/dart-tool",
+      "documentation": "https://docs.dell.com/dart",
+      "createdAt": "2024-04-15",
+      "updatedAt": "2024-09-08",
+      "roadmap": [
+        {
+          "feature": "Data collection pipeline",
+          "status": "completed",
+          "targetDate": "2024-06-15",
+          "priority": "high"
+        },
+        {
+          "feature": "Reporting dashboard",
+          "status": "in-progress",
+          "targetDate": "2024-11-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Advanced analytics",
+          "status": "planned",
+          "targetDate": "2025-02-15",
+          "priority": "medium"
+        }
+      ],
+      "tags": ["analytics", "reporting", "data-analysis", "monitoring"]
+    },
+    {
+      "id": "tool-007",
+      "name": "TALI",
+      "description": "Test automation and logging infrastructure for continuous integration and deployment.",
+      "whatItDoes": "Automates test execution, logs test results, and provides comprehensive reporting for CI/CD pipelines. Supports multiple testing frameworks and integration with popular CI/CD tools.",
+      "valueProposition": "Reduces testing time by 50%, improves test coverage through automation, and provides actionable insights for quality improvement.",
+      "status": "testing",
+      "progress": 75,
+      "owner": "Maria Garcia",
+      "team": "Compute",
+      "repository": "https://github.com/dell/tali-tool",
+      "documentation": "https://docs.dell.com/tali",
+      "createdAt": "2024-05-20",
+      "updatedAt": "2024-09-14",
+      "roadmap": [
+        {
+          "feature": "Test framework integration",
+          "status": "completed",
+          "targetDate": "2024-07-15",
+          "priority": "high"
+        },
+        {
+          "feature": "Logging infrastructure",
+          "status": "completed",
+          "targetDate": "2024-08-01",
+          "priority": "high"
+        },
+        {
+          "feature": "CI/CD integration",
+          "status": "in-progress",
+          "targetDate": "2024-10-30",
+          "priority": "high"
+        }
+      ],
+      "tags": ["testing", "automation", "logging", "cicd"]
+    },
+    {
+      "id": "tool-008",
+      "name": "iDRACCMan",
+      "description": "Infrastructure disaster recovery and access control management system.",
+      "whatItDoes": "Manages disaster recovery planning, access control policies, and infrastructure resilience across cloud and on-premises environments.",
+      "valueProposition": "Improves disaster recovery readiness by 80%, ensures compliance with access control requirements, and provides automated failover capabilities.",
+      "status": "released",
+      "progress": 100,
+      "owner": "James Wilson",
+      "team": "Cloud",
+      "repository": "https://github.com/dell/idraccman",
+      "documentation": "https://docs.dell.com/idraccman",
+      "createdAt": "2023-12-01",
+      "updatedAt": "2024-08-25",
+      "roadmap": [
+        {
+          "feature": "DR planning automation",
+          "status": "completed",
+          "targetDate": "2024-04-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Access control integration",
+          "status": "completed",
+          "targetDate": "2024-06-15",
+          "priority": "high"
+        },
+        {
+          "feature": "Multi-cloud support",
+          "status": "in-progress",
+          "targetDate": "2024-12-15",
+          "priority": "high"
+        }
+      ],
+      "tags": ["disaster-recovery", "access-control", "infrastructure", "security"]
     }
   ]
 }
