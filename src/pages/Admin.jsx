@@ -14,6 +14,13 @@ const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
+  const [requestStatusFilter, setRequestStatusFilter] = useState('all');
+  const [editingRequest, setEditingRequest] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    assignedTo: '',
+    status: 'pending',
+    priority: 'medium'
+  });
 
   // Simple password for demo (in production, use proper authentication)
   const ADMIN_PASSWORD = 'isgadmin2024';
@@ -98,6 +105,32 @@ const Admin = () => {
     setIsAuthenticated(false);
     setPassword('');
   };
+
+  const handleEditRequest = (request) => {
+    setEditingRequest(request);
+    setEditFormData({
+      assignedTo: request.assignedTo || '',
+      status: request.status,
+      priority: request.priority
+    });
+  };
+
+  const handleSaveRequestEdit = () => {
+    updateRequest(editingRequest.id, {
+      assignedTo: editFormData.assignedTo,
+      status: editFormData.status,
+      priority: editFormData.priority
+    });
+    setEditingRequest(null);
+  };
+
+  const handleCancelRequestEdit = () => {
+    setEditingRequest(null);
+  };
+
+  const filteredRequests = requestStatusFilter === 'all'
+    ? requests
+    : requests.filter(req => req.status === requestStatusFilter);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -236,51 +269,162 @@ const Admin = () => {
           {/* Requests Tab */}
           {activeTab === 'requests' && (
             <div className="card">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                Manage Feature Requests
-              </h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Manage Requests
+                </h2>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => setRequestStatusFilter('all')}
+                    className={`px-3 py-1 rounded text-sm font-medium ${
+                      requestStatusFilter === 'all'
+                        ? 'bg-dell-blue text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    All ({requests.length})
+                  </button>
+                  <button
+                    onClick={() => setRequestStatusFilter('pending')}
+                    className={`px-3 py-1 rounded text-sm font-medium ${
+                      requestStatusFilter === 'pending'
+                        ? 'bg-dell-blue text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    Pending ({requests.filter(r => r.status === 'pending').length})
+                  </button>
+                  <button
+                    onClick={() => setRequestStatusFilter('in-progress')}
+                    className={`px-3 py-1 rounded text-sm font-medium ${
+                      requestStatusFilter === 'in-progress'
+                        ? 'bg-dell-blue text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    In Progress ({requests.filter(r => r.status === 'in-progress').length})
+                  </button>
+                  <button
+                    onClick={() => setRequestStatusFilter('completed')}
+                    className={`px-3 py-1 rounded text-sm font-medium ${
+                      requestStatusFilter === 'completed'
+                        ? 'bg-dell-blue text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    Completed ({requests.filter(r => r.status === 'completed').length})
+                  </button>
+                </div>
+              </div>
               <div className="space-y-4">
-                {requests.map(request => (
+                {filteredRequests.map(request => (
                   <div key={request.id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white">
-                          {request.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {request.requester} • {request.type}
-                        </p>
+                    {editingRequest?.id === request.id ? (
+                      // Edit Mode
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Assigned To
+                          </label>
+                          <input
+                            type="text"
+                            value={editFormData.assignedTo}
+                            onChange={(e) => setEditFormData({...editFormData, assignedTo: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
+                            placeholder="Enter assignee name"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                              Status
+                            </label>
+                            <select
+                              value={editFormData.status}
+                              onChange={(e) => setEditFormData({...editFormData, status: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="approved">Approved</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="completed">Completed</option>
+                              <option value="declined">Declined</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                              Priority
+                            </label>
+                            <select
+                              value={editFormData.priority}
+                              onChange={(e) => setEditFormData({...editFormData, priority: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
+                            >
+                              <option value="low">Low</option>
+                              <option value="medium">Medium</option>
+                              <option value="high">High</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={handleSaveRequestEdit}
+                            className="px-4 py-2 bg-dell-blue text-white rounded-md hover:bg-blue-700 transition-colors"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={handleCancelRequestEdit}
+                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors"
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        request.priority === 'high' ? 'bg-red-100 text-red-800' :
-                        request.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {request.priority}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                      {request.description}
-                    </p>
-                    <div className="flex items-center space-x-4">
-                      <select
-                        value={request.status}
-                        onChange={(e) => handleRequestStatusChange(request.id, e.target.value)}
-                        className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-800 dark:text-white"
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="declined">Declined</option>
-                      </select>
-                      <button
-                        onClick={() => handleDeleteRequest(request.id)}
-                        className="text-red-600 hover:text-red-800 text-sm"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    ) : (
+                      // View Mode
+                      <>
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h3 className="font-semibold text-gray-900 dark:text-white">
+                              {request.title}
+                            </h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              {request.requester} • {request.type}
+                            </p>
+                            {request.assignedTo && (
+                              <p className="text-sm text-dell-blue dark:text-blue-400">
+                                Assigned to: {request.assignedTo}
+                              </p>
+                            )}
+                          </div>
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                            request.priority === 'high' ? 'bg-red-100 text-red-800' :
+                            request.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {request.priority}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          {request.description}
+                        </p>
+                        <div className="flex items-center space-x-4">
+                          <button
+                            onClick={() => handleEditRequest(request)}
+                            className="text-dell-blue hover:text-blue-700 text-sm font-medium"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteRequest(request.id)}
+                            className="text-red-600 hover:text-red-800 text-sm"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
