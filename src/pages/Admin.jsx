@@ -19,7 +19,8 @@ const Admin = () => {
   const [editFormData, setEditFormData] = useState({
     assignedTo: '',
     status: 'pending',
-    priority: 'medium'
+    priority: 'medium',
+    notes: ''
   });
 
   // Simple password for demo (in production, use proper authentication)
@@ -111,7 +112,8 @@ const Admin = () => {
     setEditFormData({
       assignedTo: request.assignedTo || '',
       status: request.status,
-      priority: request.priority
+      priority: request.priority,
+      notes: request.notes || ''
     });
   };
 
@@ -119,7 +121,8 @@ const Admin = () => {
     updateRequest(editingRequest.id, {
       assignedTo: editFormData.assignedTo,
       status: editFormData.status,
-      priority: editFormData.priority
+      priority: editFormData.priority,
+      notes: editFormData.notes
     });
     setEditingRequest(null);
   };
@@ -314,6 +317,16 @@ const Admin = () => {
                   >
                     Completed ({requests.filter(r => r.status === 'completed').length})
                   </button>
+                  <button
+                    onClick={() => setRequestStatusFilter('declined')}
+                    className={`px-3 py-1 rounded text-sm font-medium ${
+                      requestStatusFilter === 'declined'
+                        ? 'bg-dell-blue text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    Declined ({requests.filter(r => r.status === 'declined').length})
+                  </button>
                 </div>
               </div>
               <div className="space-y-4">
@@ -366,6 +379,18 @@ const Admin = () => {
                             </select>
                           </div>
                         </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Notes
+                          </label>
+                          <textarea
+                            value={editFormData.notes}
+                            onChange={(e) => setEditFormData({...editFormData, notes: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
+                            rows="3"
+                            placeholder="Add notes about this request..."
+                          />
+                        </div>
                         <div className="flex space-x-2">
                           <button
                             onClick={handleSaveRequestEdit}
@@ -392,23 +417,49 @@ const Admin = () => {
                             <p className="text-sm text-gray-600 dark:text-gray-400">
                               {request.requester} • {request.type}
                             </p>
-                            {request.assignedTo && (
-                              <p className="text-sm text-dell-blue dark:text-blue-400">
-                                Assigned to: {request.assignedTo}
-                              </p>
-                            )}
                           </div>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${
-                            request.priority === 'high' ? 'bg-red-100 text-red-800' :
-                            request.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-gray-100 text-gray-800'
-                          }`}>
-                            {request.priority}
-                          </span>
+                          <div className="flex items-center space-x-2">
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              request.priority === 'high' ? 'bg-red-100 text-red-800' :
+                              request.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {request.priority}
+                            </span>
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              request.status === 'pending' ? 'bg-gray-100 text-gray-800' :
+                              request.status === 'approved' ? 'bg-blue-100 text-blue-800' :
+                              request.status === 'in-progress' ? 'bg-yellow-100 text-yellow-800' :
+                              request.status === 'completed' ? 'bg-green-100 text-green-800' :
+                              request.status === 'declined' ? 'bg-red-100 text-red-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {request.status === 'in-progress' ? 'In Progress' :
+                               request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                            </span>
+                          </div>
                         </div>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                           {request.description}
                         </p>
+                        <div className="mb-4">
+                          {request.assignedTo ? (
+                            <p className="text-sm text-dell-blue dark:text-blue-400">
+                              <span className="font-medium">Assigned to:</span> {request.assignedTo}
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                              Not assigned
+                            </p>
+                          )}
+                        </div>
+                        {request.notes && (
+                          <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-md">
+                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                              <span className="font-medium">Notes:</span> {request.notes}
+                            </p>
+                          </div>
+                        )}
                         <div className="flex items-center space-x-4">
                           <button
                             onClick={() => handleEditRequest(request)}
