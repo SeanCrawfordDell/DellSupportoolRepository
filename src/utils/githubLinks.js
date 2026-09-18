@@ -10,6 +10,8 @@ export const githubIssueFormUrl = (type, toolName = '') => {
 
 export const githubStatusChangeUrl = `${repositoryUrl}/issues/new?template=tool_status_change.yml`;
 
+export const githubNewToolRequestUrl = `${repositoryUrl}/issues/new?template=new_tool.md&title=${encodeURIComponent('New tool request')}`;
+
 export const githubNewToolUrl = (tool) => {
   const body = `## Tool details
 

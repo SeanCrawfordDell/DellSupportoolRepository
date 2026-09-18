@@ -6,7 +6,7 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { getPriorityColor } from '../utils/dataHelpers';
 import { formatDate } from '../utils/dataHelpers';
-import { githubIssueFormUrl, githubStatusChangeUrl } from '../utils/githubLinks';
+import { githubIssueFormUrl, githubNewToolRequestUrl, githubStatusChangeUrl } from '../utils/githubLinks';
 
 const Requests = () => {
   const { filteredRequests, loading, filters, updateFilters, clearFilters, addRequest, githubEnabled } = useRequests();
@@ -92,6 +92,9 @@ const Requests = () => {
             <div className="flex flex-wrap gap-2">
               <a href={githubIssueFormUrl('feature')} target="_blank" rel="noopener noreferrer" className="btn-primary">
                 Submit Feature Request
+              </a>
+              <a href={githubNewToolRequestUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-green-700 px-4 py-2 font-medium text-white hover:bg-green-800">
+                New Tool Request
               </a>
               <a href={githubIssueFormUrl('bug')} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-700">
                 Submit a Bug
