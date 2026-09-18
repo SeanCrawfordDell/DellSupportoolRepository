@@ -28,7 +28,7 @@ const Home = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                ISG Tool Tracker
+                ISG Tools Catalog
               </h1>
               <p className="text-xl md:text-2xl mb-8 text-blue-100">
                 Discover tools designed for and by ISG support team members

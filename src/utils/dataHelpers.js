@@ -506,7 +506,7 @@ const requestsData = [
 ];
 
 const configData = {
-  "appName": "ISG Tool Tracker",
+  "appName": "ISG Tools Catalog",
   "version": "1.0.0",
   "description": "Tracking tools for Microsoft, PowerEdge, VMware, Linux, and Frontline support engineers",
   "teams": ["Microsoft DE", "PowerEdge DE", "VMware DE", "Linux DE", "Frontline"],

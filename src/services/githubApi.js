@@ -262,7 +262,7 @@ ${request.notes ? `## Notes
 ${request.notes}` : ''}
 
 ---
-*This issue is synced with the ISG Tool Tracker*`;
+*This issue is synced with the ISG Tools Catalog*`;
 }
 
 /**
