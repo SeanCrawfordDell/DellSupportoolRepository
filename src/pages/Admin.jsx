@@ -4,7 +4,7 @@ import { useRequests } from '../hooks/useRequests';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import StatusBadge from '../components/tools/StatusBadge';
-import { githubNewToolUrl } from '../utils/githubLinks';
+import { githubNewToolUrl, githubToolUpdateUrl } from '../utils/githubLinks';
 
 const Admin = () => {
   const { tools, updateFilters } = useTools();
@@ -12,6 +12,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('tools');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showToolForm, setShowToolForm] = useState(false);
+  const [editingTool, setEditingTool] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
@@ -56,6 +57,23 @@ const Admin = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const startToolEdit = (tool) => {
+    setEditingTool({
+      ...tool,
+      tags: tool.tags.join(', ')
+    });
+  };
+
+  const handleToolEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditingTool(current => ({ ...current, [name]: value }));
+  };
+
+  const submitToolUpdate = (e) => {
+    e.preventDefault();
+    window.open(githubToolUpdateUrl(editingTool), '_blank', 'noopener,noreferrer');
   };
 
   const handleToolSubmit = (e) => {
@@ -219,22 +237,60 @@ const Admin = () => {
                 Manage Tools
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Tool management is currently done through JSON files. Edit the data files directly to add, modify, or remove tools.
+                Edit a tool below to create a Git-backed catalog update. Once reviewed, the update is committed and deployed to the live catalog.
               </p>
               <div className="space-y-4">
                 {tools.map(tool => (
                   <div key={tool.id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white">
-                          {tool.name}
-                        </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {tool.description}
-                        </p>
+                    {editingTool?.id === tool.id ? (
+                      <form onSubmit={submitToolUpdate} className="space-y-4">
+                        <div className="flex items-center justify-between gap-3">
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Edit {tool.name}</h3>
+                          <button type="button" onClick={() => setEditingTool(null)} className="text-sm text-gray-600 hover:underline dark:text-gray-300">Cancel</button>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Owner
+                            <input name="owner" value={editingTool.owner} onChange={handleToolEditChange} required className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                          </label>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Team
+                            <select name="team" value={editingTool.team} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="Cloud">Cloud</option><option value="Compute">Compute</option><option value="Platform">Platform</option></select>
+                          </label>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Category
+                            <input name="category" value={editingTool.category || ''} onChange={handleToolEditChange} required className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                          </label>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Status
+                            <select name="status" value={editingTool.status} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="idea">Idea</option><option value="planning">Planning</option><option value="development">Development</option><option value="testing">Testing</option><option value="released">Released</option><option value="maintenance">Maintenance</option></select>
+                          </label>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Progress (%)
+                            <input type="number" name="progress" min="0" max="100" value={editingTool.progress} onChange={handleToolEditChange} required className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                          </label>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Tags
+                            <input name="tags" value={editingTool.tags} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                          </label>
+                        </div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description
+                          <textarea name="description" value={editingTool.description} onChange={handleToolEditChange} required rows="2" className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">What it does
+                          <textarea name="whatItDoes" value={editingTool.whatItDoes} onChange={handleToolEditChange} required rows="3" className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Value proposition
+                          <textarea name="valueProposition" value={editingTool.valueProposition} onChange={handleToolEditChange} required rows="3" className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
+                        </label>
+                        <div className="flex gap-3"><button type="submit" className="btn-primary">Continue to GitHub</button><button type="button" onClick={() => setEditingTool(null)} className="btn-secondary">Cancel</button></div>
+                      </form>
+                    ) : (
+                      <div className="flex justify-between items-start gap-4">
+                        <div>
+                          <h3 className="font-semibold text-gray-900 dark:text-white">{tool.name}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{tool.description}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <StatusBadge status={tool.status} />
+                          <button onClick={() => startToolEdit(tool)} className="text-sm font-medium text-dell-blue hover:underline">Edit</button>
+                        </div>
                       </div>
-                      <StatusBadge status={tool.status} />
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>

@@ -35,3 +35,31 @@ ${tool.valueProposition}`;
 
   return `${repositoryUrl}/issues/new?template=new_tool.md&title=${encodeURIComponent(`New tool: ${tool.name}`)}&body=${encodeURIComponent(body)}`;
 };
+
+export const githubToolUpdateUrl = (tool) => {
+  const body = `## Tool update
+
+- **Tool ID**: ${tool.id}
+- **Owner**: ${tool.owner}
+- **Team**: ${tool.team}
+- **Category**: ${tool.category || 'Other'}
+- **Status**: ${tool.status}
+- **Progress**: ${tool.progress}%
+- **Repository**: ${tool.repository || 'Not provided'}
+- **Documentation**: ${tool.documentation || 'Not provided'}
+- **Tags**: ${tool.tags || 'Not provided'}
+
+## Description
+
+${tool.description}
+
+## What it does
+
+${tool.whatItDoes}
+
+## Value proposition
+
+${tool.valueProposition}`;
+
+  return `${repositoryUrl}/issues/new?template=tool_update.md&title=${encodeURIComponent(`Catalog update: ${tool.name}`)}&body=${encodeURIComponent(body)}`;
+};
