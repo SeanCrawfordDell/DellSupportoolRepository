@@ -1,5 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 import { loadTools } from '../utils/dataHelpers';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
@@ -7,7 +11,8 @@ import StatusBadge from '../components/tools/StatusBadge';
 import ProgressBar from '../components/ui/ProgressBar';
 import { formatDate } from '../utils/dataHelpers';
 import { getToolTelemetry } from '../services/telemetryApi';
-import { getToolInstructions } from '../services/githubDocumentation';
+import { getToolInstructions, README_URL } from '../services/githubDocumentation';
+import { githubIssueFormUrl } from '../utils/githubLinks';
 import { Chart } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -91,6 +96,27 @@ const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
   year: 'numeric'
 }).format(new Date(`${month}-01T00:00:00Z`));
 
+const quarterlyUsage = (monthly) => {
+  const quarters = new Map();
+
+  monthSpan(monthly).forEach(({ Month, Count }) => {
+    if (Count === null) return;
+
+    const [year, month] = Month.split('-').map(Number);
+    const quarter = Math.ceil(month / 3);
+    const key = `${year}-Q${quarter}`;
+    const current = quarters.get(key) || { year, quarter, runs: 0, reportedMonths: 0 };
+
+    current.runs += Count;
+    current.reportedMonths += 1;
+    quarters.set(key, current);
+  });
+
+  return [...quarters.values()].sort((a, b) => (
+    a.year - b.year || a.quarter - b.quarter
+  ));
+};
+
 const toolDocumentationAnchors = {
   'Dell ProSupport ToolBox': '-dell-prosupport-toolbox',
   AzHCIUrlChecker: '-azhciurlchecker',
@@ -113,6 +139,75 @@ const toolDocumentationAnchors = {
 const getDocumentationUrl = (tool) => {
   const anchor = toolDocumentationAnchors[tool.name];
   return anchor ? `https://github.com/DellProSupportGse/Tools#${anchor}` : tool.documentation;
+};
+
+const readmeAssetUrl = (src) => {
+  if (!src || /^(?:[a-z]+:|#|\/\/)/i.test(src)) return src;
+  return new URL(src, README_URL).href;
+};
+
+const CopyableCodeBlock = ({ children }) => {
+  const [copied, setCopied] = useState(false);
+  const code = Array.isArray(children) ? children[0] : children;
+  const codeText = String(code?.props?.children ?? '').replace(/\n$/, '');
+
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(codeText);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      const textArea = document.createElement('textarea');
+      textArea.value = codeText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      textArea.remove();
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    }
+  };
+
+  return (
+    <div className="relative my-5">
+      <button
+        type="button"
+        onClick={copyCode}
+        className="absolute right-3 top-3 rounded border border-gray-600 bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-100 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        {copied ? 'Copied' : 'Copy'}
+      </button>
+      <pre className="overflow-x-auto rounded-lg bg-gray-950 p-4 pr-20 text-sm leading-6 text-gray-100">{children}</pre>
+    </div>
+  );
+};
+
+const instructionComponents = {
+  h1: ({ children }) => <h2 className="mt-8 text-2xl font-bold text-gray-900 dark:text-white first:mt-0">{children}</h2>,
+  h2: ({ children }) => <h3 className="mt-7 text-xl font-semibold text-gray-900 dark:text-white">{children}</h3>,
+  h3: ({ children }) => <h4 className="mt-6 text-lg font-semibold text-gray-900 dark:text-white">{children}</h4>,
+  p: ({ children }) => <p className="my-4 leading-7 text-gray-700 dark:text-gray-300">{children}</p>,
+  ul: ({ children }) => <ul className="my-4 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">{children}</ul>,
+  ol: ({ children }) => <ol className="my-4 list-decimal space-y-2 pl-6 text-gray-700 dark:text-gray-300">{children}</ol>,
+  li: ({ children }) => <li className="pl-1">{children}</li>,
+  a: ({ href, children }) => (
+    <a href={readmeAssetUrl(href)} target="_blank" rel="noopener noreferrer" className="text-dell-blue underline hover:no-underline">
+      {children}
+    </a>
+  ),
+  img: ({ src, alt }) => (
+    <img src={readmeAssetUrl(src)} alt={alt || ''} loading="lazy" className="my-5 max-h-[560px] max-w-full rounded-lg border border-gray-200 shadow-sm dark:border-gray-600" />
+  ),
+  pre: CopyableCodeBlock,
+  code: ({ className, children }) => (
+    <code className={className || 'rounded bg-gray-200 px-1.5 py-0.5 font-mono text-sm text-gray-900 dark:bg-gray-600 dark:text-gray-100'}>{children}</code>
+  ),
+  blockquote: ({ children }) => <blockquote className="my-5 border-l-4 border-dell-blue pl-4 italic text-gray-600 dark:text-gray-300">{children}</blockquote>,
+  details: ({ children }) => <section className="my-5 rounded-lg border border-gray-200 p-4 dark:border-gray-600">{children}</section>,
+  summary: ({ children }) => <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{children}</h4>,
+  table: ({ children }) => <div className="my-5 overflow-x-auto"><table className="min-w-full border-collapse text-left text-sm">{children}</table></div>,
+  th: ({ children }) => <th className="border border-gray-300 bg-gray-100 px-3 py-2 font-semibold dark:border-gray-600 dark:bg-gray-700">{children}</th>,
+  td: ({ children }) => <td className="border border-gray-300 px-3 py-2 align-top dark:border-gray-600">{children}</td>
 };
 
 const ToolDetail = () => {
@@ -290,6 +385,14 @@ const ToolDetail = () => {
                     </a>
                   )}
                 </div>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <a href={githubIssueFormUrl('bug', tool.name)} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-700">
+                    Submit a Bug
+                  </a>
+                  <a href={githubIssueFormUrl('feature', tool.name)} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                    Feature Request
+                  </a>
+                </div>
               </div>
 
               <div>
@@ -449,6 +552,80 @@ const ToolDetail = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Quarterly Usage Chart */}
+                <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded">
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+                    Quarterly Usage
+                  </h3>
+                  {telemetryLoading ? (
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      Loading telemetry data...
+                    </div>
+                  ) : telemetry?.monthly?.length ? (
+                    (() => {
+                      const quarters = quarterlyUsage(telemetry.monthly);
+
+                      return quarters.length > 0 ? (
+                        <>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                            Totals use reported months only. A quarter with fewer than three reported months is marked as partial.
+                          </p>
+                          <div className="h-64">
+                            <Chart
+                              type="bar"
+                              data={{
+                                labels: quarters.map(({ year, quarter }) => `Q${quarter} ${year}`),
+                                datasets: [{
+                                  label: 'Reported runs',
+                                  data: quarters.map(({ runs }) => runs),
+                                  backgroundColor: quarters.map(({ reportedMonths }) => (
+                                    reportedMonths === 3 ? '#0076ce' : '#91c9ef'
+                                  )),
+                                  borderRadius: 4
+                                }]
+                              }}
+                              options={{
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                animation: false,
+                                plugins: {
+                                  legend: { display: false },
+                                  tooltip: {
+                                    callbacks: {
+                                      label: context => `${context.parsed.y.toLocaleString()} reported runs`,
+                                      afterLabel: context => {
+                                        const { reportedMonths } = quarters[context.dataIndex];
+                                        return reportedMonths === 3
+                                          ? 'All three months reported'
+                                          : `${reportedMonths} of 3 months reported`;
+                                      }
+                                    }
+                                  }
+                                },
+                                scales: {
+                                  x: { title: { display: true, text: 'Quarter' } },
+                                  y: {
+                                    beginAtZero: true,
+                                    title: { display: true, text: 'Runs' }
+                                  }
+                                }
+                              }}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          No quarterly usage data available for this tool.
+                        </div>
+                      );
+                    })()
+                  ) : (
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      No telemetry data available for this tool.
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -482,9 +659,15 @@ const ToolDetail = () => {
                   Instructions could not be loaded from GitHub right now. Use the source link above to view them.
                 </p>
               ) : instructions ? (
-                <pre className="max-h-[600px] overflow-auto whitespace-pre-wrap rounded-lg bg-gray-50 dark:bg-gray-700 p-5 text-sm leading-6 text-gray-700 dark:text-gray-300 font-sans">
-                  {instructions}
-                </pre>
+                <div className="max-h-[900px] overflow-auto rounded-lg bg-gray-50 p-5 dark:bg-gray-700">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                    components={instructionComponents}
+                  >
+                    {instructions}
+                  </ReactMarkdown>
+                </div>
               ) : (
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   No instructions section is available for this tool.

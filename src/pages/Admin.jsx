@@ -4,6 +4,7 @@ import { useRequests } from '../hooks/useRequests';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import StatusBadge from '../components/tools/StatusBadge';
+import { githubNewToolUrl } from '../utils/githubLinks';
 
 const Admin = () => {
   const { tools, updateFilters } = useTools();
@@ -59,36 +60,7 @@ const Admin = () => {
 
   const handleToolSubmit = (e) => {
     e.preventDefault();
-
-    // Create new tool object
-    const newTool = {
-      id: `tool-${String(tools.length + 1).padStart(3, '0')}`,
-      ...toolFormData,
-      tags: toolFormData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-      progress: parseInt(toolFormData.progress),
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0],
-      roadmap: []
-    };
-
-    // Add to tools list (this would normally update the data source)
-    alert(`Tool "${newTool.name}" has been submitted!\n\nNote: In this demo version, the tool is added to memory only. To persist changes, update the data files directly.`);
-
-    // Reset form
-    setToolFormData({
-      name: '',
-      description: '',
-      whatItDoes: '',
-      valueProposition: '',
-      status: 'planning',
-      progress: 0,
-      owner: '',
-      team: 'Platform',
-      repository: '',
-      documentation: '',
-      tags: ''
-    });
-    setShowToolForm(false);
+    window.open(githubNewToolUrl(toolFormData), '_blank', 'noopener,noreferrer');
   };
 
   const handleLogin = (e) => {
@@ -489,7 +461,7 @@ const Admin = () => {
                 Submit New Tool
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Submit a new tool to be added to the ISG Tool Tracker. All fields are required unless marked optional.
+                Submit a new tool to GitHub for review. Approved tools are added to the catalog through a Git commit. All fields are required unless marked optional.
               </p>
 
               <form onSubmit={handleToolSubmit} className="space-y-6">
@@ -671,7 +643,7 @@ const Admin = () => {
                     type="submit"
                     className="px-6 py-2 bg-dell-blue text-white rounded-md hover:bg-blue-700 transition-colors"
                   >
-                    Submit Tool
+                    Continue to GitHub
                   </button>
                   <button
                     type="button"

@@ -11,6 +11,7 @@ export const useTools = () => {
     search: '',
     status: '',
     team: '',
+    category: '',
     tags: []
   });
   const [sortBy, setSortBy] = useState('date');
@@ -47,6 +48,7 @@ export const useTools = () => {
       search: '',
       status: '',
       team: '',
+      category: '',
       tags: []
     });
   };

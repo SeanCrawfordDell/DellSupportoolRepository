@@ -498,9 +498,32 @@ const configData = {
   "priorities": ["low", "medium", "high"]
 };
 
+// Each tool has one primary purpose so the catalog can provide a focused category filter.
+const toolCategories = {
+  'tool-001': 'Tool Access',
+  'tool-002': 'Connectivity',
+  'tool-003': 'Log Analysis',
+  'tool-004': 'Updates & Maintenance',
+  'tool-005': 'Log Analysis',
+  'tool-006': 'Performance Analysis',
+  'tool-007': 'Server Management',
+  'tool-008': 'Productivity',
+  'tool-009': 'Diagnostic Collection',
+  'tool-010': 'Diagnostic Collection',
+  'tool-011': 'Diagnostic Collection',
+  'tool-012': 'Diagnostic Collection',
+  'tool-013': 'Diagnostic Collection',
+  'tool-014': 'Health & Validation',
+  'tool-015': 'Driver Diagnostics',
+  'tool-016': 'Network Analysis'
+};
+
 // Data loading utilities (inline version for production)
 export const loadTools = async () => {
-  return toolsData;
+  return toolsData.map(tool => ({
+    ...tool,
+    category: toolCategories[tool.id] || 'Other'
+  }));
 };
 
 export const loadFeatureRequests = async () => {
@@ -522,6 +545,9 @@ export const filterTools = (tools, filters) => {
       return false;
     }
     if (filters.team && tool.team !== filters.team) {
+      return false;
+    }
+    if (filters.category && tool.category !== filters.category) {
       return false;
     }
     if (filters.tags && filters.tags.length > 0) {

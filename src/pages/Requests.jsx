@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useRequests } from '../hooks/useRequests';
 import { useTools } from '../hooks/useTools';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { getPriorityColor } from '../utils/dataHelpers';
 import { formatDate } from '../utils/dataHelpers';
+import { githubIssueFormUrl, githubStatusChangeUrl } from '../utils/githubLinks';
 
 const Requests = () => {
   const { filteredRequests, loading, filters, updateFilters, clearFilters, addRequest, githubEnabled } = useRequests();
   const { tools } = useTools();
+  const [searchParams] = useSearchParams();
+  const requestType = searchParams.get('type');
+  const relatedToolId = searchParams.get('toolId');
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -19,6 +24,17 @@ const Requests = () => {
     email: '',
     priority: 'medium'
   });
+
+  useEffect(() => {
+    if ((requestType === 'bug' || requestType === 'feature') && relatedToolId) {
+      setFormData(current => ({
+        ...current,
+        type: requestType,
+        toolId: relatedToolId
+      }));
+      setShowForm(true);
+    }
+  }, [requestType, relatedToolId]);
 
   if (loading) {
     return (
@@ -69,16 +85,28 @@ const Requests = () => {
       
       <main className="flex-grow bg-gray-50 dark:bg-gray-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col gap-3 mb-8 sm:flex-row sm:items-center sm:justify-between">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Feature Requests
             </h1>
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="btn-primary"
-            >
-              {showForm ? 'Cancel' : 'Submit Request'}
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <a href={githubIssueFormUrl('feature')} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Submit Feature Request
+              </a>
+              <a href={githubIssueFormUrl('bug')} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-700">
+                Submit a Bug
+              </a>
+            </div>
+          </div>
+
+          <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+            <h2 className="text-sm font-semibold text-blue-900 dark:text-blue-100">Git-backed tracking</h2>
+            <p className="mt-1 text-sm text-blue-800 dark:text-blue-200">
+              Submissions are durable GitHub Issues. Catalog and status changes are reviewed and committed to this repository, then appear after the site deploys.
+            </p>
+            <a href={githubStatusChangeUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm font-medium text-dell-blue hover:underline">
+              Request a catalog or status change ↗
+            </a>
           </div>
 
           {/* Persistence Notice */}
@@ -104,13 +132,13 @@ const Requests = () => {
                 <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <div>
-                  <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                    Demo Mode - Data Persistence
-                  </h3>
-                  <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                    Feature requests are currently stored in browser memory only. When you refresh the page, submitted requests will be lost. To enable GitHub Issues integration, add your GitHub token to the .env file.
-                  </p>
+              <div>
+                <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                  GitHub Issue Forms
+                </h3>
+                <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                  Use the GitHub submission buttons above to create durable bug reports and feature requests without exposing a browser token. This page’s legacy in-browser list remains available for viewing sample data.
+                </p>
                 </div>
               </div>
             </div>

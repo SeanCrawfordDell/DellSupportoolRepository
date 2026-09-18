@@ -1,10 +1,10 @@
 /**
  * GitHub API Service for Feature Request Persistence
- * Syncs feature requests with GitHub Issues
+ * Legacy GitHub API helper. New submissions use GitHub Issue Forms so this
+ * browser application never needs a GitHub credential.
  */
 
 const CONFIG = {
-  token: import.meta.env.VITE_GITHUB_TOKEN,
   owner: import.meta.env.VITE_GITHUB_REPO_OWNER || 'SeanCrawfordDell',
   repo: import.meta.env.VITE_GITHUB_REPO_NAME || 'DellSupportoolRepository',
   baseUrl: 'https://api.github.com'
@@ -35,7 +35,7 @@ const TYPE_LABELS = {
  * Check if GitHub API is configured
  */
 export function isConfigured() {
-  return !!CONFIG.token && CONFIG.token !== 'your_github_token_here';
+  return false;
 }
 
 /**
