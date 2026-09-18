@@ -8,8 +8,8 @@ labels: 'type:catalog-change, status:pending'
 ## Tool update
 
 - **Tool ID**:
-- **Owner**:
 - **Team**:
+- **Region Created**:
 - **Category**:
 - **Status**:
 - **Progress**:

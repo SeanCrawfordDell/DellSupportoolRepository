@@ -315,9 +315,7 @@ const ToolDetail = () => {
                   <span className="text-gray-600 dark:text-gray-400">
                     {tool.team} Team
                   </span>
-                  <span className="text-gray-600 dark:text-gray-400">
-                    Owner: {tool.owner}
-                  </span>
+                  <span className="text-gray-600 dark:text-gray-400">Created in: {tool.regionCreated}</span>
                 </div>
               </div>
               <div className="text-right">

@@ -7,6 +7,9 @@ import StatusBadge from '../components/tools/StatusBadge';
 import ProgressBar from '../components/ui/ProgressBar';
 import { githubIssueFormUrl } from '../utils/githubLinks';
 
+const TEAM_OPTIONS = ['Microsoft DE', 'PowerEdge DE', 'VMware DE', 'Linux DE', 'Frontline'];
+const REGION_OPTIONS = ['North America', 'EMEA', 'LATAM', 'ANZ', 'APJ'];
+
 const Tools = () => {
   const { tools, filteredTools, loading, filters, sortBy, setSortBy, updateFilters, clearFilters } = useTools();
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ const Tools = () => {
             
             {/* Search and Filters */}
             <div className="card mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Search
@@ -80,9 +83,14 @@ const Tools = () => {
                     className="input-field"
                   >
                     <option value="">All Teams</option>
-                    <option value="Cloud">Cloud</option>
-                    <option value="Compute">Compute</option>
-                    <option value="Platform">Platform</option>
+                    {TEAM_OPTIONS.map(team => <option key={team} value={team}>{team}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Region Created</label>
+                  <select value={filters.regionCreated} onChange={(e) => updateFilters({ regionCreated: e.target.value })} className="input-field">
+                    <option value="">All Regions</option>
+                    {REGION_OPTIONS.map(region => <option key={region} value={region}>{region}</option>)}
                   </select>
                 </div>
                 
@@ -154,7 +162,7 @@ const Tools = () => {
                 </div>
               </section>
               
-              {(filters.search || filters.status || filters.team || filters.category) && (
+              {(filters.search || filters.status || filters.team || filters.regionCreated || filters.category) && (
                 <button
                   onClick={clearFilters}
                   className="mt-4 text-sm text-dell-blue hover:underline"
@@ -217,7 +225,7 @@ const Tools = () => {
                     </div>}
                     <div className={`flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 ${view === 'list' ? 'mt-4 sm:mt-0 sm:w-56' : ''}`}>
                       <span>{tool.team}</span>
-                      <span>{tool.owner}</span>
+                      <span>{tool.regionCreated}</span>
                     </div>
                     <div className={`flex flex-wrap gap-2 ${view === 'grid' ? 'mt-4' : 'mt-4 sm:mt-0 sm:w-64 sm:justify-end'}`}>
                       <a onClick={(event) => event.stopPropagation()} href={githubIssueFormUrl('bug', tool.name)} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700">

@@ -13,8 +13,8 @@ export const githubStatusChangeUrl = `${repositoryUrl}/issues/new?template=tool_
 export const githubNewToolUrl = (tool) => {
   const body = `## Tool details
 
-- **Owner**: ${tool.owner}
 - **Team**: ${tool.team}
+- **Region Created**: ${tool.regionCreated || 'North America'}
 - **Initial status**: ${tool.status}
 - **Initial progress**: ${tool.progress}%
 - **Repository**: ${tool.repository}
@@ -40,8 +40,8 @@ export const githubToolUpdateUrl = (tool) => {
   const body = `## Tool update
 
 - **Tool ID**: ${tool.id}
-- **Owner**: ${tool.owner}
 - **Team**: ${tool.team}
+- **Region Created**: ${tool.regionCreated || 'North America'}
 - **Category**: ${tool.category || 'Other'}
 - **Status**: ${tool.status}
 - **Progress**: ${tool.progress}%

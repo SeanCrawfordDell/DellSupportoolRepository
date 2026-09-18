@@ -30,6 +30,6 @@ body:
     id: change
     attributes:
       label: Requested catalog change
-      description: Describe the status, owner, description, category, or other catalog update.
+      description: Describe the status, team, region, description, category, or other catalog update.
     validations:
       required: true

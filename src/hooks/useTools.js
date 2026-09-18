@@ -11,6 +11,7 @@ export const useTools = () => {
     search: '',
     status: '',
     team: '',
+    regionCreated: '',
     category: '',
     tags: []
   });
@@ -48,6 +49,7 @@ export const useTools = () => {
       search: '',
       status: '',
       team: '',
+      regionCreated: '',
       category: '',
       tags: []
     });

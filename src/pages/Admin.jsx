@@ -34,8 +34,8 @@ const Admin = () => {
     valueProposition: '',
     status: 'planning',
     progress: 0,
-    owner: '',
-    team: 'Platform',
+    team: 'Microsoft DE',
+    regionCreated: 'North America',
     repository: '',
     documentation: '',
     tags: ''
@@ -249,11 +249,11 @@ const Admin = () => {
                           <button type="button" onClick={() => setEditingTool(null)} className="text-sm text-gray-600 hover:underline dark:text-gray-300">Cancel</button>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Owner
-                            <input name="owner" value={editingTool.owner} onChange={handleToolEditChange} required className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
-                          </label>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Team
-                            <select name="team" value={editingTool.team} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="Cloud">Cloud</option><option value="Compute">Compute</option><option value="Platform">Platform</option></select>
+                            <select name="team" value={editingTool.team} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="Microsoft DE">Microsoft DE</option><option value="PowerEdge DE">PowerEdge DE</option><option value="VMware DE">VMware DE</option><option value="Linux DE">Linux DE</option><option value="Frontline">Frontline</option></select>
+                          </label>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Region Created
+                            <select name="regionCreated" value={editingTool.regionCreated} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="North America">North America</option><option value="EMEA">EMEA</option><option value="LATAM">LATAM</option><option value="ANZ">ANZ</option><option value="APJ">APJ</option></select>
                           </label>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Category
                             <input name="category" value={editingTool.category || ''} onChange={handleToolEditChange} required className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
@@ -539,21 +539,6 @@ const Admin = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Owner *
-                    </label>
-                    <input
-                      type="text"
-                      name="owner"
-                      value={toolFormData.owner}
-                      onChange={handleToolFormChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
-                      placeholder="e.g., Dell ProSupport GSE"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Team *
                     </label>
                     <select
@@ -563,9 +548,18 @@ const Admin = () => {
                       required
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
                     >
-                      <option value="Platform">Platform</option>
-                      <option value="Cloud">Cloud</option>
-                      <option value="Compute">Compute</option>
+                      <option value="Microsoft DE">Microsoft DE</option>
+                      <option value="PowerEdge DE">PowerEdge DE</option>
+                      <option value="VMware DE">VMware DE</option>
+                      <option value="Linux DE">Linux DE</option>
+                      <option value="Frontline">Frontline</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Region Created *</label>
+                    <select name="regionCreated" value={toolFormData.regionCreated} onChange={handleToolFormChange} required className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white">
+                      <option value="North America">North America</option><option value="EMEA">EMEA</option><option value="LATAM">LATAM</option><option value="ANZ">ANZ</option><option value="APJ">APJ</option>
                     </select>
                   </div>
 

@@ -6,7 +6,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">ISG Tool Tracker</h3>
             <p className="text-gray-400 text-sm">
-              Tracking tools designed, managed, and created by ISG Cloud, Compute, Platform support engineers.
+              Tracking tools designed, managed, and created by Microsoft, PowerEdge, VMware, Linux, and Frontline support engineers.
             </p>
           </div>
           

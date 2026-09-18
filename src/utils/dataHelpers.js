@@ -508,8 +508,8 @@ const requestsData = [
 const configData = {
   "appName": "ISG Tool Tracker",
   "version": "1.0.0",
-  "description": "Tracking tool for ISG Cloud, Compute, and Platform support engineers",
-  "teams": ["Cloud", "Compute", "Platform"],
+  "description": "Tracking tools for Microsoft, PowerEdge, VMware, Linux, and Frontline support engineers",
+  "teams": ["Microsoft DE", "PowerEdge DE", "VMware DE", "Linux DE", "Frontline"],
   "statuses": ["planning", "development", "testing", "released", "maintenance"],
   "requestTypes": ["feature", "improvement", "bug"],
   "priorities": ["low", "medium", "high"]
@@ -536,11 +536,31 @@ const toolCategories = {
   'tool-017': 'Cluster Diagnostics'
 };
 
+const toolTeams = {
+  'tool-001': 'Frontline', 'tool-002': 'Microsoft DE', 'tool-003': 'Microsoft DE',
+  'tool-004': 'Microsoft DE', 'tool-005': 'Microsoft DE', 'tool-006': 'Microsoft DE',
+  'tool-007': 'PowerEdge DE', 'tool-008': 'Frontline', 'tool-009': 'PowerEdge DE',
+  'tool-010': 'Frontline', 'tool-011': 'Microsoft DE', 'tool-012': 'Microsoft DE',
+  'tool-013': 'PowerEdge DE', 'tool-014': 'Microsoft DE', 'tool-015': 'Microsoft DE',
+  'tool-016': 'Frontline', 'tool-017': 'Microsoft DE'
+};
+
+const toolRegions = {
+  'tool-001': 'North America', 'tool-002': 'North America', 'tool-003': 'North America',
+  'tool-004': 'North America', 'tool-005': 'North America', 'tool-006': 'North America',
+  'tool-007': 'North America', 'tool-008': 'North America', 'tool-009': 'North America',
+  'tool-010': 'North America', 'tool-011': 'North America', 'tool-012': 'North America',
+  'tool-013': 'North America', 'tool-014': 'North America', 'tool-015': 'North America',
+  'tool-016': 'North America', 'tool-017': 'North America'
+};
+
 // Data loading utilities (inline version for production)
 export const loadTools = async () => {
   return toolsData.map(tool => ({
     ...tool,
-    category: toolCategories[tool.id] || 'Other'
+    category: toolCategories[tool.id] || 'Other',
+    team: toolTeams[tool.id] || tool.team,
+    regionCreated: toolRegions[tool.id] || 'North America'
   }));
 };
 
@@ -563,6 +583,9 @@ export const filterTools = (tools, filters) => {
       return false;
     }
     if (filters.team && tool.team !== filters.team) {
+      return false;
+    }
+    if (filters.regionCreated && tool.regionCreated !== filters.regionCreated) {
       return false;
     }
     if (filters.category && tool.category !== filters.category) {

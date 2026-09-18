@@ -95,7 +95,7 @@ const Home = () => {
                     </div>
                     <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                       <span className="mr-4">{tool.team}</span>
-                      <span>{tool.owner}</span>
+                      <span>{tool.regionCreated}</span>
                     </div>
                   </div>
                 </Link>

@@ -7,8 +7,8 @@ labels: 'type:new-tool, status:pending'
 
 ## Tool details
 
-- **Owner**:
 - **Team**:
+- **Region Created**:
 - **Initial status**:
 - **Initial progress**:
 - **Repository**:
