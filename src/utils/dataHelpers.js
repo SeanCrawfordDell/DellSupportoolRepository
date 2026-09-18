@@ -443,6 +443,23 @@ const toolsData = [
       }
     ],
     "tags": ["networking", "etl", "pcap", "wireshark", "troubleshooting"]
+  },
+  {
+    "id": "tool-017",
+    "name": "CluChk",
+    "description": "Automated validator for Storage Spaces Direct and Azure Local clusters that checks configurations against industry best practices.",
+    "whatItDoes": "Parses and validates S2D and Azure Local cluster configurations, extracts actionable errors and warnings from cluster logs, evaluates storage, networking, and hardware health, and provides guided troubleshooting context for support engineers.",
+    "valueProposition": "Reduces mean time to resolution for Dell and Microsoft support teams by automating manual log analysis and configuration checks, finding misconfigurations and storage-health risks before they escalate.",
+    "status": "planning",
+    "progress": 0,
+    "owner": "Microsoft DE",
+    "team": "Cloud",
+    "repository": "https://github.com/DellProSupportGse/Tools",
+    "documentation": "https://github.com/DellProSupportGse/Tools",
+    "createdAt": "2026-09-18",
+    "updatedAt": "2026-09-18",
+    "roadmap": [],
+    "tags": ["powershell", "diagnostics", "troubleshooting", "parser", "validation", "s2d", "azure-local"]
   }
 ];
 
@@ -515,7 +532,8 @@ const toolCategories = {
   'tool-013': 'Diagnostic Collection',
   'tool-014': 'Health & Validation',
   'tool-015': 'Driver Diagnostics',
-  'tool-016': 'Network Analysis'
+  'tool-016': 'Network Analysis',
+  'tool-017': 'Cluster Diagnostics'
 };
 
 // Data loading utilities (inline version for production)
