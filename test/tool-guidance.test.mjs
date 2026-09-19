@@ -22,6 +22,6 @@ test("every catalog tool has complete, actionable guidance", async () => {
 test("the page requests the current guidance assets without an old cache entry", async () => {
   const page = await readFile(new URL("../index.html", import.meta.url), "utf8");
 
-  assert.match(page, /tool-guidance\.css\?v=f2e0782/);
-  assert.match(page, /tool-guidance\.js\?v=f2e0782/);
+  assert.match(page, /tool-guidance\.css\?v=demo-free-2/);
+  assert.match(page, /tool-guidance\.js\?v=demo-free-2/);
 });
