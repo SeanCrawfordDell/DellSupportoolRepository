@@ -14,7 +14,6 @@ test("every catalog tool has complete, actionable guidance", async () => {
   for (const [toolId, guidance] of Object.entries(TOOL_GUIDANCE)) {
     assert.ok(guidance.whenToUse.length >= 2, `${toolId} needs at least two use cases`);
     assert.ok(guidance.examples.length >= 2, `${toolId} needs at least two examples`);
-    assert.equal(typeof guidance.demo.title, "string", `${toolId} needs a demo title`);
-    assert.ok(guidance.demo.steps.length >= 3, `${toolId} needs a three-step demo`);
+    assert.equal("demo" in guidance, false, `${toolId} should not include a demo walkthrough`);
   }
 });
