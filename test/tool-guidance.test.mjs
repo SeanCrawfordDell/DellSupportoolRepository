@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 test("every catalog tool has complete, actionable guidance", async () => {
@@ -16,4 +17,11 @@ test("every catalog tool has complete, actionable guidance", async () => {
     assert.ok(guidance.examples.length >= 2, `${toolId} needs at least two examples`);
     assert.equal("demo" in guidance, false, `${toolId} should not include a demo walkthrough`);
   }
+});
+
+test("the page requests the current guidance assets without an old cache entry", async () => {
+  const page = await readFile(new URL("../index.html", import.meta.url), "utf8");
+
+  assert.match(page, /tool-guidance\.css\?v=f2e0782/);
+  assert.match(page, /tool-guidance\.js\?v=f2e0782/);
 });
