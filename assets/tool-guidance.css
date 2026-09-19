@@ -1,0 +1,52 @@
+.tool-guidance-panel {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid #b6d9f2;
+  border-left: 4px solid #0672cb;
+  border-radius: 0.5rem;
+  background: #f2f9ff;
+  color: #1a1a1a;
+}
+
+.tool-guidance-heading {
+  margin: 0 0 0.65rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.tool-guidance-list {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.tool-guidance-list li + li {
+  margin-top: 0.45rem;
+}
+
+.tool-guidance-demo {
+  margin-top: 0.5rem;
+  border-radius: 0.375rem;
+  background: #fff;
+}
+
+.tool-guidance-demo summary {
+  cursor: pointer;
+  padding: 0.75rem;
+  font-weight: 700;
+  color: #0672cb;
+}
+
+.tool-guidance-demo .tool-guidance-list {
+  padding: 0 1rem 1rem 2.25rem;
+  margin-bottom: 0;
+}
+
+.dark .tool-guidance-panel {
+  border-color: #2e7bb4;
+  background: #0e2537;
+  color: #f3f4f6;
+}
+
+.dark .tool-guidance-demo {
+  background: #1f2937;
+}
