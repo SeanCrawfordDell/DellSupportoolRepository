@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' ? '/DellSupportoolRepository/' : '/',
   build: {
+    outDir: 'docs',
     sourcemap: false,
   },
 })
