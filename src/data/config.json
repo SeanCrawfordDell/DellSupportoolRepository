@@ -1,0 +1,67 @@
+{
+  "site": {
+    "title": "ISG Tools Catalog",
+    "description": "Tracking tools designed for ISG support engineers",
+    "version": "1.0.0"
+  },
+  "statuses": [
+    {
+      "value": "idea",
+      "label": "Idea",
+      "color": "gray"
+    },
+    {
+      "value": "planning",
+      "label": "Planning",
+      "color": "blue"
+    },
+    {
+      "value": "development",
+      "label": "Development",
+      "color": "yellow"
+    },
+    {
+      "value": "testing",
+      "label": "Testing",
+      "color": "purple"
+    },
+    {
+      "value": "released",
+      "label": "Released",
+      "color": "green"
+    },
+    {
+      "value": "maintenance",
+      "label": "Maintenance",
+      "color": "indigo"
+    }
+  ],
+  "requestTypes": [
+    {
+      "value": "feature",
+      "label": "Feature Request"
+    },
+    {
+      "value": "new-tool",
+      "label": "New Tool"
+    },
+    {
+      "value": "bug",
+      "label": "Bug Report"
+    }
+  ],
+  "priorities": [
+    {
+      "value": "low",
+      "label": "Low"
+    },
+    {
+      "value": "medium",
+      "label": "Medium"
+    },
+    {
+      "value": "high",
+      "label": "High"
+    }
+  ]
+}
