@@ -8,7 +8,6 @@ import { loadTools } from '../utils/dataHelpers';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import StatusBadge from '../components/tools/StatusBadge';
-import ProgressBar from '../components/ui/ProgressBar';
 import { formatDate } from '../utils/dataHelpers';
 import { getToolTelemetry } from '../services/telemetryApi';
 import { getToolInstructions, README_URL } from '../services/githubDocumentation';
@@ -312,18 +311,8 @@ const ToolDetail = () => {
                 </h1>
                 <div className="flex items-center space-x-4">
                   <StatusBadge status={tool.status} />
-                  <span className="text-gray-600 dark:text-gray-400">
-                    {tool.team} Team
-                  </span>
                   <span className="text-gray-600 dark:text-gray-400">Created in: {tool.regionCreated}</span>
                 </div>
-              </div>
-              <div className="text-right">
-                <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Overall Progress
-                </div>
-                <div className="text-2xl font-bold text-dell-blue">{tool.progress}%</div>
-                <ProgressBar progress={tool.progress} size="md" className="mt-2 w-48" />
               </div>
             </div>
 

@@ -4,10 +4,8 @@ import { useTools } from '../hooks/useTools';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import StatusBadge from '../components/tools/StatusBadge';
-import ProgressBar from '../components/ui/ProgressBar';
 import { githubIssueFormUrl } from '../utils/githubLinks';
 
-const TEAM_OPTIONS = ['Microsoft DE', 'PowerEdge DE', 'VMware DE', 'Linux DE', 'Frontline'];
 const REGION_OPTIONS = ['North America', 'EMEA', 'LATAM', 'ANZ', 'APJ'];
 
 const Tools = () => {
@@ -40,7 +38,7 @@ const Tools = () => {
             
             {/* Search and Filters */}
             <div className="card mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Search
@@ -74,19 +72,6 @@ const Tools = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Team
-                  </label>
-                  <select
-                    value={filters.team}
-                    onChange={(e) => updateFilters({ team: e.target.value })}
-                    className="input-field"
-                  >
-                    <option value="">All Teams</option>
-                    {TEAM_OPTIONS.map(team => <option key={team} value={team}>{team}</option>)}
-                  </select>
-                </div>
-                <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Region Created</label>
                   <select value={filters.regionCreated} onChange={(e) => updateFilters({ regionCreated: e.target.value })} className="input-field">
                     <option value="">All Regions</option>
@@ -105,7 +90,6 @@ const Tools = () => {
                   >
                     <option value="date">Last Updated</option>
                     <option value="name">Name</option>
-                    <option value="progress">Progress</option>
                   </select>
                 </div>
               </div>
@@ -162,7 +146,7 @@ const Tools = () => {
                 </div>
               </section>
               
-              {(filters.search || filters.status || filters.team || filters.regionCreated || filters.category) && (
+              {(filters.search || filters.status || filters.regionCreated || filters.category) && (
                 <button
                   onClick={clearFilters}
                   className="mt-4 text-sm text-dell-blue hover:underline"
@@ -211,23 +195,12 @@ const Tools = () => {
                         {tool.description}
                       </p>
                     </div>
-                    <div className={view === 'grid' ? 'mb-4' : 'mt-4 sm:mt-0 sm:w-48'}>
-                      <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-                        <span>Progress</span>
-                        <span>{tool.progress}%</span>
-                      </div>
-                      <ProgressBar progress={tool.progress} size="sm" />
-                    </div>
                     {view === 'grid' && <div className="flex flex-wrap gap-2 mb-4">
                       {tool.tags.slice(0, 3).map(tag => (
                         <span key={tag} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded">{tag}</span>
                       ))}
                     </div>}
-                    <div className={`flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 ${view === 'list' ? 'mt-4 sm:mt-0 sm:w-56' : ''}`}>
-                      <span>{tool.team}</span>
-                      <span>{tool.regionCreated}</span>
-                    </div>
-                    <div className={`flex flex-wrap gap-2 ${view === 'grid' ? 'mt-4' : 'mt-4 sm:mt-0 sm:w-64 sm:justify-end'}`}>
+                    <div className={`flex flex-wrap gap-2 ${view === 'grid' ? 'mt-4' : 'mt-4 sm:mt-0 sm:flex-none sm:justify-end'}`}>
                       <a onClick={(event) => event.stopPropagation()} href={githubIssueFormUrl('bug', tool.name)} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700">
                         Submit a Bug
                       </a>

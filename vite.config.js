@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/DellSupportoolRepository/',
+  base: process.env.NODE_ENV === 'production' ? '/DellSupportoolRepository/' : '/',
   build: {
     sourcemap: false,
   },

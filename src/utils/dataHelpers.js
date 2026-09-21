@@ -508,8 +508,7 @@ const requestsData = [
 const configData = {
   "appName": "ISG Tools Catalog",
   "version": "1.0.0",
-  "description": "Tracking tools for Microsoft, PowerEdge, VMware, Linux, and Frontline support engineers",
-  "teams": ["Microsoft DE", "PowerEdge DE", "VMware DE", "Linux DE", "Frontline"],
+  "description": "Tracking tools designed for ISG support engineers",
   "statuses": ["planning", "development", "testing", "released", "maintenance"],
   "requestTypes": ["feature", "improvement", "bug"],
   "priorities": ["low", "medium", "high"]
@@ -536,15 +535,6 @@ const toolCategories = {
   'tool-017': 'Cluster Diagnostics'
 };
 
-const toolTeams = {
-  'tool-001': 'Frontline', 'tool-002': 'Microsoft DE', 'tool-003': 'Microsoft DE',
-  'tool-004': 'Microsoft DE', 'tool-005': 'Microsoft DE', 'tool-006': 'Microsoft DE',
-  'tool-007': 'PowerEdge DE', 'tool-008': 'Frontline', 'tool-009': 'PowerEdge DE',
-  'tool-010': 'Frontline', 'tool-011': 'Microsoft DE', 'tool-012': 'Microsoft DE',
-  'tool-013': 'PowerEdge DE', 'tool-014': 'Microsoft DE', 'tool-015': 'Microsoft DE',
-  'tool-016': 'Frontline', 'tool-017': 'Microsoft DE'
-};
-
 const toolRegions = {
   'tool-001': 'North America', 'tool-002': 'North America', 'tool-003': 'North America',
   'tool-004': 'North America', 'tool-005': 'North America', 'tool-006': 'North America',
@@ -559,7 +549,6 @@ export const loadTools = async () => {
   return toolsData.map(tool => ({
     ...tool,
     category: toolCategories[tool.id] || 'Other',
-    team: toolTeams[tool.id] || tool.team,
     regionCreated: toolRegions[tool.id] || 'North America'
   }));
 };
@@ -580,9 +569,6 @@ export const filterTools = (tools, filters) => {
       return false;
     }
     if (filters.status && tool.status !== filters.status) {
-      return false;
-    }
-    if (filters.team && tool.team !== filters.team) {
       return false;
     }
     if (filters.regionCreated && tool.regionCreated !== filters.regionCreated) {
@@ -607,9 +593,6 @@ export const sortTools = (tools, sortBy) => {
       break;
     case 'date':
       sorted.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      break;
-    case 'progress':
-      sorted.sort((a, b) => b.progress - a.progress);
       break;
     default:
       break;
@@ -676,17 +659,14 @@ export const calculateStats = (tools) => {
   const stats = {
     total: tools.length,
     byStatus: {},
-    byTeam: {},
     inDevelopment: 0,
-    released: 0
+    released: 0,
+    testing: 0
   };
 
   tools.forEach(tool => {
     // By status
     stats.byStatus[tool.status] = (stats.byStatus[tool.status] || 0) + 1;
-    
-    // By team
-    stats.byTeam[tool.team] = (stats.byTeam[tool.team] || 0) + 1;
     
     // Development count
     if (tool.status === 'development' || tool.status === 'testing') {
@@ -696,6 +676,11 @@ export const calculateStats = (tools) => {
     // Released count
     if (tool.status === 'released') {
       stats.released++;
+    }
+
+    // Testing count
+    if (tool.status === 'testing') {
+      stats.testing++;
     }
   });
 

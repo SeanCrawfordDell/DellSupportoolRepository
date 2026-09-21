@@ -10,7 +10,6 @@ export const useTools = () => {
   const [filters, setFilters] = useState({
     search: '',
     status: '',
-    team: '',
     regionCreated: '',
     category: '',
     tags: []
@@ -48,7 +47,6 @@ export const useTools = () => {
     setFilters({
       search: '',
       status: '',
-      team: '',
       regionCreated: '',
       category: '',
       tags: []

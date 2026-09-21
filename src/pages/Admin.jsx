@@ -33,8 +33,6 @@ const Admin = () => {
     whatItDoes: '',
     valueProposition: '',
     status: 'planning',
-    progress: 0,
-    team: 'Microsoft DE',
     regionCreated: 'North America',
     repository: '',
     documentation: '',
@@ -249,9 +247,6 @@ const Admin = () => {
                           <button type="button" onClick={() => setEditingTool(null)} className="text-sm text-gray-600 hover:underline dark:text-gray-300">Cancel</button>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Team
-                            <select name="team" value={editingTool.team} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="Microsoft DE">Microsoft DE</option><option value="PowerEdge DE">PowerEdge DE</option><option value="VMware DE">VMware DE</option><option value="Linux DE">Linux DE</option><option value="Frontline">Frontline</option></select>
-                          </label>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Region Created
                             <select name="regionCreated" value={editingTool.regionCreated} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="North America">North America</option><option value="EMEA">EMEA</option><option value="LATAM">LATAM</option><option value="ANZ">ANZ</option><option value="APJ">APJ</option></select>
                           </label>
@@ -260,9 +255,6 @@ const Admin = () => {
                           </label>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Status
                             <select name="status" value={editingTool.status} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"><option value="idea">Idea</option><option value="planning">Planning</option><option value="development">Development</option><option value="testing">Testing</option><option value="released">Released</option><option value="maintenance">Maintenance</option></select>
-                          </label>
-                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Progress (%)
-                            <input type="number" name="progress" min="0" max="100" value={editingTool.progress} onChange={handleToolEditChange} required className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
                           </label>
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Tags
                             <input name="tags" value={editingTool.tags} onChange={handleToolEditChange} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white" />
@@ -538,25 +530,6 @@ const Admin = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Team *
-                    </label>
-                    <select
-                      name="team"
-                      value={toolFormData.team}
-                      onChange={handleToolFormChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
-                    >
-                      <option value="Microsoft DE">Microsoft DE</option>
-                      <option value="PowerEdge DE">PowerEdge DE</option>
-                      <option value="VMware DE">VMware DE</option>
-                      <option value="Linux DE">Linux DE</option>
-                      <option value="Frontline">Frontline</option>
-                    </select>
-                  </div>
-
-                  <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Region Created *</label>
                     <select name="regionCreated" value={toolFormData.regionCreated} onChange={handleToolFormChange} required className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white">
                       <option value="North America">North America</option><option value="EMEA">EMEA</option><option value="LATAM">LATAM</option><option value="ANZ">ANZ</option><option value="APJ">APJ</option>
@@ -580,23 +553,6 @@ const Admin = () => {
                       <option value="released">Released</option>
                       <option value="maintenance">Maintenance</option>
                     </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Progress (%) *
-                    </label>
-                    <input
-                      type="number"
-                      name="progress"
-                      value={toolFormData.progress}
-                      onChange={handleToolFormChange}
-                      required
-                      min="0"
-                      max="100"
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
-                      placeholder="0-100"
-                    />
                   </div>
 
                   <div>

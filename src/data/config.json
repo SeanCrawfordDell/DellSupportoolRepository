@@ -1,14 +1,9 @@
 {
   "site": {
     "title": "ISG Tools Catalog",
-    "description": "Tracking tools designed, managed, and created by ISG Cloud, Compute, Platform support engineers",
+    "description": "Tracking tools designed for ISG support engineers",
     "version": "1.0.0"
   },
-  "teams": [
-    "Cloud",
-    "Compute",
-    "Platform"
-  ],
   "statuses": [
     {
       "value": "idea",

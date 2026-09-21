@@ -70,6 +70,9 @@ function normalizeTelemetryResponse(raw) {
     rowCount,
     latestMonth,
     monthly,
+    daily: extractSeries(data.daily, 'Date'),
+    versions: extractSeries(data.versions, 'Name'),
+    countries: extractSeries(data.countries || data.top10Countries, 'Name'),
     refreshedAt: data.refreshedAt || null
   };
 }
@@ -120,6 +123,14 @@ function extractMonthlyData(data) {
         Count: toCount(monthlyRow[key])
       };
     });
+}
+
+function extractSeries(rows, labelKey) {
+  if (!Array.isArray(rows)) return [];
+
+  return rows
+    .map(row => ({ label: row[labelKey], Count: toCount(row.Count) }))
+    .filter(row => typeof row.label === 'string' && row.label);
 }
 
 function toCount(value) {

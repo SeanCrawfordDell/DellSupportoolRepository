@@ -3,7 +3,6 @@ import { useTools } from '../hooks/useTools';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import StatusBadge from '../components/tools/StatusBadge';
-import ProgressBar from '../components/ui/ProgressBar';
 
 const Home = () => {
   const { tools, stats, loading } = useTools();
@@ -37,6 +36,9 @@ const Home = () => {
                 <Link to="/tools" className="btn-primary bg-white text-dell-blue hover:bg-gray-100">
                   Browse Tools
                 </Link>
+                <Link to="/reports" className="btn-secondary bg-transparent border-2 border-white text-white hover:bg-white hover:text-dell-blue">
+                  View Reports
+                </Link>
                 <Link to="/requests" className="btn-secondary bg-transparent border-2 border-white text-white hover:bg-white hover:text-dell-blue">
                   Submit Request
                 </Link>
@@ -61,6 +63,10 @@ const Home = () => {
                 <div className="card text-center">
                   <div className="text-3xl font-bold text-green-500">{stats.released}</div>
                   <div className="text-gray-600 dark:text-gray-400">Released</div>
+              </div>
+              <div className="card text-center">
+                <div className="text-3xl font-bold text-purple-500">{stats.testing}</div>
+                <div className="text-gray-600 dark:text-gray-400">In Testing</div>
                 </div>
               </div>
             </div>
@@ -86,17 +92,6 @@ const Home = () => {
                     <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                       {tool.description}
                     </p>
-                    <div className="mb-4">
-                      <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-                        <span>Progress</span>
-                        <span>{tool.progress}%</span>
-                      </div>
-                      <ProgressBar progress={tool.progress} size="sm" />
-                    </div>
-                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                      <span className="mr-4">{tool.team}</span>
-                      <span>{tool.regionCreated}</span>
-                    </div>
                   </div>
                 </Link>
               ))}
@@ -113,14 +108,19 @@ const Home = () => {
         <section className="py-16 bg-white dark:bg-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Have a Tool Idea?
+              Explore Tool Usage
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-              Submit a feature request or propose a new tool to help improve our engineering capabilities.
+              View telemetry reports and usage statistics for all tools.
             </p>
-            <Link to="/requests" className="btn-primary">
-              Submit Feature Request
-            </Link>
+            <div className="flex justify-center space-x-4">
+              <Link to="/reports" className="btn-primary">
+                View Reports
+              </Link>
+              <Link to="/requests" className="btn-secondary">
+                Submit Feature Request
+              </Link>
+            </div>
           </div>
         </section>
       </main>

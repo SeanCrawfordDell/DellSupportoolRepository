@@ -6,7 +6,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">ISG Tools Catalog</h3>
             <p className="text-gray-400 text-sm">
-              Tracking tools designed, managed, and created by Microsoft, PowerEdge, VMware, Linux, and Frontline support engineers.
+              Tracking tools designed for ISG support engineers.
             </p>
           </div>
           
@@ -14,6 +14,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li><a href="/tools" className="hover:text-white transition-colors">Tools Catalog</a></li>
+              <li><a href="/reports" className="hover:text-white transition-colors">Reports</a></li>
               <li><a href="/requests" className="hover:text-white transition-colors">Feature Requests</a></li>
               <li><a href="/admin" className="hover:text-white transition-colors">Admin Dashboard</a></li>
             </ul>
