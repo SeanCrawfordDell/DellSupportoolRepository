@@ -1,4 +1,4 @@
-const API_URL = "https://gsetools-bufhdqefb8e6ecc6.centralus-01.azurewebsites.net/api/GetTelemetrySummartFast?code=Gy4_sefRtyq7ZNaN_uAOMb6Ww6zLEIl6Lic2jCUIFXHNAzFu9-7dNQ==";
+const API_URL = "https://gsetools-bufhdqefb8e6ecc6.centralus-01.azurewebsites.net/api/GetTelemetrySummaryFast";
 
 /**
  * Fetch telemetry data for a specific tool
