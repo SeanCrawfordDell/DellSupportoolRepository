@@ -32,9 +32,19 @@ const Tools = () => {
       <main className="flex-grow bg-gray-50 dark:bg-gray-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Tools Catalog
-            </h1>
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Tools Catalog
+              </h1>
+              <a
+                href="https://seancrawforddell.github.io/EscalationQuality/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary"
+              >
+                Escalation Quality
+              </a>
+            </div>
             
             {/* Search and Filters */}
             <div className="card mb-6">
