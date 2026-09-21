@@ -6,6 +6,11 @@ import Footer from '../components/layout/Footer';
 import { loadTools } from '../utils/dataHelpers';
 import { getToolTelemetry } from '../services/telemetryApi';
 
+const TOOL_DEFAULT_MINUTES = {
+  'CluChk': 360,
+  'default': 30
+};
+
 const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
   month: 'short',
   year: 'numeric'
@@ -94,6 +99,12 @@ const Reports = () => {
     getToolTelemetry(selectedTool.name)
       .then(setTelemetry)
       .finally(() => setLoading(false));
+  }, [selectedTool]);
+
+  useEffect(() => {
+    if (selectedTool) {
+      setMinutesPerRun(TOOL_DEFAULT_MINUTES[selectedTool.name] || TOOL_DEFAULT_MINUTES.default);
+    }
   }, [selectedTool]);
 
   const monthly = telemetry?.monthly || [];
