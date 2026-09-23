@@ -23,8 +23,8 @@ test('recent owner corrections and SLIC survive removal of the legacy catalog', 
   }
   const slic = filterTools(tools, { search: 'SLIC' })[0];
   assert.equal(slic?.name, 'SLIC');
-  assert.equal(slic.status, 'testing');
-  assert.equal(slic.progress, 75);
+  assert.equal(slic.status, 'released');
+  assert.equal(slic.progress, 100);
   assert.equal(new URL(slic.repository).pathname, '/DellProSupportGse/Tools');
   assert.notEqual(slic.id, 'tool-008');
 });
@@ -36,5 +36,14 @@ test('catalog supplies valid report estimates without display-name lookup failur
   for (const tool of tools) {
     assert.ok(Number.isFinite(tool.minutesSavedPerRun) && tool.minutesSavedPerRun >= 0);
     assert.ok(tool.category && tool.regionCreated && tool.telemetryName);
+  }
+});
+
+test('SLIC and DriFT are released at full completion', async () => {
+  const tools = await loadTools();
+  for (const name of ['SLIC', 'DriFT']) {
+    const tool = tools.find(item => item.name === name);
+    assert.equal(tool?.status, 'released', `${name} should be released`);
+    assert.equal(tool?.progress, 100, `${name} should show full completion`);
   }
 });
