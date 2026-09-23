@@ -194,7 +194,7 @@
       "valueProposition": "Provides visibility into tool usage patterns, helps identify optimization opportunities, and supports data-driven decision making for tool investments.",
       "status": "development",
       "progress": 45,
-      "owner": "Alex Thompson",
+      "owner": "Jim Gandy",
       "team": "Platform",
       "repository": "https://github.com/dell/dart-tool",
       "documentation": "https://docs.dell.com/dart",
@@ -230,7 +230,7 @@
       "valueProposition": "Reduces testing time by 50%, improves test coverage through automation, and provides actionable insights for quality improvement.",
       "status": "testing",
       "progress": 75,
-      "owner": "Maria Garcia",
+      "owner": "Jim Gandy",
       "team": "Compute",
       "repository": "https://github.com/dell/tali-tool",
       "documentation": "https://docs.dell.com/tali",
@@ -266,7 +266,7 @@
       "valueProposition": "Improves disaster recovery readiness by 80%, ensures compliance with access control requirements, and provides automated failover capabilities.",
       "status": "released",
       "progress": 100,
-      "owner": "James Wilson",
+      "owner": "Jim Gandy",
       "team": "Cloud",
       "repository": "https://github.com/dell/idraccman",
       "documentation": "https://docs.dell.com/idraccman",
@@ -293,6 +293,20 @@
         }
       ],
       "tags": ["disaster-recovery", "access-control", "infrastructure", "security"]
-    }
+    },
+    {
+            "id": "tool-008",
+      "name": "SLIC",
+      "description": "SLIC automatically parses switch logs and provides an HTML output for Dell Switches",
+      "whatItDoes": "SLIC automatically parses switch logs and provides an HTML output for Dell Switches",
+      "valueProposition": "SLIC automatically parses switch logs and provides an HTML output for Dell Switches",
+      "status": "testing",
+      "progress": 75,
+      "owner": "Jim Gandy",
+      "team": "Compute",
+      "repository": "https://github.com/[DellProSupportGse/Tools](https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/[DellProSupportGse/Tools](https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2024-05-20",
+      "updatedAt": "2024-09-14",
   ]
 }
