@@ -47,3 +47,16 @@ test('SLIC and DriFT are released at full completion', async () => {
     assert.equal(tool?.progress, 100, `${name} should show full completion`);
   }
 });
+
+test('DriFT description explains its Dell driver and firmware validation workflow', async () => {
+  const drift = (await loadTools()).find(item => item.name === 'DriFT');
+  assert.match(drift.description, /driver and firmware validation.*Windows and Azure Local servers/i);
+  for (const detail of ['recommended code currency', 'direct links to the appropriate Dell packages', 'HTML report']) {
+    assert.ok(drift.whatItDoes.toLowerCase().includes(detail.toLowerCase()), `DriFT workflow should mention ${detail}`);
+  }
+  for (const detail of ['10 to 20 minutes', 'less than 2 minutes', 'security vulnerabilities', 'third-party software']) {
+    assert.ok(drift.valueProposition.toLowerCase().includes(detail.toLowerCase()), `DriFT value proposition should mention ${detail}`);
+  }
+  assert.equal(drift.status, 'released');
+  assert.equal(drift.progress, 100);
+});
