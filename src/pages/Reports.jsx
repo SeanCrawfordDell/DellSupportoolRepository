@@ -6,16 +6,7 @@ import Footer from '../components/layout/Footer';
 import { useTools } from '../hooks/useTools';
 import { useToolTelemetry } from '../hooks/useToolTelemetry';
 import { createEndpointPreservingTickCallback } from '../utils/chartTicks';
-
-const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  year: 'numeric'
-}).format(new Date(`${month}-01T00:00:00Z`));
-
-const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: 'numeric'
-}).format(new Date(`${date}T00:00:00Z`));
+import { formatReportDate as formatDate, formatReportMonth as formatMonth } from '../utils/reportFormatting';
 
 const buildQuarterlySeries = (monthly) => {
   const quarters = new Map();

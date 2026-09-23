@@ -13,6 +13,7 @@ import { getToolTelemetry } from '../services/telemetryApi';
 import { getToolInstructions, README_URL } from '../services/githubDocumentation';
 import { githubIssueFormUrl } from '../utils/githubLinks';
 import { createEndpointPreservingTickCallback } from '../utils/chartTicks';
+import { formatReportMonth as formatMonth } from '../utils/reportFormatting';
 import { Chart } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -97,11 +98,6 @@ const linearTrend = (rows) => {
       : Math.max(0, meanY + slope * (index - meanX))
   ));
 };
-
-const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  year: 'numeric'
-}).format(new Date(`${month}-01T00:00:00Z`));
 
 const quarterlyUsage = (monthly) => {
   const quarters = new Map();
