@@ -116,27 +116,8 @@ const quarterlyUsage = (monthly) => {
   ));
 };
 
-const toolDocumentationAnchors = {
-  'Dell ProSupport ToolBox': '-dell-prosupport-toolbox',
-  AzHCIUrlChecker: '-azhciurlchecker',
-  BOILER: '-boiler',
-  DART: '-dart',
-  FLEP: '-flep',
-  GetHyperVBottlenecks: '-gethypervbottlenecks',
-  'iDRAC Connection Manager': '-idrac-connection-manager',
-  KeyRelay: '-keyrelay',
-  LogCollector: '-logcollector',
-  GetShowTech: '-getshowtech',
-  'SDDC Dell Enhanced': '-sddc-dell-enhanced',
-  'SDDC Offline Dell Enhanced': '-sddc-offline-dell-enhanced',
-  'TSR Collector': '-tsr-collector',
-  TALI: '-tali',
-  FLCkr: '-flckr',
-  'Convert-Etl2Pcap': '-convert-etl2pcap'
-};
-
 const getDocumentationUrl = (tool) => {
-  const anchor = toolDocumentationAnchors[tool.name];
+  const anchor = tool.documentationAnchor;
   return anchor ? `https://github.com/DellProSupportGse/Tools#${anchor}` : tool.documentation;
 };
 
@@ -228,11 +209,11 @@ const ToolDetail = () => {
         
         if (foundTool) {
           setTelemetryLoading(true);
-          getToolTelemetry(foundTool.name)
+          getToolTelemetry(foundTool.telemetryName)
             .then(setTelemetry)
             .finally(() => setTelemetryLoading(false));
 
-          const documentationAnchor = toolDocumentationAnchors[foundTool.name];
+          const documentationAnchor = foundTool.documentationAnchor;
           if (documentationAnchor) {
             setInstructionsLoading(true);
             getToolInstructions(documentationAnchor)

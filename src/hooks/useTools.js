@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { loadTools, filterTools, sortTools, calculateStats } from '../utils/dataHelpers';
 
 export const useTools = () => {
   const [tools, setTools] = useState([]);
-  const [filteredTools, setFilteredTools] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,11 +32,10 @@ export const useTools = () => {
     fetchTools();
   }, []);
 
-  useEffect(() => {
-    let result = filterTools(tools, filters);
-    result = sortTools(result, sortBy);
-    setFilteredTools(result);
-  }, [tools, filters, sortBy]);
+  const filteredTools = useMemo(
+    () => sortTools(filterTools(tools, filters), sortBy),
+    [tools, filters, sortBy]
+  );
 
   const updateFilters = (newFilters) => {
     setFilters(prev => ({ ...prev, ...newFilters }));

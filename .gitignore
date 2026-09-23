@@ -27,3 +27,10 @@ dist-ssr
 .env
 .env.local
 .env.production
+
+# Generated analysis and obsolete deployment locations
+graphify-out/
+/assets/
+/data/
+/public/assets/
+/public/data/

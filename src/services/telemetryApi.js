@@ -5,16 +5,13 @@ const API_URL = "https://gsetools-bufhdqefb8e6ecc6.centralus-01.azurewebsites.ne
  * @param {string} toolName - The name of the tool to fetch telemetry for
  * @returns {Promise<Object>} - Normalized telemetry data
  */
-export async function getToolTelemetry(toolName) {
+export async function getToolTelemetry(toolName, { signal } = {}) {
   try {
     const url = new URL(API_URL);
     url.searchParams.set('tool', toolName);
     
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 20000);
-    
-    const response = await fetch(url, { signal: controller.signal });
-    clearTimeout(timer);
+    const timeout = AbortSignal.timeout(20000);
+    const response = await fetch(url, { signal: signal ? AbortSignal.any([signal, timeout]) : timeout });
     
     if (!response.ok) {
       throw new Error('Telemetry request failed');
@@ -23,28 +20,10 @@ export async function getToolTelemetry(toolName) {
     const raw = await response.json();
     return normalizeTelemetryResponse(raw);
   } catch (error) {
+    if (signal?.aborted) return null;
     console.error(`Failed to fetch telemetry for ${toolName}:`, error);
     return null;
   }
-}
-
-/**
- * Fetch telemetry data for multiple tools in parallel
- * @param {Array<string>} toolNames - Array of tool names to fetch telemetry for
- * @returns {Promise<Map<string, Object>>} - Map of tool names to telemetry data
- */
-export async function getAllToolsTelemetry(toolNames) {
-  const telemetryMap = new Map();
-  
-  const promises = toolNames.map(async (toolName) => {
-    const data = await getToolTelemetry(toolName);
-    if (data) {
-      telemetryMap.set(toolName, data);
-    }
-  });
-  
-  await Promise.all(promises);
-  return telemetryMap;
 }
 
 /**
