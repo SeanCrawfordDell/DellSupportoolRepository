@@ -460,6 +460,48 @@ const toolsData = [
     "updatedAt": "2026-09-18",
     "roadmap": [],
     "tags": ["powershell", "diagnostics", "troubleshooting", "parser", "validation", "s2d", "azure-local"]
+  },
+  {
+    "id": "tool-018",
+    "name": "DriFT",
+    "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
+    "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
+    "valueProposition": "Improves platform reliability through proactive monitoring, reduces mean time to resolution (MTTR) with automated alerting, and ensures compliance with security and operational standards.",
+    "status": "testing",
+    "progress": 85,
+    "owner": "Emily Watson",
+    "team": "Platform",
+    "repository": "https://github.com/dell/platform-health-monitor",
+    "documentation": "https://docs.dell.com/platform-monitor",
+    "createdAt": "2024-02-20",
+    "updatedAt": "2024-09-12",
+    "roadmap": [
+      {
+        "feature": "Core monitoring infrastructure",
+        "status": "completed",
+        "targetDate": "2024-05-15",
+        "priority": "high"
+      },
+      {
+        "feature": "Alerting system",
+        "status": "completed",
+        "targetDate": "2024-07-01",
+        "priority": "high"
+      },
+      {
+        "feature": "Custom dashboard builder",
+        "status": "in-progress",
+        "targetDate": "2024-10-01",
+        "priority": "medium"
+      },
+      {
+        "feature": "Mobile app",
+        "status": "planned",
+        "targetDate": "2025-01-15",
+        "priority": "low"
+      }
+    ],
+    "tags": ["monitoring", "alerting", "health-checks", "dashboard"]
   }
 ];
 
@@ -532,7 +574,8 @@ const toolCategories = {
   'tool-014': 'Health & Validation',
   'tool-015': 'Driver Diagnostics',
   'tool-016': 'Network Analysis',
-  'tool-017': 'Cluster Diagnostics'
+  'tool-017': 'Cluster Diagnostics',
+  'tool-018': 'Monitoring'
 };
 
 const toolRegions = {
@@ -541,7 +584,7 @@ const toolRegions = {
   'tool-007': 'North America', 'tool-008': 'North America', 'tool-009': 'North America',
   'tool-010': 'North America', 'tool-011': 'North America', 'tool-012': 'North America',
   'tool-013': 'North America', 'tool-014': 'North America', 'tool-015': 'North America',
-  'tool-016': 'North America', 'tool-017': 'North America'
+  'tool-016': 'North America', 'tool-017': 'North America', 'tool-018': 'North America'
 };
 
 // Data loading utilities (inline version for production)
