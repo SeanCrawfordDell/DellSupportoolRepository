@@ -44,6 +44,13 @@ ChartJS.register(
 
 const currentMonth = () => new Date().toISOString().slice(0, 7);
 
+const detailMarkdownComponents = {
+  p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
+  ul: ({ children }) => <ul className="mb-3 list-disc space-y-1 pl-6 last:mb-0">{children}</ul>,
+  li: ({ children }) => <li>{children}</li>,
+  h4: ({ children }) => <h3 className="mt-5 mb-2 text-lg font-semibold text-gray-900 dark:text-white">{children}</h3>,
+};
+
 const monthSpan = (monthly) => {
   if (!monthly.length) return [];
 
@@ -302,16 +309,20 @@ const ToolDetail = () => {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   Description
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                <div className="text-gray-600 dark:text-gray-400 mb-6">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={detailMarkdownComponents}>
                   {tool.description}
-                </p>
+                  </ReactMarkdown>
+                </div>
 
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   What It Does
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                <div className="text-gray-600 dark:text-gray-400 mb-6">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={detailMarkdownComponents}>
                   {tool.whatItDoes}
-                </p>
+                  </ReactMarkdown>
+                </div>
 
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   Value Proposition
@@ -319,11 +330,7 @@ const ToolDetail = () => {
                 <div className="text-gray-600 dark:text-gray-400 mb-6">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
-                    components={{
-                      p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
-                      ul: ({ children }) => <ul className="mb-3 list-disc space-y-1 pl-6 last:mb-0">{children}</ul>,
-                      li: ({ children }) => <li>{children}</li>,
-                    }}
+                    components={detailMarkdownComponents}
                   >
                     {tool.valueProposition}
                   </ReactMarkdown>

@@ -70,3 +70,27 @@ By automating firmware and driver validation, Drift helps support engineers quic
   assert.equal(drift.status, 'released');
   assert.equal(drift.progress, 100);
 });
+
+test('SLIC description and details use the approved wording', async () => {
+  const slic = (await loadTools()).find(item => item.name === 'SLIC');
+  assert.equal(slic.description, `SLIC is a Dell switch log analysis tool designed for Azure Local environments. It parses Dell switch logs, validates switch configurations against Azure Local recommended settings, and generates a detailed HTML report for troubleshooting and compliance review.`);
+  assert.equal(slic.whatItDoes, `- Reads and analyzes raw Dell switch log files.
+- Extracts key events, errors, warnings, and operational status information.
+- Compares switch configurations against Azure Local validated and recommended settings.
+- Identifies configuration drift, misconfigurations, and compliance gaps.
+- Generates a clear, easy-to-read HTML report with summarized findings, tables, and visualizations where applicable.`);
+  assert.equal(slic.valueProposition, `SLIC significantly reduces the time and effort required to review and validate switch configurations in Azure Local deployments.
+
+Key benefits include:
+
+- Automates the analysis of large and complex switch log files.
+- Quickly identifies configuration issues and deviations from validated Azure Local standards.
+- Produces a shareable HTML report that simplifies troubleshooting and customer communication.
+- Helps administrators and support engineers detect critical events, errors, and warnings that might otherwise be overlooked.
+- Improves operational consistency by validating network configurations against known best practices.
+- Accelerates root cause analysis and reduces troubleshooting time during support engagements.
+
+#### Business Impact
+
+By automating switch log analysis and configuration validation, SLIC helps support teams rapidly assess network health, identify configuration drift, and ensure Azure Local environments remain aligned with recommended configurations. This leads to faster issue resolution, improved operational reliability, and a more efficient support experience.`);
+});
