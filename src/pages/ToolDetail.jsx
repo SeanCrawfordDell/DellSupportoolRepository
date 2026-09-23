@@ -316,9 +316,18 @@ const ToolDetail = () => {
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   Value Proposition
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  {tool.valueProposition}
-                </p>
+                <div className="text-gray-600 dark:text-gray-400 mb-6">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
+                      ul: ({ children }) => <ul className="mb-3 list-disc space-y-1 pl-6 last:mb-0">{children}</ul>,
+                      li: ({ children }) => <li>{children}</li>,
+                    }}
+                  >
+                    {tool.valueProposition}
+                  </ReactMarkdown>
+                </div>
 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {tool.tags.map(tag => (

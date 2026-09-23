@@ -48,15 +48,25 @@ test('SLIC and DriFT are released at full completion', async () => {
   }
 });
 
-test('DriFT description explains its Dell driver and firmware validation workflow', async () => {
+test('DriFT description and value proposition use the approved wording', async () => {
   const drift = (await loadTools()).find(item => item.name === 'DriFT');
   assert.match(drift.description, /driver and firmware validation.*Windows and Azure Local servers/i);
   for (const detail of ['recommended code currency', 'direct links to the appropriate Dell packages', 'HTML report']) {
     assert.ok(drift.whatItDoes.toLowerCase().includes(detail.toLowerCase()), `DriFT workflow should mention ${detail}`);
   }
-  for (const detail of ['10 to 20 minutes', 'less than 2 minutes', 'security vulnerabilities', 'third-party software']) {
-    assert.ok(drift.valueProposition.toLowerCase().includes(detail.toLowerCase()), `DriFT value proposition should mention ${detail}`);
-  }
+  assert.equal(drift.valueProposition, `Drift dramatically reduces the time required to assess server compliance and update status. Tasks that traditionally take 10 to 20 minutes per server can be completed in less than 2 minutes.
+
+Key benefits include:
+
+- Rapid validation of firmware and driver compliance against Dell best practices.
+- Automated identification of missing updates and recommended remediation actions.
+- Easy-to-share HTML reporting for customers and support teams.
+- Improved visibility into the patch levels of customer environments without requiring third-party software.
+- Faster identification of potential security vulnerabilities caused by missing firmware or driver updates.
+- Reduced troubleshooting and assessment time, enabling support engineers to focus on resolving customer issues.
+
+Business Impact
+By automating firmware and driver validation, Drift helps support engineers quickly assess system health, improve security posture, and accelerate customer support engagements. The result is faster issue resolution, increased operational efficiency, and a more consistent approach to maintaining server compliance.`);
   assert.equal(drift.status, 'released');
   assert.equal(drift.progress, 100);
 });
