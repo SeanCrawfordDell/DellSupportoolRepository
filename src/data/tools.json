@@ -639,9 +639,9 @@
     {
       "id": "tool-018",
       "name": "DriFT",
-      "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
-      "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
-      "valueProposition": "Improves platform reliability through proactive monitoring, reduces mean time to resolution (MTTR) with automated alerting, and ensures compliance with security and operational standards.",
+      "description": "Driver and firmware validation tool for Windows and Azure Local servers.",
+      "whatItDoes": "Quickly validates server firmware and driver versions against Dell's recommended code currency standards. Identifies outdated components, the updates required to bring them into compliance, and direct links to the appropriate Dell packages. Presents the results in a clear HTML report that can be shared with customers or support engineers, without requiring third-party software.",
+      "valueProposition": "Reduces server firmware and driver compliance assessments from 10 to 20 minutes to less than 2 minutes per server. Rapidly checks Dell best practices, identifies missing updates, and provides recommended remediation actions in an easy-to-share report, without requiring third-party software. Improves visibility into customer patch levels and helps identify potential security vulnerabilities caused by missing firmware or driver updates. By automating these checks, DriFT helps support engineers assess server health more consistently, improve security posture, and focus on resolving customer issues, accelerating support engagements and issue resolution.",
       "status": "released",
       "progress": 100,
       "owner": "Emily Watson",
@@ -649,7 +649,7 @@
       "repository": "https://github.com/dell/platform-health-monitor",
       "documentation": "https://docs.dell.com/platform-monitor",
       "createdAt": "2024-02-20",
-      "updatedAt": "2024-09-12",
+      "updatedAt": "2026-09-23",
       "roadmap": [
         {
           "feature": "Core monitoring infrastructure",
