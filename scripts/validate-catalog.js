@@ -5,7 +5,7 @@ try {
   const { tools } = JSON.parse(await readFile(path, 'utf8'));
   if (!Array.isArray(tools) || !tools.length) throw new Error('Catalog must contain tools');
   const ids = new Set();
-  const statuses = new Set(['planning', 'development', 'testing', 'released', 'maintenance']);
+  const statuses = new Set(['planning', 'development', 'testing', 'internal-testing', 'released', 'maintenance']);
   for (const tool of tools) {
     if (ids.has(tool.id)) throw new Error(`Duplicate tool id: ${tool.id}`);
     ids.add(tool.id);
@@ -13,7 +13,10 @@ try {
       if (typeof tool[field] !== 'string' || !tool[field].trim()) throw new Error(`${tool.id}: missing ${field}`);
     }
     if (!statuses.has(tool.status)) throw new Error(`${tool.id}: invalid status`);
-    if (!Number.isFinite(tool.progress) || tool.progress < 0 || tool.progress > 100) throw new Error(`${tool.id}: progress must be 0–100`);
+    const validProgress = Number.isFinite(tool.progress)
+      ? tool.progress >= 0 && tool.progress <= 100
+      : typeof tool.progress === 'string' && Boolean(tool.progress.trim());
+    if (!validProgress) throw new Error(`${tool.id}: progress must be 0–100 or a non-empty stage label`);
     if (!Number.isFinite(tool.minutesSavedPerRun) || tool.minutesSavedPerRun < 0) throw new Error(`${tool.id}: invalid minutesSavedPerRun`);
     if (!Array.isArray(tool.tags) || !tool.tags.every(tag => typeof tag === 'string') || !Array.isArray(tool.roadmap)) throw new Error(`${tool.id}: tags and roadmap must be arrays`);
     for (const field of ['repository', 'documentation']) {

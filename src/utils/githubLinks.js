@@ -21,8 +21,8 @@ export const githubToolUpdateUrl = (tool) => {
 - **Team**: ${tool.team}
 - **Region Created**: ${tool.regionCreated || 'North America'}
 - **Category**: ${tool.category || 'Other'}
-- **Status**: ${tool.status}
-- **Progress**: ${tool.progress}%
+- **Status**: ${tool.status === 'internal-testing' ? 'Internal Testing' : tool.status}
+- **Progress**: ${typeof tool.progress === 'number' ? `${tool.progress}%` : tool.progress || 'Not provided'}
 - **Repository**: ${tool.repository || 'Not provided'}
 - **Documentation**: ${tool.documentation || 'Not provided'}
 - **Tags**: ${(Array.isArray(tool.tags) ? tool.tags.join(', ') : tool.tags) || 'Not provided'}

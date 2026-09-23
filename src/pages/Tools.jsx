@@ -76,6 +76,7 @@ const Tools = () => {
                     <option value="planning">Planning</option>
                     <option value="development">Development</option>
                     <option value="testing">Testing</option>
+                    <option value="internal-testing">Internal Testing</option>
                     <option value="released">Released</option>
                     <option value="maintenance">Maintenance</option>
                   </select>
