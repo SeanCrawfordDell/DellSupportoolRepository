@@ -487,18 +487,6 @@ const toolsData = [
         "status": "completed",
         "targetDate": "2024-07-01",
         "priority": "high"
-      },
-      {
-        "feature": "Custom dashboard builder",
-        "status": "in-progress",
-        "targetDate": "2024-10-01",
-        "priority": "medium"
-      },
-      {
-        "feature": "Mobile app",
-        "status": "planned",
-        "targetDate": "2025-01-15",
-        "priority": "low"
       }
     ],
     "tags": ["monitoring", "alerting", "health-checks", "dashboard"]
