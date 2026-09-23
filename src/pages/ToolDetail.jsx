@@ -12,6 +12,7 @@ import { formatDate } from '../utils/dataHelpers';
 import { getToolTelemetry } from '../services/telemetryApi';
 import { getToolInstructions, README_URL } from '../services/githubDocumentation';
 import { githubIssueFormUrl } from '../utils/githubLinks';
+import { createEndpointPreservingTickCallback } from '../utils/chartTicks';
 import { Chart } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -511,10 +512,11 @@ const ToolDetail = () => {
                                       text: 'Month'
                                     },
                                     ticks: {
-                                      autoSkip: true,
-                                      maxTicksLimit: 8,
+                                      autoSkip: false,
+                                      callback: createEndpointPreservingTickCallback(8),
                                       maxRotation: 0
-                                    }
+                                    },
+                                    grid: { display: false }
                                   },
                                   y: {
                                     beginAtZero: true,
@@ -588,7 +590,14 @@ const ToolDetail = () => {
                                   }
                                 },
                                 scales: {
-                                  x: { title: { display: true, text: 'Quarter' } },
+                                  x: {
+                                    title: { display: true, text: 'Quarter' },
+                                    ticks: {
+                                      autoSkip: false,
+                                      callback: createEndpointPreservingTickCallback(8)
+                                    },
+                                    grid: { display: false }
+                                  },
                                   y: {
                                     beginAtZero: true,
                                     title: { display: true, text: 'Runs' }
