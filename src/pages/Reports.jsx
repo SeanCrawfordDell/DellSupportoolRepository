@@ -5,6 +5,7 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { useTools } from '../hooks/useTools';
 import { useToolTelemetry } from '../hooks/useToolTelemetry';
+import { createEndpointPreservingTickCallback } from '../utils/chartTicks';
 
 const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
   month: 'short',
@@ -56,7 +57,11 @@ const chartOptions = (yTitle, showLegend = false) => ({
   scales: {
     x: {
       grid: { display: false },
-      ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 }
+      ticks: {
+        autoSkip: false,
+        callback: createEndpointPreservingTickCallback(10),
+        maxRotation: 0
+      }
     },
     y: {
       beginAtZero: true,
