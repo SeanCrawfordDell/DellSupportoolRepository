@@ -11,13 +11,13 @@ React/Vite catalog for Dell technical support tools, GitHub request submissions,
 Each tool contains:
 
 - A unique, stable `id`. Existing IDs are used in detail links; do not renumber them.
-- Name, description, purpose, value proposition, owner, team, status, progress, dates, tags, and roadmap.
+- Name, description, purpose, value proposition, owner, team, status, progress (percentage or stage label), dates, tags, and roadmap.
 - `category` and `regionCreated` for filtering.
 - `telemetryName`: the identifier sent to the telemetry endpoint. Separate from the display name so future renames need not break reporting. Existing identifiers were retained during cleanup.
 - `minutesSavedPerRun`: the default estimate used in reports. These are estimates, not measured durations. User overrides are stored per tool in their browser.
 - `documentationAnchor`: an optional section anchor in the Dell ProSupport GSE Tools README. Use `null` when there is no verified section.
 
-`npm run validate:catalog` checks unique IDs, required fields, status, progress, estimates, arrays, and URL syntax. The build runs this validation automatically; it does not validate external URL availability or tool business facts.
+`npm run validate:catalog` checks unique IDs, required fields, status, percentage or named-stage progress, estimates, arrays, and URL syntax. The build runs this validation automatically; it does not validate external URL availability or tool business facts.
 
 ## Development and verification
 

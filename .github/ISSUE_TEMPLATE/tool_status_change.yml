@@ -22,6 +22,7 @@ body:
         - Planning
         - Development
         - Testing
+        - Internal Testing
         - Released
         - Maintenance
     validations:

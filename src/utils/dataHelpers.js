@@ -49,6 +49,7 @@ export const getStatusColor = (status) => {
     planning: 'bg-blue-100 text-blue-800',
     development: 'bg-yellow-100 text-yellow-800',
     testing: 'bg-purple-100 text-purple-800',
+    'internal-testing': 'bg-purple-100 text-purple-800',
     released: 'bg-green-100 text-green-800',
     maintenance: 'bg-indigo-100 text-indigo-800'
   };
@@ -80,7 +81,7 @@ export const calculateStats = (tools) => {
     stats.byStatus[tool.status] = (stats.byStatus[tool.status] || 0) + 1;
     
     // Development count
-    if (tool.status === 'development' || tool.status === 'testing') {
+    if (tool.status === 'development' || tool.status === 'testing' || tool.status === 'internal-testing') {
       stats.inDevelopment++;
     }
     
@@ -90,7 +91,7 @@ export const calculateStats = (tools) => {
     }
 
     // Testing count
-    if (tool.status === 'testing') {
+    if (tool.status === 'testing' || tool.status === 'internal-testing') {
       stats.testing++;
     }
   });

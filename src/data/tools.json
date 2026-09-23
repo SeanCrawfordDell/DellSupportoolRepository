@@ -702,6 +702,38 @@
       "minutesSavedPerRun": 30,
       "telemetryName": "SLIC",
       "documentationAnchor": null
+    },
+    {
+      "id": "tool-020",
+      "name": "Windows Update Failure Investigator",
+      "description": "Devin Windows Update Investigator is an AI-assisted PowerShell tool that analyzes Dell TSS and Windows servicing evidence to identify Windows Update failures and produce a professional HTML investigation report.",
+      "whatItDoes": "The tool accepts a complete Windows Update TSS ZIP file, an extracted TSS logs folder, or an individual Windows Update log file for limited analysis.\n\nIt automatically discovers and analyzes available evidence, including CBS, CbsPersist, DISM, Windows Update, servicing event logs, system information, installed updates, and package information.\n\nThe tool performs local evidence extraction and correlation, then uses Devin AI to identify the failed update transaction, affected KB or package, first causal error, root cause, known-issue relevance, and recommended action plan.\n\nIt supports Windows Server investigations and runs through PowerShell with the Devin CLI. The final output is a self-contained professional HTML report containing the system information, findings, supporting evidence, timeline, remediation plan, and verification steps.",
+      "valueProposition": "Windows Update investigations often require engineers to manually search large CBS, DISM, Windows Update, and TSS log collections to identify the correct failed transaction and distinguish a confirmed installation failure from unrelated scan, download, metadata, or communication errors.\n\nDevin Windows Update Investigator reduces this manual effort by collecting the relevant evidence, correlating events across multiple logs, and producing a structured root-cause report.\n\nThe tool benefits technical support engineers, escalation engineers, system administrators, and Windows Server specialists by improving investigation consistency, reducing analysis time, and providing clear evidence-backed remediation and verification guidance.",
+      "status": "internal-testing",
+      "progress": "Working Prototype",
+      "owner": "APJ Microsoft Team",
+      "team": "APJ Microsoft Team",
+      "repository": "",
+      "documentation": "",
+      "createdAt": "2026-09-23",
+      "updatedAt": "2026-09-23",
+      "roadmap": [],
+      "tags": [
+        "Windows Update",
+        "Dell TSS",
+        "Devin CLI",
+        "PowerShell",
+        "CBS",
+        "DISM",
+        "Windows Server",
+        "Log Analysis",
+        "Troubleshooting"
+      ],
+      "category": "Log Analysis",
+      "regionCreated": "APJ",
+      "minutesSavedPerRun": 0,
+      "telemetryName": "Windows Update Failure Investigator",
+      "documentationAnchor": null
     }
   ]
 }

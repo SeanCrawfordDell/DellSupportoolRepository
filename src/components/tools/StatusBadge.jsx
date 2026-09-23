@@ -6,6 +6,7 @@ const StatusBadge = ({ status }) => {
     planning: 'Planning',
     development: 'Development',
     testing: 'Testing',
+    'internal-testing': 'Internal Testing',
     released: 'Released',
     maintenance: 'Maintenance'
   };
