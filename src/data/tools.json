@@ -2,78 +2,642 @@
   "tools": [
     {
       "id": "tool-001",
-      "name": "KeyRelay",
-      "description": "Automated tool for optimizing cloud resource allocation and cost management across multiple cloud providers.",
-      "whatItDoes": "Analyzes cloud infrastructure usage patterns, identifies over-provisioned resources, and provides automated recommendations for cost optimization. Supports AWS, Azure, and GCP with real-time monitoring and alerting.",
-      "valueProposition": "Reduces cloud spending by up to 30% through intelligent resource optimization, provides visibility into cloud costs across teams, and automates remediation of inefficient resource allocation.",
+      "name": "Dell ProSupport ToolBox",
+      "description": "Central launcher interface for Dell ProSupport utilities and troubleshooting tools.",
+      "whatItDoes": "Provides one interface for launching all available Dell ProSupport utilities including log collectors, diagnostic tools, and maintenance scripts for Dell PowerEdge, Windows Server, Hyper-V, and Azure Local environments.",
+      "valueProposition": "Simplifies tool access and discovery, reduces time to find the right tool for specific troubleshooting scenarios, and provides a unified entry point for all Dell ProSupport utilities.",
       "status": "released",
       "progress": 100,
-      "owner": "Sarah Chen",
-      "team": "Cloud",
-      "repository": "https://github.com/dell/cloud-resource-optimizer",
-      "documentation": "https://docs.dell.com/cloud-optimizer",
-      "createdAt": "2024-01-15",
-      "updatedAt": "2024-08-20",
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2020-01-01",
+      "updatedAt": "2024-09-15",
       "roadmap": [
         {
-          "feature": "Multi-cloud cost forecasting",
+          "feature": "ToolBox launcher",
           "status": "completed",
-          "targetDate": "2024-06-01",
+          "targetDate": "2020-01-01",
           "priority": "high"
         },
         {
-          "feature": "Automated resource scaling",
-          "status": "in-progress",
-          "targetDate": "2024-12-01",
-          "priority": "high"
-        },
-        {
-          "feature": "Integration with ServiceNow",
-          "status": "planned",
-          "targetDate": "2025-03-01",
+          "feature": "Proxy support improvements",
+          "status": "completed",
+          "targetDate": "2023-06-01",
           "priority": "medium"
         }
       ],
-      "tags": ["automation", "cost-optimization", "monitoring", "multi-cloud"]
+      "tags": [
+        "launcher",
+        "utilities",
+        "powershell",
+        "dell"
+      ],
+      "category": "Tool Access",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "Dell ProSupport ToolBox",
+      "documentationAnchor": "-dell-prosupport-toolbox"
     },
     {
       "id": "tool-002",
-      "name": "CluChk",
-      "description": "Tool for planning and forecasting compute capacity needs based on historical usage and growth patterns.",
-      "whatItDoes": "Collects historical compute usage data, applies machine learning models to forecast future capacity needs, and provides recommendations for hardware procurement and cloud resource allocation.",
-      "valueProposition": "Helps prevent capacity shortages, reduces over-provisioning costs, and provides data-driven insights for capacity planning decisions.",
-      "status": "development",
-      "progress": 65,
-      "owner": "Michael Rodriguez",
-      "team": "Compute",
-      "repository": "https://github.com/dell/compute-capacity-planner",
-      "documentation": "https://docs.dell.com/compute-planner",
-      "createdAt": "2024-03-10",
-      "updatedAt": "2024-09-10",
+      "name": "AzHCIUrlChecker",
+      "description": "Connectivity checker for Azure Local endpoints and firewall requirements.",
+      "whatItDoes": "Checks connectivity to endpoints required by Azure Local as noted in Microsoft Azure Local documentation firewall requirements. Validates outbound connectivity for Azure Local deployments.",
+      "valueProposition": "Quickly identifies firewall, proxy, and outbound connectivity issues that can block Azure Local functionality, reducing troubleshooting time for network-related deployment failures.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2023-01-01",
+      "updatedAt": "2024-09-15",
       "roadmap": [
         {
-          "feature": "ML model training pipeline",
+          "feature": "Azure Local endpoint checking",
           "status": "completed",
-          "targetDate": "2024-07-01",
+          "targetDate": "2023-01-01",
           "priority": "high"
-        },
-        {
-          "feature": "Dashboard visualization",
-          "status": "in-progress",
-          "targetDate": "2024-10-15",
-          "priority": "high"
-        },
-        {
-          "feature": "API integration",
-          "status": "planned",
-          "targetDate": "2024-11-30",
-          "priority": "medium"
         }
       ],
-      "tags": ["forecasting", "capacity-planning", "machine-learning", "analytics"]
+      "tags": [
+        "connectivity",
+        "azure-local",
+        "firewall",
+        "networking"
+      ],
+      "category": "Connectivity",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "AzHCIUrlChecker",
+      "documentationAnchor": "-azhciurlchecker"
     },
     {
       "id": "tool-003",
+      "name": "BOILER",
+      "description": "CBS and DISM log analyzer for Windows servicing failures and corruption.",
+      "whatItDoes": "Analyzes CBS and DISM logs for errors, failures, warnings, failed KBs, language-pack issues, and corruption. Provides suggested remediation when recognized scenarios are detected.",
+      "valueProposition": "Dramatically reduces Windows Update and component-store troubleshooting time by automatically identifying root causes and providing specific remediation guidance for common servicing issues.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "CBS/DISM log analysis",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Failing KB identification",
+          "status": "completed",
+          "targetDate": "2022-06-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Language pack repair guidance",
+          "status": "completed",
+          "targetDate": "2022-09-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "windows-update",
+        "servicing",
+        "dism",
+        "troubleshooting"
+      ],
+      "category": "Log Analysis",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 60,
+      "telemetryName": "BOILER",
+      "documentationAnchor": "-boiler"
+    },
+    {
+      "id": "tool-004",
+      "name": "DART",
+      "description": "Dell Automated Server Updater for Windows Failover Cluster and HCI/S2D environments.",
+      "whatItDoes": "Windows Failover Cluster and HCI/S2D-aware utility that can install Windows Updates and Dell driver/firmware updates. Includes cluster node maintenance workflows and automated reboot management.",
+      "valueProposition": "Automates complex update processes for clustered environments, reduces manual intervention and human error, and ensures consistent update application across Dell server infrastructure.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Jim Gandy",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2021-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Cluster-aware updates",
+          "status": "completed",
+          "targetDate": "2021-01-01",
+          "priority": "high"
+        },
+        {
+          "feature": "DSU integration",
+          "status": "completed",
+          "targetDate": "2021-06-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Storage maintenance mode",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "updates",
+        "firmware",
+        "drivers",
+        "cluster",
+        "automation"
+      ],
+      "category": "Updates & Maintenance",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 120,
+      "telemetryName": "DART",
+      "documentationAnchor": "-dart"
+    },
+    {
+      "id": "tool-005",
+      "name": "FLEP",
+      "description": "Windows event log filter for common server, failover-clustering, and storage events.",
+      "whatItDoes": "Filters Windows event logs for common server, failover-clustering, storage, and Storport events. Quickly narrows large event logs to commonly relevant events for troubleshooting.",
+      "valueProposition": "Reduces time spent analyzing large event logs by filtering to relevant events, helps identify patterns and issues faster, and focuses troubleshooting efforts on actionable event data.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Event log filtering",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Storage event filtering",
+          "status": "completed",
+          "targetDate": "2022-06-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "event-logs",
+        "filtering",
+        "troubleshooting",
+        "storage"
+      ],
+      "category": "Log Analysis",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "FLEP",
+      "documentationAnchor": "-flep"
+    },
+    {
+      "id": "tool-006",
+      "name": "GetHyperVBottlenecks",
+      "description": "Hyper-V performance bottleneck detection tool.",
+      "whatItDoes": "Detects potential performance bottlenecks in Hyper-V environments by analyzing system metrics and configuration. Provides interactive prompts to guide performance analysis.",
+      "valueProposition": "Identifies Hyper-V performance issues before they impact production, provides actionable insights for optimization, and reduces time spent on performance troubleshooting.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Hyper-V performance analysis",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "hyper-v",
+        "performance",
+        "bottlenecks",
+        "virtualization"
+      ],
+      "category": "Performance Analysis",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "GetHyperVBottlenecks",
+      "documentationAnchor": "-gethypervbottlenecks"
+    },
+    {
+      "id": "tool-007",
+      "name": "iDRAC Connection Manager",
+      "description": "PowerShell Windows Forms interface for managing Dell server iDRAC access.",
+      "whatItDoes": "GUI utility for organizing Dell servers and simplifying iDRAC GUI and console access. Provides centralized management of multiple iDRAC connections.",
+      "valueProposition": "Simplifies management of multiple Dell servers, reduces time spent accessing individual iDRAC interfaces, and provides organized server inventory and quick access.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Jim Gandy",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2021-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "iDRAC management GUI",
+          "status": "completed",
+          "targetDate": "2021-01-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "idrac",
+        "management",
+        "gui",
+        "dell-servers"
+      ],
+      "category": "Server Management",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 10,
+      "telemetryName": "iDRAC Connection Manager",
+      "documentationAnchor": "-idrac-connection-manager"
+    },
+    {
+      "id": "tool-008",
+      "name": "KeyRelay",
+      "description": "GUI utility for sending text to applications that block clipboard paste operations.",
+      "whatItDoes": "Sends text to applications that do not allow normal clipboard paste operations. Useful for RDP sessions, secure terminals, and applications with paste restrictions.",
+      "valueProposition": "Overcomes paste restrictions in secure environments, reduces manual typing errors, and improves productivity when working with applications that block clipboard access.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Text relay utility",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "clipboard",
+        "paste",
+        "productivity",
+        "gui"
+      ],
+      "category": "Productivity",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 10,
+      "telemetryName": "KeyRelay",
+      "documentationAnchor": "-keyrelay"
+    },
+    {
+      "id": "tool-009",
+      "name": "LogCollector",
+      "description": "Comprehensive log collection tool for Windows, Dell servers, and supported switches.",
+      "whatItDoes": "Collects troubleshooting logs from Windows, Dell servers, and supported switches. Prepares diagnostic data for investigation or support cases.",
+      "valueProposition": "Automates log collection process, ensures comprehensive diagnostic data gathering, and reduces time spent preparing data for support cases.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2020-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Windows log collection",
+          "status": "completed",
+          "targetDate": "2020-01-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Dell server log collection",
+          "status": "completed",
+          "targetDate": "2020-06-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Switch log collection",
+          "status": "completed",
+          "targetDate": "2021-01-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "logs",
+        "collection",
+        "diagnostics",
+        "troubleshooting"
+      ],
+      "category": "Diagnostic Collection",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 300,
+      "telemetryName": "LogCollector",
+      "documentationAnchor": "-logcollector"
+    },
+    {
+      "id": "tool-010",
+      "name": "GetShowTech",
+      "description": "Dell switch show-tech diagnostic output collection tool.",
+      "whatItDoes": "Collects Dell switch show-tech diagnostic output for troubleshooting and support case preparation.",
+      "valueProposition": "Simplifies switch diagnostic data collection, ensures comprehensive switch information gathering, and reduces time spent preparing switch data for support.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2021-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Switch show-tech collection",
+          "status": "completed",
+          "targetDate": "2021-01-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "switches",
+        "diagnostics",
+        "networking",
+        "dell"
+      ],
+      "category": "Diagnostic Collection",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "GetShowTech",
+      "documentationAnchor": "-getshowtech"
+    },
+    {
+      "id": "tool-011",
+      "name": "SDDC Dell Enhanced",
+      "description": "SDDC diagnostic data collection workflow for Azure Stack HCI environments.",
+      "whatItDoes": "Runs the SDDC diagnostic data-collection workflow for Azure Stack HCI environments. Collects comprehensive diagnostic information for troubleshooting.",
+      "valueProposition": "Automates SDDC diagnostic data collection, ensures comprehensive information gathering for Azure Stack HCI issues, and reduces troubleshooting time.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "SDDC data collection",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "sddc",
+        "azure-stack-hci",
+        "diagnostics",
+        "collection"
+      ],
+      "category": "Diagnostic Collection",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "SDDC Dell Enhanced",
+      "documentationAnchor": "-sddc-dell-enhanced"
+    },
+    {
+      "id": "tool-012",
+      "name": "SDDC Offline Dell Enhanced",
+      "description": "Offline SDDC diagnostic data collection for environments without internet access.",
+      "whatItDoes": "Collects SDDC diagnostic information when the target environment does not have direct internet access. Uses offline workflow for air-gapped environments.",
+      "valueProposition": "Enables SDDC diagnostics in air-gapped environments, provides same comprehensive data collection as online version, and supports restricted network scenarios.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2023-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Offline SDDC collection",
+          "status": "completed",
+          "targetDate": "2023-01-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "sddc",
+        "offline",
+        "air-gapped",
+        "diagnostics"
+      ],
+      "category": "Diagnostic Collection",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "SDDC Offline Dell Enhanced",
+      "documentationAnchor": "-sddc-offline-dell-enhanced"
+    },
+    {
+      "id": "tool-013",
+      "name": "TSR Collector",
+      "description": "Dell Technical Support Report collector for cluster nodes via iDRAC.",
+      "whatItDoes": "Collects a Dell Technical Support Report (TSRs) from all nodes in a cluster via the iDRAC. Automates TSR collection across multiple cluster nodes.",
+      "valueProposition": "Automates TSR collection across cluster nodes, reduces manual intervention, and ensures comprehensive diagnostic data gathering for support cases.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Cluster TSR collection",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "tsr",
+        "cluster",
+        "idrac",
+        "diagnostics"
+      ],
+      "category": "Diagnostic Collection",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "TSR Collector",
+      "documentationAnchor": "-tsr-collector"
+    },
+    {
+      "id": "tool-014",
+      "name": "TALI",
+      "description": "Test-DellAzureLocalIssues - Azure Local cluster health and configuration checker.",
+      "whatItDoes": "Checks Dell Azure Local clusters for a broad set of common configuration, health, storage, networking, service, control-plane, and AKS Arc issues. Comprehensive health validation.",
+      "valueProposition": "Proactively identifies Azure Local configuration and health issues before they cause failures, provides comprehensive cluster health assessment, and reduces deployment and operational issues.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Jim Gandy",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2023-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Azure Local health checks",
+          "status": "completed",
+          "targetDate": "2023-01-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Storage health validation",
+          "status": "completed",
+          "targetDate": "2023-06-01",
+          "priority": "high"
+        },
+        {
+          "feature": "Network configuration checks",
+          "status": "completed",
+          "targetDate": "2023-09-01",
+          "priority": "high"
+        }
+      ],
+      "tags": [
+        "azure-local",
+        "health-checks",
+        "validation",
+        "cluster"
+      ],
+      "category": "Health & Validation",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 180,
+      "telemetryName": "TALI",
+      "documentationAnchor": "-tali"
+    },
+    {
+      "id": "tool-015",
+      "name": "FLCkr",
+      "description": "File-system filter driver altitude checker for Windows troubleshooting.",
+      "whatItDoes": "Checks file-system filter driver altitudes to identify potential conflicts or issues with filter driver stack configuration.",
+      "valueProposition": "Identifies filter driver conflicts that can cause system instability, helps troubleshoot storage and file system issues, and provides visibility into driver stack configuration.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2022-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "Filter driver altitude checking",
+          "status": "completed",
+          "targetDate": "2022-01-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "filter-drivers",
+        "file-system",
+        "troubleshooting",
+        "windows"
+      ],
+      "category": "Driver Diagnostics",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "FLCkr",
+      "documentationAnchor": "-flckr"
+    },
+    {
+      "id": "tool-016",
+      "name": "Convert-Etl2Pcap",
+      "description": "Windows ETL network trace to PCAP format converter.",
+      "whatItDoes": "Converts Windows ETL network traces to PCAP format for analysis with standard network analysis tools like Wireshark.",
+      "valueProposition": "Enables analysis of Windows network traces with standard tools, improves network troubleshooting capabilities, and bridges Windows ETL format with industry-standard PCAP.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Dell ProSupport GSE",
+      "team": "Platform",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2023-01-01",
+      "updatedAt": "2024-09-15",
+      "roadmap": [
+        {
+          "feature": "ETL to PCAP conversion",
+          "status": "completed",
+          "targetDate": "2023-01-01",
+          "priority": "medium"
+        }
+      ],
+      "tags": [
+        "networking",
+        "etl",
+        "pcap",
+        "wireshark",
+        "troubleshooting"
+      ],
+      "category": "Network Analysis",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "Convert-Etl2Pcap",
+      "documentationAnchor": "-convert-etl2pcap"
+    },
+    {
+      "id": "tool-017",
+      "name": "CluChk",
+      "description": "Automated validator for Storage Spaces Direct and Azure Local clusters that checks configurations against industry best practices.",
+      "whatItDoes": "Scans S2D and Azure Local cluster configurations against Microsoft and Dell best practices, extracts actionable errors and warnings from cluster logs, evaluates storage, networking, and hardware health, and provides guided troubleshooting context for support engineers.",
+      "valueProposition": "Significantly reduces mean time to resolution for Dell and Microsoft support teams by automating manual log analysis and configuration checks. It identifies misconfigurations, storage-health risks, and system bottlenecks before they escalate, helping prevent downtime and diagnostic errors.",
+      "status": "released",
+      "progress": 100,
+      "owner": "Microsoft DE",
+      "team": "Cloud",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
+      "createdAt": "2026-09-18",
+      "updatedAt": "2026-09-18",
+      "roadmap": [],
+      "tags": [
+        "powershell",
+        "diagnostics",
+        "troubleshooting",
+        "parser",
+        "validation",
+        "s2d",
+        "azure-local"
+      ],
+      "category": "Cluster Diagnostics",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 360,
+      "telemetryName": "CluChk",
+      "documentationAnchor": null
+    },
+    {
+      "id": "tool-018",
       "name": "DriFT",
       "description": "Comprehensive monitoring solution for platform health metrics and alerting.",
       "whatItDoes": "Monitors platform health across multiple dimensions including performance, availability, security, and compliance. Provides real-time dashboards, automated alerting, and incident response integration.",
@@ -98,201 +662,46 @@
           "status": "completed",
           "targetDate": "2024-07-01",
           "priority": "high"
-        },
-        {
-          "feature": "Custom dashboard builder",
-          "status": "in-progress",
-          "targetDate": "2024-10-01",
-          "priority": "medium"
-        },
-        {
-          "feature": "Mobile app",
-          "status": "planned",
-          "targetDate": "2025-01-15",
-          "priority": "low"
         }
       ],
-      "tags": ["monitoring", "alerting", "health-checks", "dashboard"]
-    },
-    {
-      "id": "tool-004",
-      "name": "BOILER",
-      "description": "End-to-end automation tool for application deployment across cloud and on-premises environments.",
-      "whatItDoes": "Automates the deployment pipeline from code commit to production, including build, test, and deployment phases. Supports multiple deployment strategies including blue-green, canary, and rolling updates.",
-      "valueProposition": "Reduces deployment time by 70%, minimizes deployment errors through automation, and provides audit trails for compliance requirements.",
-      "status": "released",
-      "progress": 100,
-      "owner": "David Kim",
-      "team": "Platform",
-      "repository": "https://github.com/dell/deployment-automation",
-      "documentation": "https://docs.dell.com/deployment-automation",
-      "createdAt": "2023-11-01",
-      "updatedAt": "2024-08-15",
-      "roadmap": [
-        {
-          "feature": "Kubernetes support",
-          "status": "completed",
-          "targetDate": "2024-03-01",
-          "priority": "high"
-        },
-        {
-          "feature": "Terraform integration",
-          "status": "completed",
-          "targetDate": "2024-06-01",
-          "priority": "high"
-        },
-        {
-          "feature": "GitOps workflow",
-          "status": "in-progress",
-          "targetDate": "2024-11-01",
-          "priority": "high"
-        }
+      "tags": [
+        "monitoring",
+        "alerting",
+        "health-checks",
+        "dashboard"
       ],
-      "tags": ["automation", "deployment", "devops", "cicd"]
+      "category": "Monitoring",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "DriFT",
+      "documentationAnchor": null
     },
     {
-      "id": "tool-005",
-      "name": "LogCollector",
-      "description": "Automated security and compliance scanning tool for cloud infrastructure and applications.",
-      "whatItDoes": "Scans cloud infrastructure and applications for security vulnerabilities and compliance issues against industry standards (CIS, NIST, SOC2). Provides automated remediation suggestions and compliance reporting.",
-      "valueProposition": "Reduces security risk through continuous scanning, ensures compliance with regulatory requirements, and provides actionable remediation guidance.",
-      "status": "planning",
-      "progress": 25,
-      "owner": "Jennifer Lee",
-      "team": "Cloud",
-      "repository": "https://github.com/dell/security-scanner",
-      "documentation": null,
-      "createdAt": "2024-08-01",
-      "updatedAt": "2024-09-05",
-      "roadmap": [
-        {
-          "feature": "Core scanning engine",
-          "status": "in-progress",
-          "targetDate": "2024-10-15",
-          "priority": "high"
-        },
-        {
-          "feature": "Compliance rule library",
-          "status": "planned",
-          "targetDate": "2024-12-01",
-          "priority": "high"
-        },
-        {
-          "feature": "Reporting dashboard",
-          "status": "planned",
-          "targetDate": "2025-02-01",
-          "priority": "medium"
-        }
-      ],
-      "tags": ["security", "compliance", "scanning", "automation"]
-    },
-    {
-      "id": "tool-006",
-      "name": "DART",
-      "description": "Data analysis and reporting tool for tracking tool usage and performance metrics.",
-      "whatItDoes": "Collects and analyzes tool usage data, generates performance reports, and provides insights for tool optimization and resource allocation.",
-      "valueProposition": "Provides visibility into tool usage patterns, helps identify optimization opportunities, and supports data-driven decision making for tool investments.",
-      "status": "development",
-      "progress": 45,
-      "owner": "Alex Thompson",
-      "team": "Platform",
-      "repository": "https://github.com/dell/dart-tool",
-      "documentation": "https://docs.dell.com/dart",
-      "createdAt": "2024-04-15",
-      "updatedAt": "2024-09-08",
-      "roadmap": [
-        {
-          "feature": "Data collection pipeline",
-          "status": "completed",
-          "targetDate": "2024-06-15",
-          "priority": "high"
-        },
-        {
-          "feature": "Reporting dashboard",
-          "status": "in-progress",
-          "targetDate": "2024-11-01",
-          "priority": "high"
-        },
-        {
-          "feature": "Advanced analytics",
-          "status": "planned",
-          "targetDate": "2025-02-15",
-          "priority": "medium"
-        }
-      ],
-      "tags": ["analytics", "reporting", "data-analysis", "monitoring"]
-    },
-    {
-      "id": "tool-007",
-      "name": "TALI",
-      "description": "Test automation and logging infrastructure for continuous integration and deployment.",
-      "whatItDoes": "Automates test execution, logs test results, and provides comprehensive reporting for CI/CD pipelines. Supports multiple testing frameworks and integration with popular CI/CD tools.",
-      "valueProposition": "Reduces testing time by 50%, improves test coverage through automation, and provides actionable insights for quality improvement.",
+      "id": "tool-019",
+      "name": "SLIC",
+      "description": "SLIC automatically parses switch logs and provides an HTML output for Dell Switches",
+      "whatItDoes": "SLIC automatically parses switch logs and provides an HTML output for Dell Switches",
+      "valueProposition": "SLIC automatically parses switch logs and provides an HTML output for Dell Switches",
       "status": "testing",
       "progress": 75,
-      "owner": "Maria Garcia",
+      "owner": "Jim Gandy",
       "team": "Compute",
-      "repository": "https://github.com/dell/tali-tool",
-      "documentation": "https://docs.dell.com/tali",
+      "repository": "https://github.com/DellProSupportGse/Tools",
+      "documentation": "https://github.com/DellProSupportGse/Tools",
       "createdAt": "2024-05-20",
       "updatedAt": "2024-09-14",
-      "roadmap": [
-        {
-          "feature": "Test framework integration",
-          "status": "completed",
-          "targetDate": "2024-07-15",
-          "priority": "high"
-        },
-        {
-          "feature": "Logging infrastructure",
-          "status": "completed",
-          "targetDate": "2024-08-01",
-          "priority": "high"
-        },
-        {
-          "feature": "CI/CD integration",
-          "status": "in-progress",
-          "targetDate": "2024-10-30",
-          "priority": "high"
-        }
+      "tags": [
+        "disaster-recovery",
+        "access-control",
+        "infrastructure",
+        "security"
       ],
-      "tags": ["testing", "automation", "logging", "cicd"]
-    },
-    {
-      "id": "tool-008",
-      "name": "iDRACCMan",
-      "description": "Infrastructure disaster recovery and access control management system.",
-      "whatItDoes": "Manages disaster recovery planning, access control policies, and infrastructure resilience across cloud and on-premises environments.",
-      "valueProposition": "Improves disaster recovery readiness by 80%, ensures compliance with access control requirements, and provides automated failover capabilities.",
-      "status": "released",
-      "progress": 100,
-      "owner": "James Wilson",
-      "team": "Cloud",
-      "repository": "https://github.com/dell/idraccman",
-      "documentation": "https://docs.dell.com/idraccman",
-      "createdAt": "2023-12-01",
-      "updatedAt": "2024-08-25",
-      "roadmap": [
-        {
-          "feature": "DR planning automation",
-          "status": "completed",
-          "targetDate": "2024-04-01",
-          "priority": "high"
-        },
-        {
-          "feature": "Access control integration",
-          "status": "completed",
-          "targetDate": "2024-06-15",
-          "priority": "high"
-        },
-        {
-          "feature": "Multi-cloud support",
-          "status": "in-progress",
-          "targetDate": "2024-12-15",
-          "priority": "high"
-        }
-      ],
-      "tags": ["disaster-recovery", "access-control", "infrastructure", "security"]
+      "roadmap": [],
+      "category": "Log Analysis",
+      "regionCreated": "North America",
+      "minutesSavedPerRun": 30,
+      "telemetryName": "SLIC",
+      "documentationAnchor": null
     }
   ]
 }

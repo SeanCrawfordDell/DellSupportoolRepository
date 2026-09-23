@@ -1,21 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 import 'chart.js/auto';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
-import { loadTools } from '../utils/dataHelpers';
-import { getToolTelemetry } from '../services/telemetryApi';
-
-const TOOL_DEFAULT_MINUTES = {
-  'KeyRelay': 10,
-  'BOILER': 60,
-  'CluChk': 360,
-  'LogCollector': 300,
-  'DART': 120,
-  'TALI': 180,
-  'iDRACCMan': 10,
-  'default': 30
-};
+import { useTools } from '../hooks/useTools';
+import { useToolTelemetry } from '../hooks/useToolTelemetry';
 
 const formatMonth = (month) => new Intl.DateTimeFormat('en-US', {
   month: 'short',
@@ -77,40 +66,29 @@ const chartOptions = (yTitle, showLegend = false) => ({
 });
 
 const Reports = () => {
-  const [tools, setTools] = useState([]);
-  const [selectedTool, setSelectedTool] = useState(null);
-  const [telemetry, setTelemetry] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [minutesPerRun, setMinutesPerRun] = useState(30);
+  const { tools, loading: catalogLoading, error: catalogError } = useTools();
+  const [selectedId, setSelectedId] = useState(null);
+  const selectedTool = tools.find(tool => tool.id === selectedId)
+    || tools.find(tool => tool.name === 'iDRAC Connection Manager') || tools[0];
+  const { telemetry, loading, error: telemetryError } = useToolTelemetry(selectedTool?.telemetryName);
+  const [estimates, setEstimates] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('toolSavingsEstimates') || '{}');
+      return stored && typeof stored === 'object' && !Array.isArray(stored) ? stored : {};
+    } catch { return {}; }
+  });
+  const estimate = estimates[selectedTool?.id];
+  const minutesPerRun = Number.isFinite(estimate) && estimate >= 0
+    ? estimate : selectedTool?.minutesSavedPerRun ?? 30;
+  const setMinutesPerRun = (value) => {
+    const next = { ...estimates, [selectedTool.id]: Math.max(0, value) };
+    setEstimates(next);
+    try { localStorage.setItem('toolSavingsEstimates', JSON.stringify(next)); } catch { /* Storage may be disabled. */ }
+  };
   const [savingsView, setSavingsView] = useState('monthly');
   const [usagePeriod, setUsagePeriod] = useState('monthly');
   const [showTrend, setShowTrend] = useState(true);
   const [selectedYears, setSelectedYears] = useState([]);
-
-  useEffect(() => {
-    const load = async () => {
-      const catalogTools = await loadTools();
-      setTools(catalogTools);
-      setSelectedTool(catalogTools.find(tool => tool.name === 'iDRAC Connection Manager') || catalogTools[0] || null);
-    };
-
-    load().catch(error => console.error('Unable to load report tools:', error));
-  }, []);
-
-  useEffect(() => {
-    if (!selectedTool) return;
-
-    setLoading(true);
-    getToolTelemetry(selectedTool.name)
-      .then(setTelemetry)
-      .finally(() => setLoading(false));
-  }, [selectedTool]);
-
-  useEffect(() => {
-    if (selectedTool) {
-      setMinutesPerRun(TOOL_DEFAULT_MINUTES[selectedTool.name] || TOOL_DEFAULT_MINUTES.default);
-    }
-  }, [selectedTool]);
 
   const monthly = telemetry?.monthly || [];
   const years = [...new Set(monthly.map(({ Month }) => Month.slice(0, 4)))].sort();
@@ -122,11 +100,12 @@ const Reports = () => {
     : quarterly;
   const totalRuns = telemetry?.rowCount ?? monthly.reduce((sum, item) => sum + (item.Count || 0), 0);
   const savedHours = (totalRuns * minutesPerRun) / 60;
-  const latestCompleteMonth = monthly.length > 1 ? monthly.at(-2) : monthly.at(-1);
-  const currentMonth = monthly.at(-1);
+  const currentMonthKey = new Date().toISOString().slice(0, 7);
+  const latestCompleteMonth = monthly.filter(item => item.Month < currentMonthKey).at(-1);
+  const currentMonth = monthly.find(item => item.Month === currentMonthKey);
 
   const setTool = (tool) => {
-    setSelectedTool(tool);
+    setSelectedId(tool.id);
     setSelectedYears([]);
     setSavingsView('monthly');
   };
@@ -146,9 +125,6 @@ const Reports = () => {
       Count: savingsView === 'cumulative' ? cumulativeHours[index] : monthlyHours[index]
     }));
 
-  if (loading && !telemetry) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dell-blue" /></div>;
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -174,6 +150,9 @@ const Reports = () => {
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">Select a tool to view its telemetry report.</p>
           </section>
 
+          {(catalogError || telemetryError) && <p role="alert" className="card mb-6">{catalogError || telemetryError}</p>}
+          {(catalogLoading || loading) && <p role="status" className="card mb-6">Loading telemetry…</p>}
+          {!catalogLoading && !loading && !catalogError && telemetry && <>
           <section className="card mb-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{selectedTool?.name} · All countries</h2>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Report scope: All countries</p>
@@ -186,11 +165,11 @@ const Reports = () => {
 
           <section className="card mb-6">
             <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold text-gray-900 dark:text-white">Estimated time savings</h2><span className="text-sm text-gray-500 dark:text-gray-400">All countries</span></div>
-            <div className="mt-4 flex flex-wrap items-center gap-3"><label htmlFor="minutes-per-run" className="text-sm font-medium text-gray-700 dark:text-gray-300">Minutes saved per run</label><input id="minutes-per-run" type="number" min="0" step="1" value={minutesPerRun} onChange={(event) => setMinutesPerRun(Number(event.target.value) || 0)} className="input-field w-24" /><span className="text-sm text-gray-500 dark:text-gray-400">Editable estimate · saved for each tool</span></div>
+            <div className="mt-4 flex flex-wrap items-center gap-3"><label htmlFor="minutes-per-run" className="text-sm font-medium text-gray-700 dark:text-gray-300">Minutes saved per run</label><input id="minutes-per-run" type="number" min="0" step="1" value={minutesPerRun} onChange={(event) => setMinutesPerRun(Number(event.target.value) || 0)} className="input-field w-24" /><span className="text-sm text-gray-500 dark:text-gray-400">Editable estimate · saved in this browser for each tool</span></div>
             <div className="mt-5 grid grid-cols-1 gap-4 rounded-lg bg-blue-50 p-5 dark:bg-gray-700 md:grid-cols-3">
               <div><span className="block text-sm text-gray-500 dark:text-gray-400">Total estimated hours</span><strong className="mt-1 block text-3xl text-gray-900 dark:text-white">{savedHours.toFixed(1)}</strong><small className="text-gray-500 dark:text-gray-400">From total runs</small></div>
               <div><span className="block text-sm text-gray-500 dark:text-gray-400">Equivalent engineer-days</span><strong className="mt-1 block text-3xl text-gray-900 dark:text-white">{(savedHours / 8).toFixed(1)}</strong><small className="text-gray-500 dark:text-gray-400">8 hours per day · equivalent capacity</small></div>
-              <div><span className="block text-sm text-gray-500 dark:text-gray-400">Latest complete month · {latestCompleteMonth ? formatMonth(latestCompleteMonth.Month) : 'Unavailable'}</span><strong className="mt-1 block text-3xl text-gray-900 dark:text-white">{latestCompleteMonth ? `${((latestCompleteMonth.Count || 0) * minutesPerRun / 60).toFixed(1)} h` : '—'}</strong><small className="text-gray-500 dark:text-gray-400">{currentMonth ? `${currentMonth.Count || 0} runs in the current month` : 'No monthly data'}</small></div>
+              <div><span className="block text-sm text-gray-500 dark:text-gray-400">Latest complete month · {latestCompleteMonth ? formatMonth(latestCompleteMonth.Month) : 'Unavailable'}</span><strong className="mt-1 block text-3xl text-gray-900 dark:text-white">{latestCompleteMonth ? `${((latestCompleteMonth.Count || 0) * minutesPerRun / 60).toFixed(1)} h` : '—'}</strong><small className="text-gray-500 dark:text-gray-400">{currentMonth ? `${currentMonth.Count || 0} runs in the current month` : 'No data reported for the current month'}</small></div>
             </div>
             <div className="mt-5 flex flex-wrap gap-2" role="tablist" aria-label="Time savings views">
               {[['monthly', 'Monthly impact'], ['quarterly', 'Quarterly impact'], ['cumulative', 'Accumulated value'], ['detail', 'Visual detail']].map(([value, label]) => <button key={value} type="button" role="tab" aria-selected={savingsView === value} onClick={() => setSavingsView(value)} className={`rounded-lg border px-3 py-2 text-sm font-medium ${savingsView === value ? 'border-dell-blue bg-dell-blue text-white' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200'}`}>{label}</button>)}
@@ -212,6 +191,7 @@ const Reports = () => {
             <section className="card"><div className="flex items-center justify-between gap-3"><h2 className="text-xl font-semibold text-gray-900 dark:text-white">Daily usage</h2><span className="text-sm text-gray-500 dark:text-gray-400">All countries</span></div><p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Reported daily usage for the current telemetry period.</p><div className="mt-4 h-72"><Chart type="bar" data={{ labels: (telemetry?.daily || []).map(item => formatDate(item.label)), datasets: [{ label: 'Runs', data: (telemetry?.daily || []).map(item => item.Count), backgroundColor: '#0076ce', borderRadius: 4 }] }} options={chartOptions('Runs')} /></div></section>
             <section className="card"><div className="flex items-center justify-between gap-3"><h2 className="text-xl font-semibold text-gray-900 dark:text-white">Versions · top 10 reported</h2><span className="text-sm text-gray-500 dark:text-gray-400">All countries</span></div><p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Usage grouped by reported tool version.</p><div className="mt-4 h-72"><Chart type="bar" data={{ labels: (telemetry?.versions || []).slice(0, 10).map(item => item.label), datasets: [{ label: 'Runs', data: (telemetry?.versions || []).slice(0, 10).map(item => item.Count), backgroundColor: '#0076ce', borderRadius: 4 }] }} options={chartOptions('Runs')} /></div></section>
           </div>
+          </> }
         </div>
       </main>
       <Footer />

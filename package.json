@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "build": "npm run validate:catalog && vite build",
+    "lint": "oxlint src tests scripts *.config.js",
+    "preview": "vite preview",
+    "test": "node --test",
+    "validate:catalog": "node scripts/validate-catalog.js"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
@@ -27,7 +29,11 @@
     "autoprefixer": "^10.6.1",
     "oxlint": "^1.81.0",
     "postcss": "^8.5.28",
+    "react-test-renderer": "^19.2.8",
     "tailwindcss": "^3.4.19",
     "vite": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
