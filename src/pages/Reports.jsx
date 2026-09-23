@@ -7,9 +7,13 @@ import { loadTools } from '../utils/dataHelpers';
 import { getToolTelemetry } from '../services/telemetryApi';
 
 const TOOL_DEFAULT_MINUTES = {
-  'BOILER': 120,
+  'KeyRelay': 10,
+  'BOILER': 60,
   'CluChk': 360,
   'LogCollector': 300,
+  'DART': 120,
+  'TALI': 180,
+  'iDRACCMan': 10,
   'default': 30
 };
 
