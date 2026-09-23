@@ -313,7 +313,7 @@ const ToolDetail = () => {
                 </div>
 
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                  What It Does
+                  Overview
                 </h2>
                 <div className="text-gray-600 dark:text-gray-400 mb-6">
                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={detailMarkdownComponents}>

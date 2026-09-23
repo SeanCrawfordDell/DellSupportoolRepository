@@ -31,7 +31,7 @@ export const githubToolUpdateUrl = (tool) => {
 
 ${tool.description}
 
-## What it does
+## Overview
 
 ${tool.whatItDoes}
 
