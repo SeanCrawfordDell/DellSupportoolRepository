@@ -7,6 +7,7 @@ import { useTools } from '../hooks/useTools';
 import { useToolTelemetry } from '../hooks/useToolTelemetry';
 import { createEndpointPreservingTickCallback } from '../utils/chartTicks';
 import { formatReportDate as formatDate, formatReportMonth as formatMonth } from '../utils/reportFormatting';
+import { filterMonthlyByYears } from '../utils/timeSavings';
 
 const buildQuarterlySeries = (monthly) => {
   const quarters = new Map();
@@ -88,17 +89,16 @@ const Reports = () => {
 
   const monthly = telemetry?.monthly || [];
   const years = [...new Set(monthly.map(({ Month }) => Month.slice(0, 4)))].sort();
-  const activeYears = selectedYears.length ? selectedYears : years;
-  const scopedMonthly = monthly.filter(({ Month }) => activeYears.includes(Month.slice(0, 4)));
-  const quarterly = buildQuarterlySeries(scopedMonthly);
+  const savingsMonthly = filterMonthlyByYears(monthly, selectedYears);
+  const quarterly = buildQuarterlySeries(monthly);
   const usage = usagePeriod === 'monthly'
-    ? scopedMonthly.map(({ Month, Count }) => ({ label: formatMonth(Month), Count }))
+    ? monthly.map(({ Month, Count }) => ({ label: formatMonth(Month), Count }))
     : quarterly;
-  const totalRuns = telemetry?.rowCount ?? monthly.reduce((sum, item) => sum + (item.Count || 0), 0);
+  const totalRuns = savingsMonthly.reduce((sum, item) => sum + (item.Count || 0), 0);
   const savedHours = (totalRuns * minutesPerRun) / 60;
   const currentMonthKey = new Date().toISOString().slice(0, 7);
-  const latestCompleteMonth = monthly.filter(item => item.Month < currentMonthKey).at(-1);
-  const currentMonth = monthly.find(item => item.Month === currentMonthKey);
+  const latestCompleteMonth = savingsMonthly.filter(item => item.Month < currentMonthKey).at(-1);
+  const currentMonth = savingsMonthly.find(item => item.Month === currentMonthKey);
 
   const setTool = (tool) => {
     setSelectedId(tool.id);
@@ -112,11 +112,11 @@ const Reports = () => {
       : [...current, year]);
   };
 
-  const monthlyHours = scopedMonthly.map(item => ((item.Count || 0) * minutesPerRun) / 60);
+  const monthlyHours = savingsMonthly.map(item => ((item.Count || 0) * minutesPerRun) / 60);
   const cumulativeHours = monthlyHours.reduce((values, hours) => [...values, (values.at(-1) || 0) + hours], []);
   const savingsData = savingsView === 'quarterly'
-    ? buildQuarterlySeries(scopedMonthly).map(item => ({ label: item.label, Count: (item.Count * minutesPerRun) / 60 }))
-    : scopedMonthly.map((item, index) => ({
+    ? buildQuarterlySeries(savingsMonthly).map(item => ({ label: item.label, Count: (item.Count * minutesPerRun) / 60 }))
+    : savingsMonthly.map((item, index) => ({
       label: formatMonth(item.Month),
       Count: savingsView === 'cumulative' ? cumulativeHours[index] : monthlyHours[index]
     }));
@@ -150,17 +150,16 @@ const Reports = () => {
           {(catalogLoading || loading) && <p role="status" className="card mb-6">Loading telemetry…</p>}
           {!catalogLoading && !loading && !catalogError && telemetry && <>
           <section className="card mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{selectedTool?.name} · All countries</h2>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Report scope: All countries</p>
-            <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-3">
-              <div><span className="block text-sm text-gray-500 dark:text-gray-400">Total runs</span><strong className="mt-1 block text-3xl text-dell-blue">{totalRuns.toLocaleString()}</strong></div>
-              <div><span className="block text-sm text-gray-500 dark:text-gray-400">Estimated hours saved</span><strong className="mt-1 block text-3xl text-dell-blue">{savedHours.toFixed(1)}</strong></div>
-              <div><span className="block text-sm text-gray-500 dark:text-gray-400">Last refreshed</span><strong className="mt-1 block text-lg text-gray-900 dark:text-white">{telemetry?.refreshedAt ? new Date(telemetry.refreshedAt).toLocaleString() : 'Unavailable'}</strong></div>
+            <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold text-gray-900 dark:text-white">{selectedTool?.name} Estimated Time Savings</h2><span className="text-sm text-gray-500 dark:text-gray-400">All countries</span></div>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <details className="relative">
+                <summary aria-label="Filter estimated time savings by year" className="cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200">{selectedYears.length ? selectedYears.join(', ') : 'All years'}</summary>
+                <fieldset className="absolute z-10 mt-1 w-48 rounded-lg border border-gray-300 bg-white p-3 shadow-lg dark:border-gray-600 dark:bg-gray-800">
+                  <button type="button" onClick={() => setSelectedYears([])} className="mb-2 text-sm text-dell-blue hover:underline">All years</button>
+                  {years.map(year => <label key={year} className="flex gap-2 py-1 text-sm"><input type="checkbox" checked={!selectedYears.length || selectedYears.includes(year)} onChange={() => toggleYear(year)} />{year}</label>)}
+                </fieldset>
+              </details>
             </div>
-          </section>
-
-          <section className="card mb-6">
-            <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold text-gray-900 dark:text-white">Estimated time savings</h2><span className="text-sm text-gray-500 dark:text-gray-400">All countries</span></div>
             <div className="mt-4 flex flex-wrap items-center gap-3"><label htmlFor="minutes-per-run" className="text-sm font-medium text-gray-700 dark:text-gray-300">Minutes saved per run</label><input id="minutes-per-run" type="number" min="0" step="1" value={minutesPerRun} onChange={(event) => setMinutesPerRun(Number(event.target.value) || 0)} className="input-field w-24" /><span className="text-sm text-gray-500 dark:text-gray-400">Editable estimate · saved in this browser for each tool</span></div>
             <div className="mt-5 grid grid-cols-1 gap-4 rounded-lg bg-blue-50 p-5 dark:bg-gray-700 md:grid-cols-3">
               <div><span className="block text-sm text-gray-500 dark:text-gray-400">Total estimated hours</span><strong className="mt-1 block text-3xl text-gray-900 dark:text-white">{savedHours.toFixed(1)}</strong><small className="text-gray-500 dark:text-gray-400">From total runs</small></div>
@@ -171,15 +170,15 @@ const Reports = () => {
               {[['monthly', 'Monthly impact'], ['quarterly', 'Quarterly impact'], ['cumulative', 'Accumulated value'], ['detail', 'Visual detail']].map(([value, label]) => <button key={value} type="button" role="tab" aria-selected={savingsView === value} onClick={() => setSavingsView(value)} className={`rounded-lg border px-3 py-2 text-sm font-medium ${savingsView === value ? 'border-dell-blue bg-dell-blue text-white' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200'}`}>{label}</button>)}
             </div>
             {savingsView === 'detail' ? (
-              <div className="mt-5 overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700"><table className="min-w-full text-sm"><thead className="bg-gray-50 dark:bg-gray-800"><tr><th className="px-4 py-3 text-left">Month</th><th className="px-4 py-3 text-right">Runs</th><th className="px-4 py-3 text-right">Estimated hours saved</th></tr></thead><tbody>{scopedMonthly.map(item => <tr key={item.Month} className="border-t border-gray-200 dark:border-gray-700"><td className="px-4 py-3">{formatMonth(item.Month)}</td><td className="px-4 py-3 text-right">{(item.Count || 0).toLocaleString()}</td><td className="px-4 py-3 text-right">{((item.Count || 0) * minutesPerRun / 60).toFixed(1)}</td></tr>)}</tbody><tfoot className="border-t border-gray-200 bg-gray-50 font-semibold dark:border-gray-700 dark:bg-gray-800"><tr><td className="px-4 py-3">Total</td><td className="px-4 py-3 text-right">{totalRuns.toLocaleString()}</td><td className="px-4 py-3 text-right">{savedHours.toFixed(1)} h</td></tr></tfoot></table></div>
+              <div className="mt-5 overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700"><table className="min-w-full text-sm"><thead className="bg-gray-50 dark:bg-gray-800"><tr><th className="px-4 py-3 text-left">Month</th><th className="px-4 py-3 text-right">Runs</th><th className="px-4 py-3 text-right">Estimated hours saved</th></tr></thead><tbody>{savingsMonthly.map(item => <tr key={item.Month} className="border-t border-gray-200 dark:border-gray-700"><td className="px-4 py-3">{formatMonth(item.Month)}</td><td className="px-4 py-3 text-right">{(item.Count || 0).toLocaleString()}</td><td className="px-4 py-3 text-right">{((item.Count || 0) * minutesPerRun / 60).toFixed(1)}</td></tr>)}</tbody><tfoot className="border-t border-gray-200 bg-gray-50 font-semibold dark:border-gray-700 dark:bg-gray-800"><tr><td className="px-4 py-3">Total</td><td className="px-4 py-3 text-right">{totalRuns.toLocaleString()}</td><td className="px-4 py-3 text-right">{savedHours.toFixed(1)} h</td></tr></tfoot></table></div>
             ) : <div className="mt-5 h-80"><Chart type={savingsView === 'monthly' || savingsView === 'quarterly' ? 'bar' : 'line'} data={{ labels: savingsData.map(item => item.label), datasets: [{ label: savingsView === 'cumulative' ? 'Accumulated hours saved' : 'Estimated hours saved', data: savingsData.map(item => item.Count), backgroundColor: '#91c9ef', borderColor: '#0076ce', borderWidth: 2, borderRadius: 4, fill: false, tension: 0 }] }} options={chartOptions('Estimated hours saved')} /></div>}
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">Estimated hours = runs × minutes saved per run ÷ 60. Missing months are not assumed to be zero.</p>
           </section>
 
           <section className="card mb-6">
             <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold text-gray-900 dark:text-white">{usagePeriod === 'monthly' ? 'Monthly' : 'Quarterly'} usage</h2><span className="text-sm text-gray-500 dark:text-gray-400">All countries</span></div>
-            <div className="mt-4 flex flex-wrap items-center gap-4"><div className="flex gap-2" role="group" aria-label="Usage period"><button type="button" aria-pressed={usagePeriod === 'monthly'} onClick={() => setUsagePeriod('monthly')} className={`rounded-lg border px-3 py-2 text-sm font-medium ${usagePeriod === 'monthly' ? 'border-dell-blue bg-dell-blue text-white' : 'border-gray-300 bg-white text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200'}`}>Monthly</button><button type="button" aria-pressed={usagePeriod === 'quarterly'} onClick={() => setUsagePeriod('quarterly')} className={`rounded-lg border px-3 py-2 text-sm font-medium ${usagePeriod === 'quarterly' ? 'border-dell-blue bg-dell-blue text-white' : 'border-gray-300 bg-white text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200'}`}>Quarterly</button></div><details className="relative"><summary className="cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200">{selectedYears.length ? selectedYears.join(', ') : 'All years'}</summary><fieldset className="absolute z-10 mt-1 w-48 rounded-lg border border-gray-300 bg-white p-3 shadow-lg dark:border-gray-600 dark:bg-gray-800"><button type="button" onClick={() => setSelectedYears([])} className="mb-2 text-sm text-dell-blue hover:underline">All years</button>{years.map(year => <label key={year} className="flex gap-2 py-1 text-sm"><input type="checkbox" checked={!selectedYears.length || selectedYears.includes(year)} onChange={() => toggleYear(year)} />{year}</label>)}</fieldset></details><label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300"><input type="checkbox" checked={showTrend} onChange={(event) => setShowTrend(event.target.checked)} />Show trend line</label></div>
-            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">{selectedYears.length ? selectedYears.join(', ') : 'All years'} · {usage.reduce((sum, item) => sum + (item.Count || 0), 0).toLocaleString()} reported runs. Gaps indicate missing periods, not zero runs. The dashed trend is not a forecast.</p>
+            <div className="mt-4 flex flex-wrap items-center gap-4"><div className="flex gap-2" role="group" aria-label="Usage period"><button type="button" aria-pressed={usagePeriod === 'monthly'} onClick={() => setUsagePeriod('monthly')} className={`rounded-lg border px-3 py-2 text-sm font-medium ${usagePeriod === 'monthly' ? 'border-dell-blue bg-dell-blue text-white' : 'border-gray-300 bg-white text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200'}`}>Monthly</button><button type="button" aria-pressed={usagePeriod === 'quarterly'} onClick={() => setUsagePeriod('quarterly')} className={`rounded-lg border px-3 py-2 text-sm font-medium ${usagePeriod === 'quarterly' ? 'border-dell-blue bg-dell-blue text-white' : 'border-gray-300 bg-white text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200'}`}>Quarterly</button></div><label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300"><input type="checkbox" checked={showTrend} onChange={(event) => setShowTrend(event.target.checked)} />Show trend line</label></div>
+            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">{usage.reduce((sum, item) => sum + (item.Count || 0), 0).toLocaleString()} reported runs across all years. Gaps indicate missing periods, not zero runs. The dashed trend is not a forecast.</p>
             <div className="mt-4 h-80"><Chart type="line" data={{ labels: usage.map(item => item.label), datasets: [{ label: 'Reported runs', data: usage.map(item => item.Count), borderColor: '#0076ce', backgroundColor: '#0076ce', borderWidth: 2, pointRadius: 3, tension: 0 }, ...(showTrend ? [{ label: 'Linear trend', data: buildTrend(usage.map(item => item.Count || 0)), borderColor: '#d07816', borderDash: [7, 5], borderWidth: 2, pointRadius: 0, tension: 0 }] : [])] }} options={chartOptions('Runs', showTrend)} /></div>
           </section>
 
